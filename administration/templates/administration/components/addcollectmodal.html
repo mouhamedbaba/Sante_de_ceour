@@ -1,0 +1,154 @@
+<div class="modal fade" id="addcollectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="{% url "addcollect" %}" method="POST", enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="modal-header">
+              <button
+              type="button"
+              class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            ></button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-5 h-100 flex-wrap">
+                    <div class="row ">
+              <div class="col mb-3">
+                  <div class="d-flex justify-content-center">
+                    <div  class=" custom-file-upload p-5 d-flex justify-content-center align-item-center h-100">
+                        <input class="d-none" type="file" name="image" id="id_image" accept="image/*" required>
+                        <label for="id_image" id="upload-label" class='mt-5'>
+                          <i class="fas fa-cloud-upload-alt h-50 w-100"></i> <br> Choisissez un fichier
+                        </label>
+                        <div id="image-container" style="display: none;">
+                          <img id="image-preview" src="#" alt="Aperçu de l'image" class="img-fluid h-100 ">
+                          <a href="#" id="remove-image" class="text-danger" aria-label="Supprimer l'image"><span class='fas fa-times' aria-hidden="true"></span></a>
+                        </div>
+                      </div>
+            </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col">
+                <label for="id_title" class="form-label">Titre *</label>
+        
+                <input class="form-control" type="text" name="title" id="id_title">
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="id_posted" name='posted'>
+                <label class="form-check-label" for="id_posted"><span class="badge bg-label-primary me-1">Posté</span>
+                </label>
+            </div>
+              </div>
+              <div class="col">
+                <div class="form-check form-switch mb-2">
+                    <input class="form-check-input" name='is_amount_reached' type="checkbox" id="id_is_amount_reached">
+                  <label class="form-check-label" for="id_is_amount_reached"><span class="badge bg-label-success me-1">Complet </span>
+                  </label>
+                </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-7 h-100  mt-3 mt-md-0">
+            <div class="row g-2">
+              <div class="col-12 col-sm-6 mb-0">
+                <label for="id_goal" class="form-label">Objectif</label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text">f</span>
+                    <input class="form-control" type="number" step="1" id="id_goal" name="goal">
+        
+                    <span class="input-group-text">.00</span>
+                  </div>
+            </div>
+            <div class="col col-sm-6 mb-0">
+                <label for="last_name" class="form-label">Acqui</label>
+                <div class="input-group input-group-merge">
+                    <span class="input-group-text">f</span>
+                    <input class="form-control" type="number" step="1" id="id_raised" name="raised">
+                    <span class="input-group-text">.00</span>
+                  </div>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col mb-4">
+                <label for="id_email" class="form-label">Description</label>
+                <textarea class="form-control" name="description" id="id_description" cols="30" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="id_end_date" class="form-label">Date de Post</label>
+                  <input class="form-control" type="date" name="post_at" id="id_post_at">
+              </div>
+              <div class="mb-3 row">
+                <label for="id_end_date_0" class="form-label">Date de cloture</label>
+                  <input class="form-control" type="datetime-local" name="end_date" id="id_end_date">
+              </div>
+        
+              
+        </div>
+        </div>
+        </div>
+        <input class="d-none" type="text" name = 'by' id = 'id_by' value="{{ user.pk }}">
+        
+        
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            fermer
+          </button>
+          <button type="submit" class="btn btn-primary" id ='adduser'>Ajouter</button>
+        </div>
+        </form>
+      </div>
+    </div>
+</div>
+</div>
+
+<script>
+    $("#id_image").change(function() {
+      const file = this.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          $("#image-preview")
+            .attr("src", e.target.result)
+            .addClass("show")
+            .css("display", "block");
+          $("#upload-label").css("display", "none");
+          $("#image-container").css("display", "block");
+          $('.custom-file-upload').removeClass("p-5")
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  
+    $("#remove-image").click(function(e) {
+      e.preventDefault();
+      $("#image-preview")
+        .attr("src", "")
+        .removeClass("show")
+        .css("display", "none");
+      $("#upload-label").css("display", "block");
+      $("#image-container").css("display", "none");
+      $("#id_image").val(""); // Réinitialise le champ d'envoi d'image
+    });
+  </script>
+
+  <style>
+    .custom-file-upload {
+      border: 2px solid #ccc;
+      
+    }
+
+  
+    #remove-image {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 0.5rem;
+    }
+  </style>

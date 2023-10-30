@@ -1,0 +1,225 @@
+{% extends "bases/sneat.html" %}
+{% load static %}
+{% block main %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="d-md-flex justify-content-between">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Collectes </h4>
+      {% if message %}
+      <div class="alert alert-success alert-dismissible" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    </div>
+    <hr class="" />
+        <div class="nav-align-top mb-4">
+          <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+            <li class="nav-item active-danger">
+              <button
+                type="button"
+                class="nav-link btn-warning"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-home"
+                aria-controls="navs-pills-justified-home"
+                aria-selected="true"
+              >
+                <i class="tf-icons bx bx-time"></i> En attente
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link btn-info"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-profile"
+                aria-controls="navs-pills-justified-profile"
+                aria-selected="false"
+              >
+                <i class="tf-icons bx bx-spinner"></i> En cours
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link btn-success"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-messages"
+                aria-controls="navs-pills-justified-messages"
+                aria-selected="false"
+              >
+                <i class="tf-icons bx bx-check"></i> Complets
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
+                <div class="row">
+                  <div class="col-md">
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-md-4">
+                          <img class="card-img card-img-left" src="../assets/img/elements/12.jpg" alt="Card image" />
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">
+                              This is a wider card with supporting text below as a natural lead-in to additional content.
+                              This content is a little bit longer.
+                            </p>
+                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    {% for collect in collects  %}
+                    {% if collect.posted == 0 and collect.is_amount_reached == 0 %}
+                    <div class="col-sm-6 col-md-4 col-lg-4 h-100">
+                        <h6 class="mt-2 text-muted"></h6>
+                        <div class="card h-100">
+                          <img class="card-img-top" src="{{ collect.image.url }}" alt="Card image cap" />
+                          <div class="card-body h-100">
+                            <h5 class="card-title">
+                                {{ collect.title|truncatewords:2 }}
+                            </h5>
+                            <p class="card-text">{{ collect.description|truncatewords:10 }}</p>
+                          </div>
+                          <ul class="list-group list-group-flush">
+                            <li class="list-group-item">Par 
+                                <strong>
+                                {% if collect.by.first_name %}
+                                    {{ collect.by.first_name}} {{ collect.by.last_name }}                               
+                                {% else %}
+                                    {{ collect.by.username }}
+                                {% endif %}
+                                </strong></li>
+                            <li class="list-group-item"><h6><span class='text-success fw-bold'>{{ collect.raised }} f</span> /<span class='text-secondary'> {{ collect.goal }} f</span> </h6></li>
+                          </ul>
+                          <div class="card-body">
+                            {% if user.is_superuser or user.pk == collect.by.pk %}
+                            <a href="javascript:void(0)" class="btn nav-link rounded-pill fw-bold text-center btn-outline-danger mt-2 post_delete"
+                            data-bs-toggle = 'modal'
+                            data-bs-target = '#confimer_supprimer_collect_modal'
+                            data-id-collect = '{{ collect.pk }}'
+                            >Retirer</a>
+                            {% else %}
+                            <a href="#" class="btn nav-link rounded-pill fw-bold text-center btn-outline-warning disabled">En attente</a>
+                            {% endif %}
+                            {% if user.is_superuser %}
+                            <a href="javascript:void(0)" class="btn nav-link rounded-pill fw-bold text-center btn-outline-warning post_collect mt-1"
+                            data-bs-toggle = 'modal'
+                            data-bs-target = '#confimer_publier_collect_modal'
+                            data-id-collect = '{{ collect.pk }}'
+                            >Confirmer</a>
+                            {% endif %}
+                          </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+                <div class="row">
+                    {% for collect in collects  %}
+                    {% if collect.posted == 1 and collect.is_amount_reached == 0 %}
+                    <div class="col-sm-6 col-md-4 col-lg-4 h-100">
+                        <h6 class="mt-2 text-muted"></h6>
+                        <div class="card h-100">
+                          <img class="card-img-top" src="{{ collect.image.url }}" alt="Card image cap" />
+                          <div class="card-body h-100">
+                            <h5 class="card-title">
+                                {{ collect.title|truncatewords:2 }}
+                            </h5>
+                            <p class="card-text">{{ collect.description|truncatewords:10 }}</p>
+                          </div>
+                          <ul class="list-group list-group-flush">
+                            <div class="d-flex justify-content-between">
+                              <li class="list-group-item">Par 
+                                  <strong>
+                                  {% if collect.by.first_name %}
+                                      {{ collect.by.first_name}} {{ collect.by.last_name   }}                             {% else %}
+                                      {{ collect.by.username }}
+                                  {% endif %}
+                                  
+                                  </strong><span class="badge rounded-pill text-dark bg-success">Publié</span></li>
+                            </div>
+                            <li class="list-group-item"><h6><span class='text-success fw-bold'>{{ collect.raised }} f</span> /<span class='text-secondary'> {{ collect.goal }} f</span> </h6></li>
+                          </ul>
+                          <div class="card-body">
+                  
+                            <a href="javascript:void(0)" class="btn nav-link rounded-pill fw-bold  text-center btn btn-outline-info">Ajouter un Don</a>
+                          </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
+                <div class="row">
+                {% for collect in collects  %}
+                {% if collect.posted == 1 and collect.is_amount_reached == 1 and collect.raised >= collect.goal  %}
+                <div class="col-sm-6 col-md-4 col-lg-4 h-100">
+                    <h6 class="mt-2 text-muted"></h6>
+                    <div class="card h-100">
+                      <img class="card-img-top" src="{{ collect.image.url }}" alt="Card image cap" />
+                      <div class="card-body h-100">
+                        <h5 class="card-title">
+                            {{ collect.title|truncatewords:2 }}
+                        </h5>
+                        <p class="card-text">{{ collect.description|truncatewords:10 }}</p>
+                      </div>
+                      <ul class="list-group list-group-flush">
+                        <li class="list-group-item">Par 
+                            <strong>
+                            {% if collect.by.first_name %}
+                                {{ collect.by.first_name }} {{ collect.by.last_name }}
+                                {% else %}
+                            {{ collect.by.username }}
+                        {% endif %}
+                            </strong></li>
+                        <li class="list-group-item"><h6><span class='text-success fw-bold'>{{ collect.raised }} f</span> /<span class='text-secondary'> {{ collect.goal }} f</span> </h6></li>
+                      </ul>
+                      <div class="card-body">
+                        <a href="javascript:void(0)" class="btn nav-link rounded-pill fw-bold text-center btn-outline-success">Details</a>
+                      </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+          </div>
+        </div>
+      <!-- collects Rows -->
+
+      <!--/ collects Rows -->
+</div>
+
+
+<script>
+    $('.collects').addClass('active')
+</script>
+
+{% endblock main %}
+
+{% block floting_button %}
+
+<a
+  href="#"
+  target="_blank"
+  class="btn btn-danger btn-buy-now"
+  data-bs-toggle="modal"
+  data-bs-target="#addcollectModal"
+  >Nouvelle collection</a
+  >
+{% endblock floting_button %}
+
+
+{% block madals %}
+{% include "administration/components/addcollectmodal.html" %}
+{% endblock madals %}

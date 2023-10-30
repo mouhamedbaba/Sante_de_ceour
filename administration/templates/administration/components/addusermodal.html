@@ -1,0 +1,99 @@
+<div class="modal fade" id="adduserModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <form action="{% url "adduser" %}" method="POST">
+          {% csrf_token %}
+        <div class="modal-header">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+        <div class="row">
+          <div class="col-md-5 h-100 flex-wrap">
+            <div class="row ">
+              <div class="col mb-3">
+              <div class="d-flex justify-content-center">
+                <img
+                src="{{ site.avatar.url }}"
+                alt="user-avatar"
+                class="d-block rounded"
+                height="100"
+                width="100"
+                id="uploadedAvatar"
+              />
+            </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col">
+                <label for="id_username" class="form-label">Nom d'utilisateur *</label>
+                <input type="text" id="id_username" name='username' class="form-control" placeholder="@Username" />
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col">
+              <div class="form-check form-switch mb-2">
+                <input class="form-check-input" type="checkbox" id="id_is_staff" name='is_staff' checked>
+                <label class="form-check-label" for="id_is_staff"><span class="badge bg-label-primary me-1">Admin</span>
+                </label>
+              </div>
+              </div>
+              <div class="col">
+                <div class="form-check form-switch mb-2">
+                  <input class="form-check-input" name='is_superuser' type="checkbox" id="id_is_superuser">
+                  <label class="form-check-label" for="id_is_superuser"><span class="badge bg-label-success me-1">Superuser</span>
+                  </label>
+                </div>
+                </div>
+            </div>
+          </div>
+          <div class="col-md-7 h-100  mt-3 mt-md-0">
+            <div class="row g-2">
+              <div class="col-12 col-sm-6 mb-0">
+                <label for="id_first_name" class="form-label">Prenom</label>
+                <input type="text" id="id_first_name" name='first_name' class="form-control" placeholder="Mouhamed" />
+              </div>
+              <div class="col col-sm-6 mb-0">
+                <label for="last_name" class="form-label">Nom</label>
+                <input type="text" id="last_name" name='last_name'  class="form-control" placeholder="lamotte" />
+              </div>
+            </div>
+            <div class="row mt-2">
+              <div class="col mb-4">
+                <label for="id_email" class="form-label">Email</label>
+                <input type="email" id="id_email" name='email' class="form-control" placeholder="email@example.com" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="mb-4 form-password-toggle">
+                <label class="form-label" for="id_password">Password</label>
+                <div class="input-group input-group-merge">
+                  {{ addUserForm.password }}
+                  {% comment %} <input
+                    type="password"
+                    id="id_password"
+                    class="form-control"
+                    name="password"
+                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                  /> {% endcomment %}
+                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+            fermer
+          </button>
+          <button type="submit" class="btn btn-primary" id ='adduser'>Ajouter</button>
+        </div>
+      </form>
+      </div>
+    </div>
+</div>

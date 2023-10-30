@@ -1,0 +1,47 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+      <a href="{% url "home" %}" class="app-brand-link">
+        <span class="app-brand-text demo menu-text fw-bolder ms-2">Admin</span>
+      </a>
+
+      <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+        <i class="bx bx-chevron-left bx-sm align-middle"></i>
+      </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+      <!-- Dashboard -->
+      <li class="menu-item home">
+        <a href="{% url "home" %}" class="menu-link">
+          <i class="menu-icon fas fa-home-user"></i>
+          <div data-i18n="Analytics">Home</div>
+        </a>
+      </li>
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Organization</span>
+      </li>
+      <li class="menu-item admins">
+        <a href="{% url "admins" %}" class="menu-link">
+          <i class="menu-icon fas fa-users-gear"></i>
+          <div data-i18n="Analytics">Admins</div>
+        </a>
+      </li>
+      <li class="menu-item collects">
+        <a href="{% url "collects" %}" class="menu-link">
+          <i class="menu-icon fas fa-heart-pulse"></i>
+          <div data-i18n="Analytics">Collectes</div>
+        </a>
+      </li>
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Compte</span>
+      </li>
+      <li class="menu-item profile">
+        <a href="{% url "home" %}" class="menu-link">
+          <i class="menu-icon fas fa-user-edit"></i>
+          <div data-i18n="Analytics">Prophil</div>
+        </a>
+      </li>
+    </ul>
+  </aside>

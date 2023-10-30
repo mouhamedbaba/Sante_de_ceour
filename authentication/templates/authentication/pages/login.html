@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html
+  lang="en"
+  class="light-style customizer-hide"
+  dir="ltr"
+  data-theme="theme-default"
+  data-assets-path="../assets/"
+  data-template="vertical-menu-template-free"
+>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>login</title>
+
+    <meta name="description" content="" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ site.favicon.url }}" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+ <!-- Icons. Uncomment required icon fonts -->
+ <link rel="stylesheet" href="{% static 'sneat/assets/vendor/fonts/boxicons.css' %}" />
+
+ <!-- Core CSS -->
+ <link rel="stylesheet" href="{% static 'sneat/assets/vendor/css/core.css' %}" class="template-customizer-core-css" />
+ <link rel="stylesheet" href="{% static 'sneat/assets/vendor/css/theme-default.css' %}" class="template-customizer-theme-css" />
+ <link rel="stylesheet" href="{% static 'sneat/assets/css/demo.css' %}" />
+
+ <!-- Vendors CSS -->
+ <link rel="stylesheet" href="{% static 'sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css' %}" />
+
+    <!-- Page CSS -->
+    <!-- Page -->
+    <link rel="stylesheet" href="{% static 'sneat/assets/vendor/css/pages/page-auth.css' %}" />
+    <!-- Helpers -->
+    <script src="{% static 'sneat/assets/vendor/js/helpers.js' %}"></script>
+
+
+    
+    <script src="{% static 'sneat/assets/js/config.js' %}"></script>
+
+    <script  src="{% static 'sneat/assets/vendor/libs/jquery/jquery.js' %}"></script>
+
+  </head>
+
+  <body>
+    <!-- Content -->    
+    <div class="container-xxl">
+      <div class="authentication-wrapper authentication-basic container-p-y">
+        <div class="authentication-inner">
+          <!-- Register -->
+          {% if message %}
+          <div class="alert alert-warning alert-dismissible " role="alert">
+            {% comment %} {{ message }} {% endcomment %}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+          </div>
+          {% endif %}
+          <div class="card">
+            <div class="card-body">
+              <!-- Logo -->
+              <div class="app-brand justify-content-center">
+                <a href="index.html" class="app-brand-link gap-2">
+                  <span class="app-brand-logo demo">
+                    {% comment %} logo here {% endcomment %}
+                  </span>
+                  <span class="app-brand-text demo text-body fw-bolder">{{ site.name }}</span>
+                </a>
+              </div>
+              <!-- /Logo -->
+              {% if not user.is_authenticated %}
+              <h4 class="mb-2">Bienvenue !</h4>
+              <p class="mb-4">connectez vous pour continuer</p>
+
+              <form id="formAuthentication" class="mb-3" action="" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label for="id_username" class="form-label">Email or Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="id_username"
+                    name="username"
+                    placeholder="Enter your email or username"
+                    autofocus
+                  />
+                </div>
+                <div class="mb-3 form-password-toggle">
+                  <div class="d-flex justify-content-between">
+                    <label class="form-label" for="id_password">Password</label>
+                    <a href="auth-forgot-password-basic.html">
+                      <small>Mot de passe oublié ?</small>
+                    </a>
+                  </div>
+                  <div class="input-group input-group-merge">
+                    <input
+                      type="password"
+                      id="id_password"
+                      class="form-control"
+                      name="password"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="remember-me" />
+                    <label class="form-check-label" for="remember-me"> Se souvenir de moi </label>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <button class="btn btn-primary d-grid w-100 " id="login" type="submit">
+                    connexion
+                </button>
+                
+                </div>
+              </form>
+              {% else %}
+              <div class="row">
+                <div class="col-sm-4 d-flex justify-content-center">
+                  <img
+                  {% if avatar %}
+                  src="{{avatar.avatar.url}}"
+                  {% else %}
+                  src="{{site.avatar.url}}"
+                  {% endif %}
+                  
+                  alt="user-avatar"
+                  class="d-block rounded"
+                  height="100"
+                  width="100"
+                  id="uploadedAvatar"
+                />
+                </div>
+                <div class="col-sm-8">
+                  <h4 class="mb-2 text-center text-sm-start mt-2 mt-sm-0"><strong>
+                    {% if user.first_name %}
+                    {{ user.first_name}} {{ user.last_name|truncatechars:10 }}
+                    
+                    {% else %}
+                    {{ user.last_name|truncatechars:20 }}
+                    {% endif %}
+                  </strong>
+                  
+                  </h4>
+                  <div class="end-0 mt-sm-4">
+                    <a href="{% url "home" %}" class="btn btn-outline-success " id="admin">Admin</a>
+                    <button role = 'button' class="btn btn-outline-warning mx-sm-2 mt-1 mt-sm-0" 
+                    data-bs-toggle="modal"
+                    data-bs-target="#logoutModal" 
+                    >Deconexion</button>
+                  </div>
+                </div>
+              </div>
+              
+              {% endif %}
+            </div>
+          </div>
+          <!-- /Register -->
+        </div>
+      </div>
+    </div>
+    {% include "authentication/pages/logout.html" %}
+    <script>
+      $('document').ready(function() {
+        function loader(btn_id_or_class){
+          // when calling the function be sure to add the id (#) or class (.) selector to the params in str ''
+          // ex : loader('.classname') or loader('#id')
+          var btn = $(btn_id_or_class)
+          console.log(btn)
+          $(btn).on('click', function() {
+          btn.html('<div class="loader " id="button_loader"><div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div></div>')
+       });
+      }
+      loader('#login')
+      loader('#admin')
+      loader('#logout')
+      
+    })
+    </script>
+
+    <!-- / Content -->
+
+
+    <script  src="{% static 'sneat/assets/vendor/libs/popper/popper.js' %}"></script>
+    <script  src="{% static 'sneat/assets/vendor/js/bootstrap.js' %}"></script>
+    <script  src="{% static 'sneat/assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js' %}"></script>
+
+    <script  src="{% static 'sneat/assets/vendor/js/menu.js' %}"></script>
+  </body>
+</html>

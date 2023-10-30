@@ -1,0 +1,324 @@
+{% extends "bases/sneat.html" %}
+{% load static %}
+{% block main %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="d-md-flex justify-content-between">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Collectes </h4>
+      {% if message %}
+      <div class="alert alert-success alert-dismissible" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    </div>
+    <hr class="" />
+        <div class="nav-align-top mb-4">
+          <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link btn-warning"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-home"
+                aria-controls="navs-pills-justified-home"
+                aria-selected="true"
+              >
+                En attente  <span class="fas fa-hourglass mx-1 text-warning "></span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link btn-info"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-profile"
+                aria-controls="navs-pills-justified-profile"
+                aria-selected="false"
+              >
+                </i> En cours <span class="fas fa-rotate-left mx-1 text-info"></span>
+              </button>
+            </li>
+            <li class="nav-item">
+              <button
+                type="button"
+                class="nav-link btn-success"
+                role="tab"
+                data-bs-toggle="tab"
+                data-bs-target="#navs-pills-justified-messages"
+                aria-controls="navs-pills-justified-messages"
+                aria-selected="false"
+              >
+               Bouclées <span class="fas fa-check mx-1 text-success"></span>
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane fade show active" id="navs-pills-justified-home" role="tabpanel">
+                <div class="row">
+                  {% for collect in collect_en_attentes %}
+                  <div class="col-lg-6">
+                    <div class="card mb-3">
+                      <div class="row g-0">
+                        <div class="col-sm-4">
+                          <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                        </div>
+                        <div class="col-sm-8">
+                          <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                            <h5 class="card-title">{{ collect.title }}</h5>
+                            <div class="">
+                              <span class="fw-bold text-label-secondary">
+                                {{collect.raised}} f  
+                              </span >
+                               /
+                              <span class="fw-bolder text-success">
+                                {{collect.goal}} f
+                              </span>
+                            </div>
+                          </div>
+                            <p class="card-text">
+                              {{ collect.description|truncatewords:10 }}
+                            </p>
+                            <p class="card-text"><small class="text-muted">{{ collect.created_at }} par <a href='#' class="text-secondary fw-bold">
+                              {% if user == collect.by %}
+                                <span class="badge rouded-pill bg-label-secondary">Vous</span>
+                              {% else %}
+
+                              {{ collect.by.first_name }} {{ collect.by.last_name }}
+                                {% if not collect.by.first_name and collect.by.last_name %}
+                                {{ collect.by.username }}
+                                {% endif %}
+                              {% endif %}
+                              </a></small></p>
+                              <div class="d-sm-flex justify-content-end">
+                                {% if user.is_superuser or user.pk == collect.by.pk %}
+                                <button class="btn btn-outline-danger fw-bold w-100 post_delete"
+                                data-bs-toggle = 'modal'
+                                data-bs-target = '#confimer_supprimer_collect_modal'
+                                data-id-collect = '{{ collect.pk }}'
+                                >retirer<span class="fas fa-times-circle mx-1"></span></button>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                <button class="btn btn-outline-warning mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold post_collect"
+                                data-bs-toggle = 'modal'
+                                data-bs-target = '#confimer_publier_collect_modal'
+                                data-id-collect = '{{ collect.pk }}'
+                                >Confirmer <span class="fas fa-check-circle mx-1"></span></button>
+                                {% else %}
+                                <button class="btn btn-outline-secondary mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold disabled">En attente <span class="fas fa-hourglass mx-1"></span></button>
+                                {% endif %}
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% empty %}
+                <div class="container-xxl container-p-y">
+                  <div class="misc-wrapper">
+                    <h2 class="mb-2 mx-2">Pas de collect en attente</h2>
+                    <p class="mb-4 mx-2">Appuyez sur le button flottant pour ajouter une collect</p>
+                    <div class="mt-4 d-flex justify-content-center">
+                      <img
+                        src="{% static 'sneat/assets/img/illustrations/girl-doing-yoga-light.png' %}"
+                        alt="girl-doing-yoga-light"
+                        width="500"
+                        class="img-fluid"
+                        data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+                        data-app-light-img="illustrations/girl-doing-yoga-light.png"
+                      />
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+                </div>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-profile" role="tabpanel">
+              <div class="row">
+                {% for collect in collect_en_cours %}
+                <div class="col-lg-6">
+                  <div class="card mb-3">
+                    <div class="row g-0">
+                      <div class="col-sm-4">
+                        <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                      </div>
+                      <div class="col-sm-8">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between">
+                          <h5 class="card-title">{{ collect.title }}</h5>
+                          <div class="">
+                            <span class="fw-bold text-warning">
+                              {{ collect.raised }} f  
+                            </span >
+                             /
+                            <span class="fw-bolder text-success">
+                              {{collect.goal}} f
+                            </span>
+                          </div>
+                        </div>
+                          <p class="card-text">
+                            {{ collect.description|truncatewords:10 }}
+                          </p>
+                          <p class="card-text"><small class="text-muted">crée le {{ collect.created_at }} par <a href='#' class="text-secondary fw-bold">
+                            {% if user == collect.by %}
+                              <span class="badge rouded-pill bg-label-secondary">Vous</span>
+                            {% else %}
+
+                            {{ collect.by.first_name }} {{ collect.by.last_name }}
+                              {% if not collect.by.first_name and collect.by.last_name %}
+                              {{ collect.by.username }}
+                              {% endif %}
+                            {% endif %}
+                            </a>, <br> {% if collect.posted == 1 %}
+                                Publiée le {{ collect.post_at }}
+                            {% else %}
+                            <span class="text-danger">Pas encore Publiée</span>
+                            {% endif %}
+                          </small>
+                        </p>
+
+                            <div class="d-sm-flex justify-content-end">
+                              {% comment %} {% if user.is_superuser or user.pk == collect.by.pk %}
+                              <button class="btn btn-outline-danger fw-bold w-100 post_delete"
+                              data-bs-toggle = 'modal'
+                              data-bs-target = '#confimer_supprimer_collect_modal'
+                              data-id-collect = '{{ collect.pk }}'
+                              >retirer</button>
+                              {% endif %} {% endcomment %}
+                              {% if user.is_superuser and collect.posted == 0 %}
+                              <button class="btn btn-outline-success mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold post_collect"
+                              data-bs-toggle = 'modal'
+                              data-bs-target = '#confimer_publier_collect_modal'
+                              data-id-collect = '{{ collect.pk }}'
+                              >Publier <span class='mx-1 fas fa-paper-plane'></span></button>
+                              {% else %}
+                              {% endif %}
+                              <button class="btn btn-outline-info mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold">Don <span class='mx-1 fas fa-donate'></span></button>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+              <div class="container-xxl container-p-y">
+                <div class="misc-wrapper">
+                  <h2 class="mb-2 mx-2">Pas de collect en cours</h2>
+                  <p class="mb-4 mx-2">Appuyez sur le button flottant pour ajouter une collect</p>
+                  <div class="mt-4 d-flex justify-content-center">
+                    <img
+                      src="{% static 'sneat/assets/img/illustrations/girl-doing-yoga-light.png' %}"
+                      alt="girl-doing-yoga-light"
+                      width="500"
+                      class="img-fluid"
+                      data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+                      data-app-light-img="illustrations/girl-doing-yoga-light.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              </div>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-justified-messages" role="tabpanel">
+              <div class="row">
+                {% for collect in collect_bouclees %}
+                <div class="col-lg-6">
+                  <div class="card mb-3">
+                    <div class="row g-0">
+                      <div class="col-sm-4">
+                        <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                      </div>
+                      <div class="col-sm-8">
+                        <div class="card-body">
+                          <div class="d-flex justify-content-between">
+                          <h5 class="card-title">{{ collect.title }}</h5>
+                          <div class="">
+                            <span class="fw-bold text-success">
+                              {{ collect.raised }} f  
+                            </span >
+                             /
+                            <span class="fw-bolder text-success">
+                              {{collect.goal}} f
+                            </span>
+                          </div>
+                        </div>
+                          <p class="card-text">
+                            {{ collect.description|truncatewords:10 }}
+                          </p>
+                          <p class="card-text"><small class="text-muted">crée le {{ collect.created_at }} par <a href='#' class="text-secondary fw-bold">
+                            {% if user == collect.by %}
+                              <span class="badge rouded-pill bg-label-secondary">Vous</span>
+                            {% else %}
+
+                            {{ collect.by.first_name }} {{ collect.by.last_name }}
+                              {% if not collect.by.first_name and collect.by.last_name %}
+                              {{ collect.by.username }}
+                              {% endif %}
+                            {% endif %}
+                            </a>
+                          </small>
+                        </p>
+
+                            <div class="d-sm-flex justify-content-end">
+                              <button class="btn btn-outline-success mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold">Details <span class='mx-1 fas fa-circle-exclamation'></span></button>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% empty %}
+              <div class="container-xxl container-p-y">
+                <div class="misc-wrapper">
+                  <h2 class="mb-2 mx-2">Pas de collect en cours</h2>
+                  <p class="mb-4 mx-2">Appuyez sur le button flottant pour ajouter une collect</p>
+                  <div class="mt-4 d-flex justify-content-center">
+                    <img
+                      src="{% static 'sneat/assets/img/illustrations/girl-doing-yoga-light.png' %}"
+                      alt="girl-doing-yoga-light"
+                      width="500"
+                      class="img-fluid"
+                      data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+                      data-app-light-img="illustrations/girl-doing-yoga-light.png"
+                    />
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+              </div>
+          </div>
+        </div>
+      <!-- collects Rows -->
+
+      <!--/ collects Rows -->
+</div>
+
+
+<script>
+    $('.collects').addClass('active')
+</script>
+
+{% endblock main %}
+
+{% block floting_button %}
+
+<a
+  href="#"
+  target="_blank"
+  class="btn btn-danger btn-buy-now"
+  data-bs-toggle="modal"
+  data-bs-target="#addcollectModal"
+  >Nouvelle collection</a
+  >
+{% endblock floting_button %}
+
+
+{% block madals %}
+{% include "administration/components/addcollectmodal.html" %}
+{% endblock madals %}
