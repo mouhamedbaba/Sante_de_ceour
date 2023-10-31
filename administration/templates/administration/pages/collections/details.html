@@ -1,0 +1,203 @@
+{% extends "bases/sneat.html" %}
+{% load static %}
+{% block main %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="d-md-flex justify-content-between">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Collect / {{ collect.title }} </h4>
+      {% if message %}
+      <div class="alert alert-success alert-dismissible" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    </div>
+    <hr class="" />
+    <div class="card p-4 ">
+      <div class="row">
+        <div class="col-md-6" >
+         Cree le   {{ collect.created_at|date:"d M Y" }} par <a href=''>{{ collect.by.first_name }} {{collect.by.last_name}} {% if user == collect.by  %}(<span class= 'text-dark'>
+          Vous 
+        </span>){% endif %} </a> / 
+          {% if collect.confirmer ==  1 %}
+         <span class= 'badge bg-label-warning rounded-pill'>
+           Confirmé 
+        </span>
+        {% if collect.posted == 1 %}
+        <span class= 'badge bg-label-success rounded-pill'>
+          Publié 
+        </span>
+        {% endif %}
+
+          {% else %}
+
+        <span class= 'badge bg-label-secondary rounded-pill'>
+          En attente
+        </span>
+
+          {% endif %}
+        </div>
+        <div class="col-md-6" >
+          <div class='d-flex justify-content-end'>
+            <span class="fw-bold {% if collect.raised >= collect.goal %} text-success {% else %} text-info  {% endif %}">
+              
+              {{ collect.raised }} f  
+            </span >
+             /
+            <span class="fw-bolder text-success">
+              {{collect.goal}} f
+            </span>
+
+            {% if collect.is_amout_reached == 1 and collect.raised >= collect.goal %}
+
+            <span class= 'badge bg-label-success rounded-pill mx-1'>
+              complet
+            </span>
+            {% endif %}
+
+          </div>
+         </div>
+      </div>
+    </div>
+    {% comment %} <div class="row mt-3">
+            <div class="card h-100 w-100">
+              <img class="card-img w-100 h-100" src="{{ collect.image.url }}" alt="Card image cap" />
+          </div>
+    </div> {% endcomment %}
+    <div class="row mt-3">
+      <div class="col-lg-4 d-flex align-items-stretch">
+          <div class="card h-100">
+            <img class="card-img h-100" src="{{ collect.image.url }}" alt="Card image cap" />
+        </div>
+      </div>
+      <div class="col-lg-8 d-flex align-items-stretch">
+        <div class="card w-100">
+          <div class="card-body p-4">
+            <div class='d-flex justify-content-between' >
+            <h5 class="card-title fw-semibold mb-4">Description</h5>
+            <h6>Date de cloture : <span class='text-danger'> {{ collect.end_date|date:'D d M Y' }}</span></h6>
+          </div>
+            <div class="table-responsive">
+              {{ collect.description }}
+            </div>
+          </div>
+          <div class='card-footer'>
+            {% if collect.confirmer == 0 %}
+            <div class="d-sm-flex justify-content-end">
+              {% if user.is_superuser or user.pk == collect.by.pk %}
+              <button class="btn btn-outline-danger fw-bold w-100 post_delete"
+              data-bs-toggle = 'modal'
+              data-bs-target = '#confimer_supprimer_collect_modal'
+              data-id-collect = '{{ collect.pk }}'
+              >retirer<span class="fas fa-times-circle mx-1"></span></button>
+              {% endif %}
+              {% if user.is_superuser %}
+              <button class="btn btn-outline-warning mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold post_collect"
+              data-bs-toggle = 'modal'
+              data-bs-target = '#confimer_publier_collect_modal'
+              data-id-collect = '{{ collect.pk }}'
+              >Confirmer <span class="fas fa-check-circle mx-1"></span></button>
+              {% else %}
+              <button class="btn btn-outline-secondary mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold disabled">En attente <span class="fas fa-hourglass mx-1"></span></button>
+              {% endif %}
+
+          </div>
+            {% else %}
+            {% endif %}
+          </div>
+        </div>
+      </div>
+  </div>
+  <div class="row mt-3">
+    <div class="d-flex align-items-stretch">
+      <div class="card w-100">
+        <div class="card-body p-4">
+          {% if dons %}
+          <div class='d-flex justify-content-between'>
+          <h5 class="card-title fw-semibold mb-4">Dons de collecte ({{ dons|length }})</h5>
+          <h6 class = 'text-uppercase'>Total : <span class='fw-bold text-success'>{{  collect.raised }} F</span> </h6>
+          </div>
+          <div class="table-responsive table-bordered">
+            <table class="table text-nowrap mb-0 align-middle">
+              <thead class="text-dark fs-4">
+                <tr>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Id</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Donneurs</h6>
+                  </th>
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Methode</h6>
+                  </th>
+                  {% comment %} <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Priority</h6>
+                  </th> {% endcomment %}
+                  <th class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0">Montant</h6>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for don in dons %}
+                <tr>
+                  <td class="border-bottom-0"><h6 class="fw-semibold mb-0">#{{don.id}}</h6></td>
+                  <td class="border-bottom-0">
+                      <h6 class="fw-semibold mb-1">{{ don.donneur.name }}</h6>
+                      <span class="fw-normal">{{ don.donneur.email }}</span>                          
+                  </td>
+                  <td class="border-bottom-0 d-flex align-items-center">
+                    <p class="mb-0 fw-normal"></p>
+                    {% if don.payement_method.logo %}
+                    <img class='h-25 w-25 mx-2' src = '{{ don.payement_method.logo.url }}' />
+                    {% endif %}
+                  </td>
+                  {% comment %} <td class="border-bottom-0">
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
+                    </div>
+                  </td> {% endcomment %}
+                  <td class="border-bottom-0">
+                    <h6 class="fw-semibold mb-0 fs-4">{{ don.amount }} f</h6>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <h2>Pas encore de Don</h2>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+</div>  
+</div>
+</div>
+      <!-- collects Rows -->
+
+      <!--/ collects Rows -->
+</div>
+
+
+<script>
+    $('.collects').addClass('active')
+</script>
+
+{% endblock main %}
+
+{% block floting_button %}
+
+<a
+  href="#"
+  target="_blank"
+  class="btn btn-danger btn-buy-now"
+  data-bs-toggle="modal"
+  data-bs-target="#addcollectModal"
+  >Nouvelle collection</a
+  >
+{% endblock floting_button %}
+
+
+{% block madals %}
+{% include "administration/components/addcollectmodal.html" %}
+{% endblock madals %}

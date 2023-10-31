@@ -27,7 +27,9 @@ $('document').ready(function(){
         });
       });
       }
-      actions_collect('.post_collect', '.confimer_post_collect', 'confirm')
-      actions_collect('.post_delete', '.confimer_delete_collect', 'delete')
+      actions_collect('.confirm_collect', '.confimer_confirm_collect', 'confirm')
+      actions_collect('.delete_collect', '.confimer_delete_collect', 'delete')
+      actions_collect('.post_collect', '.confimer_post_collect', 'post')
+      actions_collect('.unpost_collect', '.confimer_unpost_collect', 'unpost')
     
   })

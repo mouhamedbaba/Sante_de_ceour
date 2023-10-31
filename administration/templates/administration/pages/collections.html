@@ -62,12 +62,14 @@
                     <div class="card mb-3">
                       <div class="row g-0">
                         <div class="col-sm-4">
+                          <a href="{% url "details_collect" collect.pk %}">
                           <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                        </a>
                         </div>
                         <div class="col-sm-8">
                           <div class="card-body">
                             <div class="d-flex justify-content-between">
-                            <h5 class="card-title">{{ collect.title }}</h5>
+                            <h5 class="card-title"><a class='text-dark' href ="{% url "details_collect" collect.pk %}">{{ collect.title }}</a></h5>
                             <div class="">
                               <span class="fw-bold text-label-secondary">
                                 {{collect.raised}} f  
@@ -94,22 +96,21 @@
                               </a></small></p>
                               <div class="d-sm-flex justify-content-end">
                                 {% if user.is_superuser or user.pk == collect.by.pk %}
-                                <button class="btn btn-outline-danger fw-bold w-100 post_delete"
+                                <button class="btn btn-outline-danger fw-bold w-100 delete_collect"
                                 data-bs-toggle = 'modal'
                                 data-bs-target = '#confimer_supprimer_collect_modal'
                                 data-id-collect = '{{ collect.pk }}'
                                 >retirer<span class="fas fa-times-circle mx-1"></span></button>
                                 {% endif %}
                                 {% if user.is_superuser %}
-                                <button class="btn btn-outline-warning mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold post_collect"
+                                <button class="btn btn-outline-warning mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold confirm_collect"
                                 data-bs-toggle = 'modal'
-                                data-bs-target = '#confimer_publier_collect_modal'
+                                data-bs-target = '#confimer_confirm_collect_modal'
                                 data-id-collect = '{{ collect.pk }}'
                                 >Confirmer <span class="fas fa-check-circle mx-1"></span></button>
                                 {% else %}
                                 <button class="btn btn-outline-secondary mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold disabled">En attente <span class="fas fa-hourglass mx-1"></span></button>
                                 {% endif %}
-
                             </div>
                           </div>
                         </div>
@@ -143,12 +144,14 @@
                   <div class="card mb-3">
                     <div class="row g-0">
                       <div class="col-sm-4">
-                        <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                        <a href="{% url "details_collect" collect.pk %}">
+                          <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                        </a>
                       </div>
                       <div class="col-sm-8">
                         <div class="card-body">
                           <div class="d-flex justify-content-between">
-                          <h5 class="card-title">{{ collect.title }}</h5>
+                          <h5 class="card-title"><a class='text-dark' href ="{% url "details_collect" collect.pk %}">{{ collect.title }}</a></h5>
                           <div class="">
                             <span class="fw-bold text-warning">
                               {{ collect.raised }} f  
@@ -191,10 +194,15 @@
                               {% if user.is_superuser and collect.posted == 0 %}
                               <button class="btn btn-outline-success mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold post_collect"
                               data-bs-toggle = 'modal'
-                              data-bs-target = '#confimer_publier_collect_modal'
+                              data-bs-target = '#confimer_post_collect_modal'
                               data-id-collect = '{{ collect.pk }}'
                               >Publier <span class='mx-1 fas fa-paper-plane'></span></button>
                               {% else %}
+                              <button class="btn btn-outline-secondary mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold unpost_collect"
+                              data-bs-toggle = 'modal'
+                              data-bs-target = '#confimer_unpost_collect_modal'
+                              data-id-collect = '{{ collect.pk }}'
+                              >depublier <span class='mx-1 fas fa-times-circle'></span></button>
                               {% endif %}
                               <button class="btn btn-outline-info mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold">Don <span class='mx-1 fas fa-donate'></span></button>
 
@@ -231,12 +239,14 @@
                   <div class="card mb-3">
                     <div class="row g-0">
                       <div class="col-sm-4">
-                        <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                        <a href="{% url "details_collect" collect.pk %}">
+                          <img class="card-img card-img-left" src="{{ collect.image.url }}" alt="Card image" />
+                        </a>
                       </div>
                       <div class="col-sm-8">
                         <div class="card-body">
                           <div class="d-flex justify-content-between">
-                          <h5 class="card-title">{{ collect.title }}</h5>
+                          <h5 class="card-title"><a class='text-dark' href ="{% url "details_collect" collect.pk %}">{{ collect.title }}</a> </h5>
                           <div class="">
                             <span class="fw-bold text-success">
                               {{ collect.raised }} f  
@@ -265,7 +275,7 @@
                         </p>
 
                             <div class="d-sm-flex justify-content-end">
-                              <button class="btn btn-outline-success mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold">Details <span class='mx-1 fas fa-circle-exclamation'></span></button>
+                              <a href ="{% url "details_collect" collect.pk %}" class="btn btn-outline-success mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold">Details <span class='mx-1 fas fa-circle-exclamation'></span></a>
 
                           </div>
                         </div>

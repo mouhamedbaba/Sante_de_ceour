@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
 from avatar.models import Avatar
 from .forms import *
-from .models import Collect
+from .models import *
 # Create your views here.
 
 @login_required(login_url='login')
@@ -24,6 +24,7 @@ def admins(request):
     }
     return render(request, 'administration/pages/admins.html', context)
 
+@login_required
 def addUser(request):
     if request.POST :
         addUserForm = AddUserForm(request.POST)
@@ -35,6 +36,7 @@ def addUser(request):
             print('unvalitaded')
     return redirect('admins')
 
+@login_required
 def editUser(request, admin):
     if request.POST :
         editUserForm = EditUserForm(request.POST, instance=admin)
@@ -46,8 +48,9 @@ def editUser(request, admin):
             
     else :
         editUserForm = EditUserForm(instance=admin)
-@login_required
 
+
+@login_required
 def admins_actions(request, admin_pk , action):
     user = request.user
     admin = User.objects.get(pk = admin_pk)
@@ -63,14 +66,14 @@ def admins_actions(request, admin_pk , action):
         
     return redirect('admins')
 
-login_required
-def collections(request):
+@login_required
+def collects(request):
     user = request.user
     collects = Collect.objects.all().order_by('-created_at')
     my_collects = Collect.objects.filter(by = user.pk)
-    collect_en_attentes = Collect.objects.filter(confirmer = 0)
-    collect_en_cours = Collect.objects.filter(confirmer = 1, is_amount_reached = 0)
-    collect_bouclees = Collect.objects.filter(is_amount_reached = 1)
+    collect_en_attentes = Collect.objects.filter(confirmer = 0).order_by('-created_at')
+    collect_en_cours = Collect.objects.filter(confirmer = 1, is_amount_reached = 0).order_by('-created_at')
+    collect_bouclees = Collect.objects.filter(is_amount_reached = 1).order_by('-created_at')
     addCollectForm = AddCollectForm()
     context = {
         'my_collects' : my_collects,
@@ -82,7 +85,18 @@ def collections(request):
     }
     return render (request, 'administration/pages/collections.html', context)
 
-login_required
+@login_required
+def details_collect(request, collect_pk):
+    collect = get_object_or_404(Collect, pk = collect_pk)
+    dons = DonCollect.objects.filter(collect = collect).order_by('-date')
+    print(dons)
+    context = {
+        'collect' : collect,
+        'dons' : dons
+    }
+    return render(request, 'administration/pages/collections/details.html', context)
+
+@login_required
 def action_collects(request, action, collect_pk):
     collect = Collect.objects.filter(pk = collect_pk)
     if action == 'confirm' :
@@ -90,8 +104,13 @@ def action_collects(request, action, collect_pk):
         print('confirmed')
     elif action == 'delete' :
         collect.delete()
+    elif action == 'post':
+        collect.update(posted = 1)
+    elif action == 'unpost':
+        collect.update(posted = 0)
     return redirect('collects') 
 
+@login_required
 def addCollect(request):
     if request.POST :
         addCollectForm = AddCollectForm(request.POST, request.FILES)

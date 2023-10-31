@@ -2,10 +2,11 @@ from django.urls import path
 from .views import *
 
 urlpatterns = [
+    # pages
     path('', home, name ='home'),
     path('admins', admins, name = 'admins'),
-    path('collection/', collections, name='collects'),
-    
+    path('collects/', collects, name='collects'),
+    path('collect/<int:collect_pk>', details_collect, name='details_collect'),
     
     #  functions
     path('actions/<int:admin_pk>/<str:action>', admins_actions, name='actions'),

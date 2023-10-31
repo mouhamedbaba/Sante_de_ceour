@@ -7,5 +7,19 @@ class CollectAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Site)
-class SitesAdmin(admin.ModelAdmin):
+class SiteAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(BadgeDonneur)
+class BadgeDonneurAdmin(admin.ModelAdmin):
+    pass
+@admin.register(Donneur)
+class DonneurAdmin(admin.ModelAdmin):
+    pass
+@admin.register(PayementMethod)
+class PayementMethodAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(DonCollect)
+class DonCollectAdmin(admin.ModelAdmin):
     pass
