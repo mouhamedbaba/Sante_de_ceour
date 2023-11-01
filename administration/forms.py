@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import  User
-from .models import Collect
+from .models import *
 class AddUserForm(forms.ModelForm):
     
     class Meta:
@@ -19,3 +19,16 @@ class AddCollectForm(forms.ModelForm):
     class Meta:
         model = Collect
         fields = ('__all__')
+        
+class DonCollectForm(forms.ModelForm):
+    
+    class Meta:
+        model = DonCollect
+        fields = ('__all__')
+
+class DonneurForm(forms.ModelForm):
+    
+    class Meta:
+        model = Donneur
+        fields = ("__all__")
+

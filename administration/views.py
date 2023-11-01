@@ -75,13 +75,17 @@ def collects(request):
     collect_en_cours = Collect.objects.filter(confirmer = 1, is_amount_reached = 0).order_by('-created_at')
     collect_bouclees = Collect.objects.filter(is_amount_reached = 1).order_by('-created_at')
     addCollectForm = AddCollectForm()
+    
+    donCollectForm = DonCollectForm()
+    
     context = {
         'my_collects' : my_collects,
         'collects' : collects,
         'addCollectForm' : addCollectForm,
         'collect_en_attentes' : collect_en_attentes,
         'collect_en_cours' : collect_en_cours,
-        'collect_bouclees' : collect_bouclees
+        'collect_bouclees' : collect_bouclees,
+        'donCollectForm' : donCollectForm
     }
     return render (request, 'administration/pages/collections.html', context)
 
@@ -120,4 +124,30 @@ def addCollect(request):
             print('unvalidated')
         return redirect('collects')
     
+
+def donCollect(request):
+    if request.POST:
+        donCollectForm = DonCollectForm(request.POST)
+        if donCollectForm.is_valid():
+            donCollectForm.save()
+            collect_pk = request.POST['collect']
+            collect = Collect.objects.filter(pk = collect_pk)
+            collect_raised = Collect.objects.get(pk = collect_pk)
+            amount = request.POST['amount']
+            collect.update(raised = collect_raised.raised + int(amount))
+            print(collect_raised.raised )
+            print(collect_raised.goal)
+            if int(collect_raised.raised) >= int(collect_raised.goal) :
+                collect.update(is_amount_reached = 1)
+            
+            donneur_email = request.POST['donneur_email']
+            try :
+                donneur = Donneur.objects.get(email = donneur_email)
+            except Donneur.DoesNotExist :
+                donneur_name = request.POST['donneur_name']
+                total_don = request.POST['amount']
+                donneur = Donneur(name = donneur_name, email = donneur_email, total_don = total_don)
+                donneur.save()
+    return redirect('collects')
+                
 

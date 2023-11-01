@@ -204,7 +204,10 @@
                               data-id-collect = '{{ collect.pk }}'
                               >depublier <span class='mx-1 fas fa-times-circle'></span></button>
                               {% endif %}
-                              <button class="btn btn-outline-info mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold">Don <span class='mx-1 fas fa-donate'></span></button>
+                              <button class="btn btn-outline-info mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold"
+                              data-bs-toggle = 'modal'
+                              data-bs-target = '#adddonmodal'
+                              >Don <span class='mx-1 fas fa-donate'></span></button>
 
                           </div>
                         </div>
@@ -331,4 +334,5 @@
 
 {% block madals %}
 {% include "administration/components/addcollectmodal.html" %}
+{% include "administration/components/adddonmodal.html" %}
 {% endblock madals %}

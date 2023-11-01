@@ -94,7 +94,8 @@ class PayementMethod(models.Model):
 class DonCollect(models.Model):
     date = models.DateField(auto_now_add=True)
     collect = models.ForeignKey(Collect, verbose_name=("Collect du don"), on_delete=models.CASCADE)
-    donneur = models.ForeignKey(Donneur, on_delete=models.CASCADE)
+    donneur_name = models.CharField(max_length=50, blank=True)
+    donneur_email = models.EmailField(max_length=254, blank=True)
     amount = models.IntegerField()
     payement_method = models.ForeignKey(PayementMethod, verbose_name=("Methode de payement"), on_delete=models.CASCADE)
     added_by_admin = models.ForeignKey(User, verbose_name=("Ajoute par"), on_delete=models.CASCADE, null = True , blank=True)
