@@ -3,12 +3,11 @@ $('document').ready(function () {
     $('#confirmMessage').text(message);
     $('#confirmDescription').text(description);
     $('#confirmButton').on('click', function () {
-      // Gérez l'action ici
-      if (on = 'admin') {
+      if (on === 'admin') {
         $.get('/sante/admin/' + pk + '/' + action, function (data) {
           location.reload();
         });
-      } else if (on = 'collect') {
+      } else if (on === 'collect') {
         $.get('/sante/collect/' + pk + '/' + action, function (data) {
           location.reload();
         });
@@ -34,5 +33,27 @@ $('document').ready(function () {
     openConfirmModal('admin','activate', 'Etes-vous sûr de vouloir Activer ?', 'L\'utilisateur aura desormais accès à son compte.');
   });
 
-  // Répétez le même modèle pour les autres cas (collecte, etc.)
+  $('.delete_collect').on('click', function () {
+    pk = $(this).data('id-collect');
+    openConfirmModal('collect','delete', 'Etes-vous sûr de retirer ?', 'La collecte  sera definitivement supprimée.');
+  });
+
+    $('.confirm_collect').on('click', function () {
+    pk = $(this).data('id-collect');
+    openConfirmModal('collect','confirm', 'Etes-vous sûr de  vouloir confirmer ?', 'La collecte  sera confirme.');
+  });
+
+  $('.post_collect').on('click', function () {
+    pk = $(this).data('id-collect');
+    openConfirmModal('collect','post', 'Etes-vous sûr de  vouloir publier ?', 'La collecte  sera mise dans la plateforme publique.');
+  });
+
+  $('.unpost_collect').on('click', function () {
+    pk = $(this).data('id-collect');
+    openConfirmModal('collect','unpost', 'Etes-vous sûr de  vouloir depublier ?', 'La collecte  sera retire de la plateforme publique.');
+  });
+
+  
+
+
 });

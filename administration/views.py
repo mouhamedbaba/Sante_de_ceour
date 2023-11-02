@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.forms import UserCreationForm
 from avatar.models import Avatar
 from .forms import *
 from .models import *
@@ -16,10 +17,8 @@ def admins(request):
     user = request.user
     message = ''
     admins = User.objects.all()
-    addUserForm = AddUserForm()
     context = {
         'admins' : admins,
-        'addUserForm' : addUserForm,
         'message' : message,
     }
     return render(request, 'administration/pages/admins.html', context)
@@ -28,12 +27,13 @@ def admins(request):
 def addUser(request):
     if request.POST :
         addUserForm = AddUserForm(request.POST)
-        if addUserForm.is_valid():
-            message = f'l\'utilisateur {request.POST['username']} a ete cree'
-            addUserForm.save()
+        if addUserForm.is_valid() :
+            user = addUserForm.save()
+            message = f"l'utilisateur {user.username} a ete cree"
         else :
             message = 'une erreur est survenue veuiller reesayer'
             print('unvalitaded')
+            print(addUserForm.errors)
     return redirect('admins')
 
 @login_required

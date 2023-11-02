@@ -9,10 +9,61 @@
                   aria-label="Close"
                 ></button>
               </div>
-            <form class="custom-form donate-form" action="#" method="get" role="form">
-                <h3 class="mb-4">Make a donation</h3>
-                {{donCollectForm}}
-            </form>
+              <form method="POST">
+                {% csrf_token %}
+              
+                <div class="mb-3">
+                  <label for="date" class="form-label">Date</label>
+                  <input type="date" class="form-control" id="date" name="date" readonly>
+                </div>
+              
+                <div class="mb-3">
+                  <label for="collect" class="form-label">Collect du don</label>
+                  <select class="form-select" id="collect" name="collect">
+                    <option value="" disabled selected>Choisissez une collecte</option>
+                    <!-- Ajoutez les options de collecte ici -->
+                  </select>
+                </div>
+              
+                <div class="mb-3">
+                  <label for="donneur_name" class="form-label">Nom du donneur</label>
+                  <input type="text" class="form-control" id="donneur_name" name="donneur_name">
+                </div>
+              
+                <div class="mb-3">
+                  <label for="donneur_email" class="form-label">Adresse e-mail du donneur</label>
+                  <input type="email" class="form-control" id="donneur_email" name="donneur_email">
+                </div>
+              
+                <div class="mb-3"> c
+                  <label for="amount" class="form-label">Montant</label>
+                  <input type="number" class="form-control" id="amount" name="amount">
+                </div>
+              
+                <div class="mb-3">
+                  <label for="payement_method" class="form-label">Méthode de paiement</label>
+                  <select class="form-select" id="payement_method" name="payement_method">
+                    <option value="" disabled selected>Choisissez une méthode de paiement</option>
+                    <!-- Ajoutez les options de méthode de paiement ici -->
+                  </select>
+                </div>
+              
+                <div class="mb-3">
+                  <label for="added_by_admin" class="form-label">Ajouté par</label>
+                  <select class="form-select" id="added_by_admin" name="added_by_admin">
+                    <option value="" disabled selected>Choisissez un administrateur</option>
+                    <!-- Ajoutez les options d'administrateur ici -->
+                  </select>
+                </div>
+              
+                <div class="mb-3 form-check">
+                  <input type="checkbox" class="form-check-input" id="confirmed" name="confirmed">
+                  <label class="form-check-label" for="confirmed">Confirmé</label>
+                </div>
+              
+                <button type="submit" class="btn btn-primary">Soumettre</button>
+              </form>
+              
         </div>
     </div>
   </div>
