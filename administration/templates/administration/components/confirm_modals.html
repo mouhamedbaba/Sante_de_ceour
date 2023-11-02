@@ -1,162 +1,19 @@
-{% comment %} confirm delete admin {% endcomment %}
-
-<div class="modal fade" id="confimer_delete_modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel2">confirmer</h4>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <h6>Etes vous sur de vouloir supprimer ?</h6>
-          <p class='form-help'>Au lieu de supprimer definitivement l'utilisateur vous pouvez simplement le désactiver et le reactiver a tous momemt</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Fermer
-          </button>
-          <button type="button" class="btn btn-danger confimer_delete confimer_action" id='confimer_delete'>Confirmer</button>
-        </div>
-      </div>
-    </div>
-</div>
-
-<div class="modal fade" id="confimer_desactiver_modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-sm" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title" id="exampleModalLabel2">confirmer</h4>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <h6>Etes vous sur de vouloir Desactiver ?</h6>
-          <p class='form-help'>l'utilisateur n'auras plus accés a son compte</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-            Fermer
-          </button>
-          <button type="button" class="btn btn-warning confimer_desactiver confimer_action" id='confimer_desactiver'>Confirmer</button>
-        </div>
-      </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="confimer_confirm_collect_modal" tabindex="-1" aria-hidden="true">
+{% comment %} Confirm Modal {% endcomment %}
+<div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel2">confirmer</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
+        <h4 class="modal-title" id="exampleModalLabel2">Confirmer</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <h6>Etes vous sur de vouloir confirmer cette collecte ?</h6>
-        <p class='form-help'></p>
+        <h6 id="confirmMessage"></h6>
+        <p class='form-help' id="confirmDescription"></p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-          Fermer
-        </button>
-        <button type="button" class="btn btn-warning confimer_confirm_collect confimer_action" id='confimer_confirm_collect'>Confirmer</button>
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fermer</button>
+        <button type="button" class="btn confirmer_action" id="confirmButton">Confirmer</button>
       </div>
     </div>
   </div>
 </div>
-
-<div class="modal fade" id="confimer_supprimer_collect_modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel2">confirmer</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <h6>Etes vous sur de vouloir cette collecte ?</h6>
-        <p class='form-help'>la collecte sera definitivement supprimée</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-          Fermer
-        </button>
-        <button type="button" class="btn btn-danger confimer_delete_collect confimer_action" id='confimer_delete_collect'>Confirmer</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-<div class="modal fade" id="confimer_post_collect_modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel2">confirmer</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <h6>Etes vous sur de vouloir publier collecte ?</h6>
-        <p class='form-help'>la collecte sera mise dans la plateforme publique</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-          Fermer
-        </button>
-        <button type="button" class="btn btn-success confimer_post_collect confimer_action" id='confimer_post_collect'>Confirmer</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
-<div class="modal fade" id="confimer_unpost_collect_modal" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-sm" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel2">confirmer</h4>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <h6>Etes vous sur de vouloir depublier collecte ?</h6>
-        <p class='form-help'>la collecte sera retirée de la plateforme publique</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-          Fermer
-        </button>
-        <button type="button" class="btn btn-success confimer_unpost_collect confimer_action" id='confimer_unpost_collect'>Confirmer</button>
-      </div>
-    </div>
-  </div>
-</div>
-

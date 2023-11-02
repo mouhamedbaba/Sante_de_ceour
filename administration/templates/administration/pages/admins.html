@@ -78,23 +78,19 @@
                       <a class="dropdown-item" href="javascript:void(0);"
                         ><i class="bx bx-edit-alt me-1"></i> Editer</a
                       >
-                      <a class="dropdown-item delete_admin" href="{% url "actions" admin.pk 'delete' %}"
-                      data-bs-toggle="modal"
-                      data-bs-target="#confimer_delete_modal"
+                      <a class="dropdown-item delete_admin btn"
+                      
                       data-id-admin = {{ admin.pk }}
-                      id='delete_admin'
                       ><i class="bx bx-trash me-1"></i> Supprimer</a
                       >
                       {% if admin.is_active == True %}
-                      <a class="dropdown-item desable_admin" href="{% url "actions" admin.pk 'desable' %}"
-                      data-bs-toggle="modal"
-                      data-bs-target="#confimer_desactiver_modal"
+                      <a class="dropdown-item desable_admin btn"
                       data-id-admin = {{ admin.pk }}
-                      id='desable_admin'
                       ><i class="bx bx-trash me-1"></i> Desactiver </a
                       >
                       {% else %}
-                      <a class="dropdown-item " href="{% url "actions" admin.pk 'activate' %}"
+                      <a class="dropdown-item activate_admin btn"
+                      data-id-admin = {{ admin.pk }}
                       ><i class="bx bx-badge me-1"></i> Activer </a
                       >
                       {% endif %}

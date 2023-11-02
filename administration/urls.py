@@ -9,7 +9,7 @@ urlpatterns = [
     path('collect/<int:collect_pk>', details_collect, name='details_collect'),
     
     #  functions
-    path('actions/<int:admin_pk>/<str:action>', admins_actions, name='actions'),
+    path('admin/<int:admin_pk>/<str:action>', admins_actions, name='actions'),
     path('adduser/', addUser, name='adduser'),
     path('collect/<int:collect_pk>/<str:action>', action_collects, name = 'collect_action'),
     path('addcollect', addCollect, name = 'addcollect'),
