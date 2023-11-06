@@ -84,14 +84,14 @@
             {% if collect.confirmer == 0 %}
             <div class="d-sm-flex justify-content-end">
               {% if user.is_superuser or user.pk == collect.by.pk %}
-              <button class="btn btn-outline-danger fw-bold w-100 post_delete"
+              <button class="btn btn-outline-danger fw-bold w-100 delete_collect"
               data-bs-toggle = 'modal'
               data-bs-target = '#confimer_supprimer_collect_modal'
               data-id-collect = '{{ collect.pk }}'
               >retirer<span class="fas fa-times-circle mx-1"></span></button>
               {% endif %}
               {% if user.is_superuser %}
-              <button class="btn btn-outline-warning mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold post_collect"
+              <button class="btn btn-outline-warning mt-2 mt-sm-0 mx-sm-2 w-100 fw-bold confirm_collect"
               data-bs-toggle = 'modal'
               data-bs-target = '#confimer_confirm_collect_modal'
               data-id-collect = '{{ collect.pk }}'

@@ -346,6 +346,20 @@ strong {
   color: var(--white-color);
 }
 
+.floting-donation .btn-floting-donation {
+  position: fixed;
+  bottom: 3rem;
+  right: 1.625rem;
+  z-index: 999999;
+  box-shadow: 0 1px 20px 1px #ad938e;
+  background-color : white
+}
+.floting-donation .btn-floting-donation:hover {
+  box-shadow: none;
+  background: var(--custom-btn-bg-hover-color);
+  border-color: transparent;
+  color: var(--white-color);
+}
 
 /*---------------------------------------
   NAVIGATION              

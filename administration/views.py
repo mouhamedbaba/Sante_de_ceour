@@ -12,18 +12,18 @@ from .models import *
 def home(request):
     return render(request, 'administration/pages/home.html')
 
-login_required()
+@login_required(login_url='login')
 def admins(request):
     user = request.user
     message = ''
-    admins = User.objects.all()
+    admins = User.objects.all().order_by('-date_joined')
     context = {
         'admins' : admins,
         'message' : message,
     }
     return render(request, 'administration/pages/admins.html', context)
 
-@login_required
+@login_required(login_url='login')
 def addUser(request):
     if request.POST :
         addUserForm = AddUserForm(request.POST)
@@ -36,7 +36,7 @@ def addUser(request):
             print(addUserForm.errors)
     return redirect('admins')
 
-@login_required
+@login_required(login_url='login')
 def editUser(request, admin):
     if request.POST :
         editUserForm = EditUserForm(request.POST, instance=admin)
@@ -50,7 +50,7 @@ def editUser(request, admin):
         editUserForm = EditUserForm(instance=admin)
 
 
-@login_required
+@login_required(login_url='login')
 def admins_actions(request, admin_pk , action):
     user = request.user
     admin = User.objects.get(pk = admin_pk)
@@ -66,7 +66,7 @@ def admins_actions(request, admin_pk , action):
         
     return redirect('admins')
 
-@login_required
+@login_required(login_url='login')
 def collects(request):
     user = request.user
     collects = Collect.objects.all().order_by('-created_at')
@@ -89,7 +89,7 @@ def collects(request):
     }
     return render (request, 'administration/pages/collections.html', context)
 
-@login_required
+@login_required(login_url='login')
 def details_collect(request, collect_pk):
     collect = get_object_or_404(Collect, pk = collect_pk)
     dons = DonCollect.objects.filter(collect = collect).order_by('-date')
@@ -100,7 +100,7 @@ def details_collect(request, collect_pk):
     }
     return render(request, 'administration/pages/collections/details.html', context)
 
-@login_required
+@login_required(login_url='login')
 def action_collects(request, action, collect_pk):
     collect = Collect.objects.filter(pk = collect_pk)
     if action == 'confirm' :
@@ -114,7 +114,7 @@ def action_collects(request, action, collect_pk):
         collect.update(posted = 0)
     return redirect('collects') 
 
-@login_required
+@login_required(login_url='login')
 def addCollect(request):
     if request.POST :
         addCollectForm = AddCollectForm(request.POST, request.FILES)
@@ -124,7 +124,7 @@ def addCollect(request):
             print('unvalidated')
         return redirect('collects')
     
-
+@login_required(login_url='login')
 def donCollect(request):
     if request.POST:
         donCollectForm = DonCollectForm(request.POST)

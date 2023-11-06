@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load custom_filter %}
 <!doctype html>
 <html lang="en">
 
@@ -17,6 +17,14 @@
     <link href="{% static "landing/css/bootstrap-icons.css" %}" rel="stylesheet">
 
     <link href="{% static "landing/css/templatemo-kind-heart-charity.css" %}" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static "fontawesome/css/solid.min.css" %}">
+
+
+    <script  src="{% static 'sneat/assets/vendor/libs/jquery/jquery.js' %}"></script>
+
+
+
     <!--
 
 TemplateMo 581 Kind Heart Charity
@@ -26,7 +34,75 @@ https://templatemo.com/tm-581-kind-heart-charity
 -->
 
 </head>
+<div class="cookie-banner">
+    <p>Ce site utilise des cookies pour améliorer votre expérience. Acceptez-vous l'utilisation de cookies ?</p>
+    <button id="accept-cookie">Accepter</button>
+    <button id="refuse-cookie">Refuser</button>
+</div>
 
+<style>
+    /* Styles pour la bannière de demande de cookies */
+.cookie-banner {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+.cookie-banner p {
+    margin: 0;
+}
+
+.cookie-banner button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.cookie-banner button:hover {
+    background-color: #45a049;
+}
+
+</style>
+
+<script>
+    // Récupération de la bannière et des boutons
+const cookieBanner = document.querySelector('.cookie-banner');
+const acceptButton = document.getElementById('accept-cookie');
+const refuseButton = document.getElementById('refuse-cookie');
+
+// Vérification si l'utilisateur a déjà accepté les cookies
+if (localStorage.getItem('cookieAccepted') === 'true') {
+    cookieBanner.style.display = 'none';
+}
+
+// Écouteurs d'événements sur les boutons
+acceptButton.addEventListener('click', () => {
+    // Enregistrement de l'acceptation des cookies
+    localStorage.setItem('cookieAccepted', 'true');
+    // Masquage de la bannière
+    cookieBanner.style.display = 'none';
+    alert("Vous avez autorisei l'utilisation de cookies.");
+
+});
+
+refuseButton.addEventListener('click', () => {
+    // L'utilisateur refuse les cookies, vous pouvez prendre des mesures appropriées ici
+    // Par exemple, ne pas placer de cookies de suivi
+    alert("Vous avez refusé l'utilisation de cookies.");
+    // Masquage de la bannière
+    cookieBanner.style.display = 'none';
+});
+
+</script>
 <body id="section_1">
 
     <header class="site-header">
@@ -36,14 +112,14 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="col-lg-8 col-12 d-flex flex-wrap">
                     <p class="d-flex me-4 mb-0">
                         <i class="bi-geo-alt me-2"></i>
-                        Akershusstranda 20, 0150 Oslo, Norway
+                        Senegal
                     </p>
 
                     <p class="d-flex mb-0">
                         <i class="bi-envelope me-2"></i>
 
                         <a href="mailto:info@company.com">
-                            info@company.com
+                            info@santecoeur.com
                         </a>
                     </p>
                 </div>
@@ -119,7 +195,7 @@ https://templatemo.com/tm-581-kind-heart-charity
                     </li>
 
                     <li class="nav-item ms-3">
-                        <button class="nav-link custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#backDropModal" >Faire un don</button>
+                        <button class="nav-link custom-btn modal_btn custom-border-btn  btn" data-bs-toggle="modal" data-bs-target="#backDropModal" >Faire un don</button>
                     </li>
                 </ul>
             </div>
@@ -130,6 +206,109 @@ https://templatemo.com/tm-581-kind-heart-charity
 
 {% endblock main %}
 
+    <div class="floting-donation">
+      <button role = "button"
+        class=" fw-bold btn-floting-donation custom-btn modal_btn custom-border-btn"  data-bs-toggle="modal" data-bs-target="#backDropModal"
+        >Faire un don
+        <span class="fas fa-heart"></span>
+        </button
+      >
+    </div>
+    <style>
+
+        
+
+  
+
+    </style>
+
+    <script>
+        {% comment %} (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.2';
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk')); {% endcomment %}
+
+
+      $(document).ready(function() {
+        var amount = $(".amount");
+        var radios = $("input[name='fixed_amount']");
+        var donneur_name = $("#donation-name");
+        var donateur_email = $("#donation-email");
+        var submit_btn = $("#submit_btn");
+        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
+        amount.on("input", function() {
+            if (amount.val() !== "") {
+                radios.prop("checked", false);
+            }
+            amount.on('change', function() {
+                if (amount.val() < 100) {
+                    $("#amount-error").html("Le montant doit être superieur à 100Fcfa");
+                } else {
+                    $("#amount-error").html("");
+                    updateSubmitButton();
+                }
+            });
+    
+            updateSubmitButton();
+        });
+        
+        radios.on("change", function() {
+            // Lorsqu'un radio est sélectionné, effacez la valeur du champ "amount"
+            amount.val("");
+            $("#amount-error").html("");
+            updateSubmitButton();
+        });
+
+        donneur_name.on("input", updateSubmitButton);
+
+        donateur_email.on("input", function() {
+            if (donateur_email.val() === "" || !emailRegex.test(donateur_email.val())) {
+                $("#email-error").html("Veuillez entrer une adresse e-mail valide.");
+                submit_btn.empty(); // Supprimer le bouton s'il ne remplit pas les conditions
+            } else {
+                $("#email-error").html("");
+                updateSubmitButton();
+            }
+        });
+
+        function updateSubmitButton() {
+            if (
+                (amount.val() >= 100 || radios.is(":checked")) &&
+                donateur_email.val() !== "" &&
+                donneur_name.val() !== "" &&
+                emailRegex.test(donateur_email.val())
+            ) {
+                submit_btn.html('<button type="submit" class="form-control btn_submit mt-4">Finaliser</button>');
+            } else {
+                submit_btn.empty(); // Supprimer le bouton s'il ne remplit pas les conditions
+            }
+        }
+        $("#submit_btn").on("click", function() {
+            $(".btn_submit").html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
+        })
+        setTimeout(function() {
+            $(".btn_submit").html('Finaliser');
+            $("erreur_chargement").html("Une erreur s'est produite lors de l'envoi du paiement. Veuillez reessayer.");
+        }, 1000);
+
+        setInterval(function() {
+            var modal = $('.modal');
+            
+            console.log(modal)
+            if (modal.hasClass("modal fade show")) {
+                $(".floting-donation").addClass("d-none");
+            } else {
+                $(".floting-donation").removeClass("d-none");
+            }
+          }, 1000);
+    });
+
+</script>
+
     <footer class="site-footer">
         <div class="container">
             <div class="row">
@@ -138,29 +317,29 @@ https://templatemo.com/tm-581-kind-heart-charity
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-12 mb-4">
-                    <h5 class="site-footer-title mb-3">Quick Links</h5>
+                    <h5 class="site-footer-title mb-3">Sante de Coeur</h5>
 
                     <ul class="footer-menu">
-                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Our Story</a></li>
+                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Notre Histoir</a></li>
 
-                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Newsroom</a></li>
+                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Campagne</a></li>
 
-                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Causes</a></li>
+                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Collects</a></li>
 
-                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Become a volunteer</a></li>
+                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Devenir un Volontaire</a></li>
 
-                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Partner with us</a></li>
+                        {% comment %} <li class="footer-menu-item"><a href="#" class="footer-menu-link">Partner with us</a></li> {% endcomment %}
                     </ul>
                 </div>
 
                 <div class="col-lg-4 col-md-6 col-12 mx-auto">
-                    <h5 class="site-footer-title mb-3">Contact Infomation</h5>
+                    <h5 class="site-footer-title mb-3">Contact </h5>
 
                     <p class="text-white d-flex mb-2">
                         <i class="bi-telephone me-2"></i>
 
                         <a href="tel: 305-240-9671" class="site-footer-link">
-                            305-240-9671
+                            77 777 77 77 
                         </a>
                     </p>
 
@@ -168,16 +347,16 @@ https://templatemo.com/tm-581-kind-heart-charity
                         <i class="bi-envelope me-2"></i>
 
                         <a href="mailto:info@yourgmail.com" class="site-footer-link">
-                            donate@charity.org
+                            contact@santecoeur.com
                         </a>
                     </p>
 
                     <p class="text-white d-flex mt-3">
                         <i class="bi-geo-alt me-2"></i>
-                        Akershusstranda 20, 0150 Oslo, Norway
+                        Senegal
                     </p>
 
-                    <a href="#" class="custom-btn btn mt-3">Get Direction</a>
+                    <a href="#" class="custom-btn btn mt-3">Localiser</a>
                 </div>
             </div>
         </div>
@@ -187,9 +366,9 @@ https://templatemo.com/tm-581-kind-heart-charity
                 <div class="row">
 
                     <div class="col-lg-6 col-md-7 col-12">
-                        <p class="copyright-text mb-0">Copyright © 2036 <a href="#">Kind Heart</a> Charity Org.
-                            Design: <a href="https://templatemo.com" target="_blank">TemplateMo</a><br>Distribution:
-                            <a href="https://themewagon.com">ThemeWagon</a>
+                        <p class="copyright-text mb-0">Copyright © 2023 <a href="#">Sante de Coeur</a> 
+                            {% comment %} Design: <a href="https://templatemo.com" target="_blank">TemplateMo</a><br>Distribution:
+                            <a href="https://themewagon.com">ThemeWagon</a> {% endcomment %}
                         </p>
                     </div>
 
@@ -222,8 +401,10 @@ https://templatemo.com/tm-581-kind-heart-charity
         </div>
     </footer>
     {% include "landing/modals/donate.html" %}
+    {% include "landing/modals/doncollectmodal.html" %}
 
     <!-- JAVASCRIPT FILES -->
+    <script src = "{% static 'fontawesome/js/all.min.js' %}"></script>
     <script src="{% static "landing/js/jquery.min.js" %}"></script>
     <script src="{% static "landing/js/bootstrap.min.js" %}"></script>
     <script src="{% static "landing/js/jquery.sticky.js" %}"></script>

@@ -1,0 +1,299 @@
+{% load static %}
+<style>
+    .card-img {
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+</style>
+
+<div class="modal fade" id="doncollectmodal" data-bs-backdrop="static" tabindex="-1">
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <div class="modal-header" style="boder : none">
+              <p id='erreur_chargement' class="modal-title text-warning"></p>
+              <button
+                type="button"
+                class="btn-close shadow bg-secondary  p-2 rounded"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="row">
+                <div class="col-lg-6">
+
+                    <div class="row mt-3">
+                            <div class="">
+                              <img class="card-img h-100 img-fluid" id = "image_url_modal" alt="Card image cap" />
+                          </div>
+                    </div>
+                    <div class="row mt-2">
+                          <div class="c">
+                            <div class="card-body p-4">
+                              <div class='' >
+                              <h5 class=" fw-semibold mb-4" id="name_modal"></h5>
+                              <!-- <h6>Date de cloture : <span class='text-danger' id="date_cloture_modal"> </span></h6> -->
+                            </div>
+                              <div class="table-responsive" id = "description_modal">
+                                
+                              </div>
+                            </div>
+                          </div>
+                    </div>
+                    <div class="custom-block-body">     
+                        <div class="progress  ">
+                            <div class="progress-bar progress-bar-striped" id="progress_modal" role="progressbar" aria-valuenow=""
+                                aria-valuemin="0" aria-valuemax="100" ></div>
+                        </div>
+
+                        <div class="d-flex align-items-center my-2">
+                            <p class="mb-0">
+                                <strong>Dons:</strong>
+                                <span id="raised_modal"></span> f
+                            </p>
+                                
+
+                            <p class="ms-auto mb-0">
+                                <strong>Objecif:</strong>
+                                <span id="goal_modal"></span> f
+                            </p>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-6">
+                    <form class="custom-form donate-form" action="{% url "redir" %}" method="POST">
+                        {% csrf_token %}
+                        <input class="d-none" name="item_name" value="Don Global">
+                        <div class="row">
+          
+                            
+          
+                            <div class="col-lg-12 col-12">
+                                <h5 class=" mb-3">Choisisez un montant</h5>
+                            </div>
+          
+                            <div class="col-lg-3 col-md-6 col-6 form-check-group">
+                                <div class="form-check form-check-radio">
+                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                        id="100f" value="100">
+                                    <label class="form-check-label" for="100f">
+                                        100f
+                                    </label>
+                                </div>
+                            </div>
+          
+                            <div class="col-lg-3 col-md-6 col-6 form-check-group">
+                                <div class="form-check form-check-radio">
+                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                        id="500f" value="500">
+                                    <label class="form-check-label" for="500f">
+                                        500f
+                                    </label>
+                                </div>
+                            </div>
+          
+                            <div class="col-lg-3 col-md-6 col-6 form-check-group">
+                                <div class="form-check form-check-radio">
+                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                        id="1000f" value="1000">
+                                    <label class="form-check-label" for="1000f">
+                                        1000f
+                                    </label>
+                                </div>
+                            </div>
+          
+                            <div class="col-lg-3 col-md-6 col-6 form-check-group">
+                                <div class="form-check form-check-radio">
+                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                        id="2500f" value="2500">
+                                    <label class="form-check-label" for="2500f">
+                                        2500f
+                                    </label>
+                                </div>
+                            </div>
+          
+                            <div class="col-lg-3 col-md-6 col-6 form-check-group">
+                                <div class="form-check form-check-radio">
+                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                        id="5000f" value="5000">
+                                    <label class="form-check-label" for="5000f">
+                                        5000f
+                                    </label>
+                                </div>
+                            </div>
+          
+                            <div class="col-lg-3 col-md-6 col-6 form-check-group">
+                                <div class="form-check form-check-radio">
+                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                        id="10000f" value="10000">
+                                    <label class="form-check-label" for="10000f">
+                                        10000f
+                                    </label>
+                                </div>
+                            </div>
+          
+                            <div class="col-lg-6 col-12 form-check-group">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1">FCFA</span>
+          
+                                    <input type="number" name ="amount" class="form-control amount-don-collect" placeholder="Ou personaliser"
+                                        aria-label="amount" aria-describedby="basic-addon1">
+                                    </div>
+                                    <p class="text-danger form-help form-text" id="amount-error-don-collect"></p>
+                            </div>
+          
+                            <div class="col-lg-12 col-12">
+                                <h5 class="mt-1">Informations du donneur</h5>
+                            </div>
+          
+                            <div class="col-lg-6 col-12 mt-2">
+                                <input type="text" name="donation-name" id="donation-name-don-collect" class="form-control"
+                                    placeholder="Prenom Nom" required>
+                            </div>
+          
+                            <div class="col-lg-6 col-12 mt-2">
+                                <input type="email" name="donation-email" id="donation-email-don-collect"
+                                    pattern="[^ @]*@[^ @]*" class="form-control" placeholder="email@gmail.com"
+                                    required>
+                            </div>
+                            <p class="text-danger form-help form-text" id="email-error-don-collect"></p>
+          
+          
+                            <div class="col-lg-12 col-12">
+                                <h5 class="mt-4 pt-1">paiement par PAYTECH</h5>
+                            </div>
+          
+                            <div class="col-lg-12 col-12 mt-2">
+                                <div class="row">
+                                    
+                                    <div class="col-4 d-flex justify-content-center col-sm-2">
+                                        <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/CB.png' %}" alt="cb"> 
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center col-sm-2">
+                                        <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/ico-orange.png' %}" alt="orange"> 
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center col-sm-2">
+                                        <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/wave-sn.png' %}" alt="wave"> 
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center col-sm-2 mt-2 mt-sm-0">
+                                        <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/ico-free-money.png' %}" alt="free money"> 
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center col-sm-2 mt-2 mt-sm-0">
+                                        <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/ico-em.png' %}" alt="free money"> 
+                                    </div>
+                                    <div class="col-4 d-flex justify-content-center col-sm-2 mt-2 mt-sm-0">
+                                        <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/wizall.jpg' %}" alt="wizzal"> 
+                                    </div>
+                                </div>
+                               
+                                
+                                </div>
+                                <div id="submit_btn-don-collect" class=" mt-5 d-flex justify-content-center">
+                                <script>
+                                    $(document).ready(function() {
+                                        var amount = $(".amount-don-collect");
+                                        var radios = $("input[name='fixed_amount_don_collect']");
+                                        var donneur_name = $("#donation-name-don-collect");
+                                        var donateur_email = $("#donation-email-don-collect");
+                                        var submit_btn = $("#submit_btn-don-collect");
+                                        var emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+                                
+                                        amount.on("input", function() {
+                                            if (amount.val() !== "") {
+                                                radios.prop("checked", false);
+                                            }
+                                            amount.on('change', function() {
+                                                if (amount.val() < 100) {
+                                                    $("#amount-error-don-collect").html("Le montant doit être superieur à 100Fcfa");
+                                                } else {
+                                                    $("#amount-error-don-collect").html("");
+                                                    updateSubmitButton();
+                                                }
+                                            });
+                                    
+                                            updateSubmitButton();
+                                        });
+                                        
+                                        radios.on("change", function() {
+                                            // Lorsqu'un radio est sélectionné, effacez la valeur du champ "amount"
+                                            amount.val("");
+                                            $("#amount-error-don-collect").html("");
+                                            updateSubmitButton();
+                                        });
+                                
+                                        donneur_name.on("input", updateSubmitButton);
+                                
+                                        donateur_email.on("input", function() {
+                                            if (donateur_email.val() === "" || !emailRegex.test(donateur_email.val())) {
+                                                $("#email-error-don-collect").html("Veuillez entrer une adresse e-mail valide.");
+                                                submit_btn.empty(); // Supprimer le bouton s'il ne remplit pas les conditions
+                                            } else {
+                                                $("#email-error-don-collect").html("");
+                                                updateSubmitButton();
+                                            }
+                                        });
+                                
+                                        function updateSubmitButton() {
+                                            if (
+                                                (amount.val() >= 100 || radios.is(":checked")) &&
+                                                donateur_email.val() !== "" &&
+                                                donneur_name.val() !== "" &&
+                                                emailRegex.test(donateur_email.val())
+                                            ) {
+                                                submit_btn.html('<button type="submit" class="form-control btn_submit mt-4">Finaliser</button>');
+                                            } else {
+                                                submit_btn.empty(); // Supprimer le bouton s'il ne remplit pas les conditions
+                                            }
+                                        }
+                                        $("#submit_btn").on("click", function() {
+                                            $(".btn_submit").html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
+                                        })
+                                        setTimeout(function() {
+                                            $(".btn_submit").html('Finaliser');
+                                            $("erreur_chargement").html("Une erreur s'est produite lors de l'envoi du paiement. Veuillez reessayer.");
+                                        }, 1000);
+                                    });
+                            
+                                </script>
+                                
+                                
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+
+<script>
+    $(document).ready(function() {
+
+        $(".btn_doncollectmodal").click(function() {
+            image = $(this).data('image-url')
+            name = $(this).data('name')
+            description = $(this).data('description')
+            end_date = $(this).data('end-date')
+            raised = $(this).data('raised')
+            goal = $(this).data('goal')
+            percent = $(this).data('percent')
+
+            $("#image_url_modal").attr('src', image)
+            $("#name_modal").html(name)
+            $("#description_modal").html(description)
+            $("#date_cloture_modal").html(end_date)
+            $("#raised_modal").html(raised)
+            $("#goal_modal").html(goal)
+            $("#progress_modal").attr('style', 'width:' + percent + '%')
+
+        })
+    })
+</script>

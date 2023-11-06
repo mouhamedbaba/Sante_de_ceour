@@ -2,8 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 
+# Create your views here.
+@csrf_exempt
 def login_admin(request):
     if request.POST :
         form = AuthenticationForm(request, request.POST)
@@ -20,6 +22,7 @@ def login_admin(request):
         form = AuthenticationForm(request)
     
     return render(request, 'authentication/pages/login.html')
+
 
 def logout_admin(request):
     logout(request)

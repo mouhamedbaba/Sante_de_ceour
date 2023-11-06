@@ -1,156 +1,147 @@
+      {% load static %}
       <div class="modal fade" id="backDropModal" data-bs-backdrop="static" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header" style="boder : none">
+                    <p id='erreur_chargement' class="modal-title text-warning"></p>
                     <button
                       type="button"
-                      class="btn-close"
+                      class="btn-close shadow bg-secondary  p-2 rounded"
                       data-bs-dismiss="modal"
                       aria-label="Close"
                     ></button>
                   </div>
-                <form class="custom-form donate-form" action="#" method="get" role="form">
-                    <h3 class="mb-4">Make a donation</h3>
-    
+                <form class="custom-form donate-form" action="{% url "redir" %}" method="POST">
+                    {% csrf_token %}
+                    <input class="d-none" name="item_name" value="Don Global">
                     <div class="row">
-                        <div class="col-lg-12 col-12">
-                            <h5 class="mb-3">Donation Frequency</h5>
-                        </div>
-    
-                        <div class="col-lg-6 col-6 form-check-group form-check-group-donation-frequency">
-                            <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="DonationFrequency"
-                                    id="DonationFrequencyOne" checked>
-    
-                                <label class="form-check-label" for="DonationFrequencyOne">
-                                    One Time
-                                </label>
-                            </div>
-                        </div>
-    
-                        <div class="col-lg-6 col-6 form-check-group form-check-group-donation-frequency">
-                            <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="DonationFrequency"
-                                    id="DonationFrequencyMonthly">
-    
-                                <label class="form-check-label" for="DonationFrequencyMonthly">
-                                    Monthly
-                                </label>
-                            </div>
-                        </div>
+
+                        
     
                         <div class="col-lg-12 col-12">
-                            <h5 class="mt-2 mb-3">Select an amount</h5>
+                            <h5 class="mt-2 mb-3">Choisisez un montant</h5>
                         </div>
     
                         <div class="col-lg-3 col-md-6 col-6 form-check-group">
                             <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault1">
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    $10
+                                <input class="form-check-input" type="radio" name="fixed_amount"
+                                    id="100f" value="100">
+                                <label class="form-check-label" for="100f">
+                                    100f
                                 </label>
                             </div>
                         </div>
     
                         <div class="col-lg-3 col-md-6 col-6 form-check-group">
                             <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    $15
+                                <input class="form-check-input" type="radio" name="fixed_amount"
+                                    id="500f" value="500">
+                                <label class="form-check-label" for="500f">
+                                    500f
                                 </label>
                             </div>
                         </div>
     
                         <div class="col-lg-3 col-md-6 col-6 form-check-group">
                             <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault3">
-                                <label class="form-check-label" for="flexRadioDefault3">
-                                    $20
+                                <input class="form-check-input" type="radio" name="fixed_amount"
+                                    id="1000f" value="1000">
+                                <label class="form-check-label" for="1000f">
+                                    1000f
                                 </label>
                             </div>
                         </div>
     
                         <div class="col-lg-3 col-md-6 col-6 form-check-group">
                             <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault4">
-                                <label class="form-check-label" for="flexRadioDefault4">
-                                    $30
+                                <input class="form-check-input" type="radio" name="fixed_amount"
+                                    id="2500f" value="2500">
+                                <label class="form-check-label" for="2500f">
+                                    2500f
                                 </label>
                             </div>
                         </div>
     
                         <div class="col-lg-3 col-md-6 col-6 form-check-group">
                             <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault5">
-                                <label class="form-check-label" for="flexRadioDefault5">
-                                    $45
+                                <input class="form-check-input" type="radio" name="fixed_amount"
+                                    id="5000f" value="5000">
+                                <label class="form-check-label" for="5000f">
+                                    5000f
                                 </label>
                             </div>
                         </div>
     
                         <div class="col-lg-3 col-md-6 col-6 form-check-group">
                             <div class="form-check form-check-radio">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault6">
-                                <label class="form-check-label" for="flexRadioDefault6">
-                                    $50
+                                <input class="form-check-input" type="radio" name="fixed_amount"
+                                    id="10000f" value="10000">
+                                <label class="form-check-label" for="10000f">
+                                    10000f
                                 </label>
                             </div>
                         </div>
     
                         <div class="col-lg-6 col-12 form-check-group">
                             <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1">$</span>
+                                <span class="input-group-text" id="basic-addon1">FCFA</span>
     
-                                <input type="text" class="form-control" placeholder="Custom amount"
-                                    aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
+                                <input type="number" name ="amount" class="form-control amount" placeholder="Ou personaliser"
+                                    aria-label="amount" aria-describedby="basic-addon1">
+                                </div>
+                                <p class="text-danger form-help form-text" id="amount-error"></p>
                         </div>
     
                         <div class="col-lg-12 col-12">
-                            <h5 class="mt-1">Personal Info</h5>
+                            <h5 class="mt-1">Informations du donneur</h5>
                         </div>
     
                         <div class="col-lg-6 col-12 mt-2">
                             <input type="text" name="donation-name" id="donation-name" class="form-control"
-                                placeholder="Jack Doe" required>
+                                placeholder="Prenom Nom" required>
                         </div>
     
                         <div class="col-lg-6 col-12 mt-2">
                             <input type="email" name="donation-email" id="donation-email"
-                                pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Jackdoe@gmail.com"
+                                pattern="[^ @]*@[^ @]*" class="form-control" placeholder="email@gmail.com"
                                 required>
                         </div>
+                        <p class="text-danger form-help form-text" id="email-error"></p>
+
     
                         <div class="col-lg-12 col-12">
-                            <h5 class="mt-4 pt-1">Choose Payment</h5>
+                            <h5 class="mt-4 pt-1">paiement par PAYTECH</h5>
                         </div>
     
                         <div class="col-lg-12 col-12 mt-2">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="DonationPayment"
-                                    id="flexRadioDefault9">
-                                <label class="form-check-label" for="flexRadioDefault9">
-                                    <i class="bi-credit-card custom-icon ms-1"></i>
-                                    Debit or Credit card
-                                </label>
+                            <div class="row">
+                                
+                                <div class="col-4 d-flex justify-content-center col-sm-2">
+                                    <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/CB.png' %}" alt="cb"> 
+                                </div>
+                                <div class="col-4 d-flex justify-content-center col-sm-2">
+                                    <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/ico-orange.png' %}" alt="orange"> 
+                                </div>
+                                <div class="col-4 d-flex justify-content-center col-sm-2">
+                                    <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/wave-sn.png' %}" alt="wave"> 
+                                </div>
+                                <div class="col-4 d-flex justify-content-center col-sm-2 mt-2 mt-sm-0">
+                                    <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/ico-free-money.png' %}" alt="free money"> 
+                                </div>
+                                <div class="col-4 d-flex justify-content-center col-sm-2 mt-2 mt-sm-0">
+                                    <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/ico-em.png' %}" alt="free money"> 
+                                </div>
+                                <div class="col-4 d-flex justify-content-center col-sm-2 mt-2 mt-sm-0">
+                                    <img height="50px" width="50px" class="rounded" src="{% static 'paiement/icones/wizall.jpg' %}" alt="wizzal"> 
+                                </div>
                             </div>
-    
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="DonationPayment"
-                                    id="flexRadioDefault10">
-                                <label class="form-check-label" for="flexRadioDefault10">
-                                    <i class="bi-paypal custom-icon ms-1"></i>
-                                    Paypal
-                                </label>
-                            </div>
-    
-                            <button type="submit" class="form-control mt-4">Submit Donation</button>
+                            <div id="submit_btn" class="d-flex justify-content-center"></div>
+                            <script>
+                             
+                        
+                            </script>
+                            
+                            
                         </div>
                     </div>
                 </form>
