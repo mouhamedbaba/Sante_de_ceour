@@ -64,7 +64,7 @@
                 <div class="col-lg-6">
                     <form class="custom-form donate-form" action="{% url "redir" %}" method="POST">
                         {% csrf_token %}
-                        <input class="d-none" name="item_name" value="Don Global">
+                        <input class="d-none" name="item_name" id="item_name">
                         <div class="row">
           
                             
@@ -75,7 +75,7 @@
           
                             <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                 <div class="form-check form-check-radio">
-                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                    <input class="form-check-input fixed_amount" type="radio" name="fixed_amount"
                                         id="100f" value="100">
                                     <label class="form-check-label" for="100f">
                                         100f
@@ -85,7 +85,7 @@
           
                             <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                 <div class="form-check form-check-radio">
-                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                    <input class="form-check-input fixed_amount" type="radio" name="fixed_amount"
                                         id="500f" value="500">
                                     <label class="form-check-label" for="500f">
                                         500f
@@ -95,7 +95,7 @@
           
                             <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                 <div class="form-check form-check-radio">
-                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                    <input class="form-check-input fixed_amount" type="radio" name="fixed_amount"
                                         id="1000f" value="1000">
                                     <label class="form-check-label" for="1000f">
                                         1000f
@@ -105,7 +105,7 @@
           
                             <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                 <div class="form-check form-check-radio">
-                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                    <input class="form-check-input fixed_amount" type="radio" name="fixed_amount"
                                         id="2500f" value="2500">
                                     <label class="form-check-label" for="2500f">
                                         2500f
@@ -115,7 +115,7 @@
           
                             <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                 <div class="form-check form-check-radio">
-                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                    <input class="form-check-input fixed_amount" type="radio" name="fixed_amount"
                                         id="5000f" value="5000">
                                     <label class="form-check-label" for="5000f">
                                         5000f
@@ -125,7 +125,7 @@
           
                             <div class="col-lg-3 col-md-6 col-6 form-check-group">
                                 <div class="form-check form-check-radio">
-                                    <input class="form-check-input" type="radio" name="fixed_amount_don_collect"
+                                    <input class="form-check-input fixed_amount" type="radio" name="fixed_amount"
                                         id="10000f" value="10000">
                                     <label class="form-check-label" for="10000f">
                                         10000f
@@ -193,7 +193,7 @@
                                 <script>
                                     $(document).ready(function() {
                                         var amount = $(".amount-don-collect");
-                                        var radios = $("input[name='fixed_amount_don_collect']");
+                                        var radios = $(".fixed_amount");
                                         var donneur_name = $("#donation-name-don-collect");
                                         var donateur_email = $("#donation-email-don-collect");
                                         var submit_btn = $("#submit_btn-don-collect");
@@ -293,6 +293,7 @@
             $("#raised_modal").html(raised)
             $("#goal_modal").html(goal)
             $("#progress_modal").attr('style', 'width:' + percent + '%')
+            $("#item_name").attr('value', name)
 
         })
     })

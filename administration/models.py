@@ -109,3 +109,35 @@ class DonCollect(models.Model):
 
     def get_absolute_url(self):
         return reverse("DonCollect_detail", kwargs={"pk": self.pk})
+        
+        
+
+
+class EvenementCampagne(models.Model):
+    
+    types_evenement = [
+        ('Don de sande', 'Don de sande'),
+        ('campagne medical', 'campagne medical'),
+    ]
+    
+    
+    titre = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.CASCADE)
+    description = models.TextField()
+    date_debut = models.DateTimeField()
+    date_fin = models.DateTimeField()
+    lieu = models.CharField(max_length=200)
+    objectifs = models.TextField()
+    image = models.ImageField(upload_to='campages/')
+    type_evenement = models.CharField(max_length=50, choices=types_evenement)
+    participant = models.IntegerField(default=0)
+    custom_fields = models.JSONField(blank=True, null=True)
+    # lien_inscription = models.URLField(blank=True, null=True)
+    oraganisateurs = models.ManyToManyField(User, related_name='evenements_inscrits', blank=True)
+
+    def __str__(self):
+        return self.titre
+
+    
+

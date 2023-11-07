@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from avatar.models import Avatar
 from .forms import *
 from .models import *
+from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
 
 @login_required(login_url='login')
@@ -24,6 +26,7 @@ def admins(request):
     return render(request, 'administration/pages/admins.html', context)
 
 @login_required(login_url='login')
+@csrf_exempt
 def addUser(request):
     if request.POST :
         addUserForm = AddUserForm(request.POST)
@@ -37,6 +40,7 @@ def addUser(request):
     return redirect('admins')
 
 @login_required(login_url='login')
+@csrf_exempt
 def editUser(request, admin):
     if request.POST :
         editUserForm = EditUserForm(request.POST, instance=admin)
@@ -67,6 +71,8 @@ def admins_actions(request, admin_pk , action):
     return redirect('admins')
 
 @login_required(login_url='login')
+@csrf_exempt
+
 def collects(request):
     user = request.user
     collects = Collect.objects.all().order_by('-created_at')
@@ -90,6 +96,8 @@ def collects(request):
     return render (request, 'administration/pages/collections.html', context)
 
 @login_required(login_url='login')
+@csrf_exempt
+
 def details_collect(request, collect_pk):
     collect = get_object_or_404(Collect, pk = collect_pk)
     dons = DonCollect.objects.filter(collect = collect).order_by('-date')
@@ -114,7 +122,9 @@ def action_collects(request, action, collect_pk):
         collect.update(posted = 0)
     return redirect('collects') 
 
+
 @login_required(login_url='login')
+@csrf_exempt
 def addCollect(request):
     if request.POST :
         addCollectForm = AddCollectForm(request.POST, request.FILES)
@@ -125,6 +135,7 @@ def addCollect(request):
         return redirect('collects')
     
 @login_required(login_url='login')
+@csrf_exempt
 def donCollect(request):
     if request.POST:
         donCollectForm = DonCollectForm(request.POST)
@@ -151,3 +162,31 @@ def donCollect(request):
     return redirect('collects')
                 
 
+
+@login_required(login_url='login')
+def events(request):
+    events = EvenementCampagne.objects.all().order_by('-created_at')
+    context = {
+        'events' : events
+    }
+    return render(request, "administration/pages/events/event_list.html", context)
+
+@login_required(login_url='login')
+
+def event_details(request, event_pk):
+    event =  get_object_or_404(EvenementCampagne, pk = event_pk)
+    context = {
+        'event' : event
+    }
+    return render(request, "administration/pages/events/event_details.html", context)
+
+
+@login_required(login_url='login')
+@csrf_exempt
+
+def create_event(request):
+    if request.POST :
+        eventForm = EvenementCampagneForm(request.POST)
+        if eventForm.is_valid():
+            eventForm.save()
+    return redirect('events')

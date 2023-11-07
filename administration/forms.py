@@ -33,4 +33,11 @@ class DonneurForm(forms.ModelForm):
     class Meta:
         model = Donneur
         fields = ("__all__")
+        
 
+
+class EvenementCampagneForm(forms.ModelForm):
+    
+    class Meta:
+        model = EvenementCampagne
+        fields = ("__all__")

@@ -34,41 +34,29 @@ https://templatemo.com/tm-581-kind-heart-charity
 -->
 
 </head>
-<div class="cookie-banner">
-    <p>Ce site utilise des cookies pour améliorer votre expérience. Acceptez-vous l'utilisation de cookies ?</p>
-    <button id="accept-cookie">Accepter</button>
-    <button id="refuse-cookie">Refuser</button>
+<div class="cookie-banner card p-3">
+    <p>Ce site utilise des cookies pour améliorer votre expérience.</p>
+    <hr />
+    <div class="d-flex justify-content-end mt-2" >
+        {% comment %} <button class = "btn custom-btn custom-border-btn" id="refuse-cookie">Refuser</button> {% endcomment %}
+    <button class = "btn custom-btn mx-2" id="accept-cookie">OK</button>
+    </div>
 </div>
 
 <style>
     /* Styles pour la bannière de demande de cookies */
 .cookie-banner {
-    background-color: #333;
-    color: #fff;
+
     padding: 10px;
     text-align: center;
     position: fixed;
-    top: 0;
+    bottom: 20%;
     left: 0;
-    width: 100%;
     z-index: 1000;
 }
 
 .cookie-banner p {
     margin: 0;
-}
-
-.cookie-banner button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 5px 15px;
-    margin: 5px;
-    cursor: pointer;
-}
-
-.cookie-banner button:hover {
-    background-color: #45a049;
 }
 
 </style>
@@ -77,7 +65,6 @@ https://templatemo.com/tm-581-kind-heart-charity
     // Récupération de la bannière et des boutons
 const cookieBanner = document.querySelector('.cookie-banner');
 const acceptButton = document.getElementById('accept-cookie');
-const refuseButton = document.getElementById('refuse-cookie');
 
 // Vérification si l'utilisateur a déjà accepté les cookies
 if (localStorage.getItem('cookieAccepted') === 'true') {
@@ -86,21 +73,13 @@ if (localStorage.getItem('cookieAccepted') === 'true') {
 
 // Écouteurs d'événements sur les boutons
 acceptButton.addEventListener('click', () => {
-    // Enregistrement de l'acceptation des cookies
     localStorage.setItem('cookieAccepted', 'true');
-    // Masquage de la bannière
+
     cookieBanner.style.display = 'none';
-    alert("Vous avez autorisei l'utilisation de cookies.");
 
 });
 
-refuseButton.addEventListener('click', () => {
-    // L'utilisateur refuse les cookies, vous pouvez prendre des mesures appropriées ici
-    // Par exemple, ne pas placer de cookies de suivi
-    alert("Vous avez refusé l'utilisation de cookies.");
-    // Masquage de la bannière
-    cookieBanner.style.display = 'none';
-});
+
 
 </script>
 <body id="section_1">
@@ -298,7 +277,6 @@ refuseButton.addEventListener('click', () => {
         setInterval(function() {
             var modal = $('.modal');
             
-            console.log(modal)
             if (modal.hasClass("modal fade show")) {
                 $(".floting-donation").addClass("d-none");
             } else {

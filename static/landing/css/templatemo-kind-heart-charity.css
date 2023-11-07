@@ -233,10 +233,6 @@ strong {
 /*---------------------------------------
   PROGRESS BAR               
 -----------------------------------------*/
-.progress {
-  background: var(--border-color);
-  height: 5px;
-}
 
 .progress-bar {
   background: var(--secondary-color);

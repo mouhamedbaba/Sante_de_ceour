@@ -23,3 +23,7 @@ class PayementMethodAdmin(admin.ModelAdmin):
 @admin.register(DonCollect)
 class DonCollectAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(EvenementCampagne)
+class EvenementCampagneAdmin(admin.ModelAdmin):
+    pass

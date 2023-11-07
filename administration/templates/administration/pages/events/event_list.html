@@ -1,0 +1,92 @@
+{% extends "bases/sneat.html" %}
+{% load static %}
+{% block main %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="d-md-flex justify-content-between">
+      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Evenements </h4>
+      {% if message %}
+      <div class="alert alert-success alert-dismissible" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endif %}
+    </div>
+    <hr class="" />
+    <div class="card mb-3 mb-lg-0">
+      <div class="card-header bg-light d-flex justify-content-between">
+        <h5 class="mb-0">Evenements</h5>
+        <form><select class="form-select form-select-sm" aria-label=".form-select-sm example">
+            <option selected="selected">Select Category</option>
+            <option>Health &amp; Wellness</option>
+            <option>Business &amp; Professional</option>
+            <option>Performing &amp; Visual Arts</option>
+            <option>Science &amp; Technology</option>
+            <option>Sports &amp; Fitness</option>
+            <option>Charity &amp; Causes</option>
+            <option>Film &amp; Media</option>
+            <option>Fashion &amp; Beauty</option>
+            <option>Travel &amp; Outdoor</option>
+            <option>Entertainment</option>
+            <option>Other</option>
+          </select></form>
+      </div>
+      <div class="card-body fs--1">
+        <div class="row">
+          {% for event in events %}
+          <div class="col-md-6">
+            <div class="row g-0">
+              <div class="col-4">
+                <a>
+                <img class="card-img card-img-left" src="{{ event.image.url }}" alt="Card image" />
+              </a>
+              </div>
+              <div class="col-8">
+                <div class="">
+                  <div class="flex-1 position-relative ps-3">
+                    <h6 class="fs-0 mb-0"><a class="" href="{% url 'event_details' event.pk %}">{{ event.titre|capfirst }} </a></h6>
+                    <p class="mb-1">crée par <a href="#!" class="text-700">{{ event.created_by }}	</a></p>
+                    <p class="text-1000 mb-0">Heure: {{ event.date_debut|time }}</p>
+                    <p class="text-1000 mb-0">Periode: {{ event.date_debut|date }} - {{ event.date_fin|date }}</p>{{ event.lieu }}<div class="border-dashed-bottom my-3"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr / >
+          </div>
+          {% endfor %}
+          </div>
+          
+        </div>
+      </div>
+    </div>
+      <!-- collects Rows -->
+
+      <!--/ collects Rows -->
+</div>
+
+
+<script>
+    $('.events').addClass('active')
+</script>
+
+{% endblock main %}
+
+{% block floting_button %}
+
+<a
+  href="#"
+  target="_blank"
+  class="btn btn-danger btn-buy-now"
+  data-bs-toggle="modal"
+  data-bs-target="#addeventModal"
+  >Nouvelle evenement</a
+  >
+{% endblock floting_button %}
+
+
+{% block madals %}
+{% include "administration/components/addcollectmodal.html" %}
+{% include "administration/components/adddonmodal.html" %}
+{% include "administration/pages/events/create_event_modal.html" %}
+
+{% endblock madals %}
