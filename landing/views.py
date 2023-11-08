@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from administration.models import Collect
 from administration.forms import NewslettersForm, MessageForm, VolunteerForm
-from administration.models import Newsletters, Volunteer
+from administration.models import Newsletters, Volunteer, Contacts
 # Create your views here.
 
 def home(request):
@@ -38,6 +38,11 @@ def message(request):
             messageForm.save()
             message_success = "Votre message a bien été envoyé"
             print(message_success)
+            email = request.POST.get('email')
+            check = Contacts.objects.filter(email = email)
+            if not check :
+                contact = Contacts(first_name = request.POST['first_name'], last_name = request.POST['last_name'], email = request.POST['email'])
+                contact.save()
         else :
             message_error = "Une erreur est survenue"
             prine(messageForm.errors)
@@ -47,8 +52,6 @@ def volunteer(request):
     if request.POST :
         volunteerForm = VolunteerForm(request.POST, request.FILES)
         if volunteerForm.is_valid():
- 
-            
             volunteerForm.save()
             message_success = "Votre demande a bien été envoyé"
             print(message_success)
