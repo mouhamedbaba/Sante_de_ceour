@@ -7,16 +7,23 @@ from django.shortcuts import render
 from urllib.request import Request, urlopen  
 from django.views.decorators.csrf import csrf_exempt
 from paiement.models import NotificationPayTech
+from administration.models import DonCollect
 @csrf_exempt
 def paiement_view(request):
     if request.POST:
         all = request.POST
+        collect_pk = None
         print('all : ', all)
         item_name = request.POST['item_name']
         if request.POST['amount'] :
             item_price = request.POST['amount']
         else :
             item_price = request.POST['fixed_amount']
+        try :
+            if request.POST['collect_pk']:
+                collect_pk = request.POST['collect_pk']
+        except :
+            pass
         
         currency = "XOF"
         
@@ -28,8 +35,8 @@ def paiement_view(request):
             "item_price": item_price,
             "currency": currency,
             "ref_command": command_ref,
-            "command_name": "Don de collect",
-            "ipn_url": "https://subitotaxi.net/",
+            "command_name": "Don",
+            "ipn_url": "https://c592-41-82-64-150.ngrok-free.app/paiement/ipn",
             "env": "test"
         }
 
@@ -49,6 +56,14 @@ def paiement_view(request):
             success = response_data.get("success")
 
             if success == 1:
+                if collect_pk :
+                    try :
+                        don = DonCollect(collect = collect_pk, amount = item_price, payement_method = "", donneur_email = request.POST['donation-email'], donneur_name = request.POST['donation-name'], confirmed = False)
+                        don.save()
+                    except :
+                        print("don non saved")
+                else :
+                    print("don non reussi")
                 redirect_url = response_data.get("redirect_url")
                 return redirect(redirect_url)
 

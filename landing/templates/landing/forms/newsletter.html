@@ -1,0 +1,11 @@
+<form class="custom-form subscribe-form" action="{% url "add_newsletter" %}" method="POST" role="form">
+    {% csrf_token %}
+    <h5 class="mb-4">Newsletter</h5>
+
+    <input type="email" name="email" id="id_email" pattern="[^ @]*@[^ @]*"
+        class="form-control" placeholder="Email" required>
+
+    <div class="col-lg-12 col-12">
+        <button type="submit" class="form-control">S'inscrire</button>
+    </div>
+</form>

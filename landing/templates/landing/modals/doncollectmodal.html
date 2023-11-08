@@ -65,6 +65,7 @@
                     <form class="custom-form donate-form" action="{% url "redir" %}" method="POST">
                         {% csrf_token %}
                         <input class="d-none" name="item_name" id="item_name">
+                        <input class="d-none" name="collect_pk" id="collect_pk">
                         <div class="row">
           
                             
@@ -149,12 +150,12 @@
           
                             <div class="col-lg-6 col-12 mt-2">
                                 <input type="text" name="donation-name" id="donation-name-don-collect" class="form-control"
-                                    placeholder="Prenom Nom" required>
+                                    placeholder="Mouhamed lamotte" required>
                             </div>
           
                             <div class="col-lg-6 col-12 mt-2">
                                 <input type="email" name="donation-email" id="donation-email-don-collect"
-                                    pattern="[^ @]*@[^ @]*" class="form-control" placeholder="email@gmail.com"
+                                    pattern="[^ @]*@[^ @]*" class="form-control" placeholder="lamotte@gmail.com"
                                     required>
                             </div>
                             <p class="text-danger form-help form-text" id="email-error-don-collect"></p>
@@ -278,6 +279,7 @@
     $(document).ready(function() {
 
         $(".btn_doncollectmodal").click(function() {
+            collect_pk = $(this).data('collect-pk')
             image = $(this).data('image-url')
             name = $(this).data('name')
             description = $(this).data('description')
@@ -286,6 +288,7 @@
             goal = $(this).data('goal')
             percent = $(this).data('percent')
 
+            $("#collect_pk").attr('value', collect_pk)
             $("#image_url_modal").attr('src', image)
             $("#name_modal").html(name)
             $("#description_modal").html(description)

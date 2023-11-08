@@ -27,3 +27,19 @@ class DonCollectAdmin(admin.ModelAdmin):
 @admin.register(EvenementCampagne)
 class EvenementCampagneAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(Newsletters)
+class NewslettersAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Contacts)
+class ContactAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Volunteer)
+class VolunteerAdmin(admin.ModelAdmin):
+    pass

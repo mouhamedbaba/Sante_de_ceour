@@ -73,7 +73,7 @@
 
                 <div class="col-md-4 col-12 mb-4 mb-lg-0">
                     <div class="featured-block d-flex justify-content-center align-items-center">
-                        <a href="donate.html" class="d-block">
+                        <a href="section_4#" class="d-block">
                             <img src="{% static "landing/images/icons/hands.png" %}" class="featured-block-image img-fluid" alt="">
 
                             <p class="featured-block-text">Devenir <strong>Volontaire</strong></p>
@@ -93,7 +93,7 @@
 
                 <div class="col-md-4 col-12 mb-4 mb-lg-0 mb-md-4">
                     <div class="featured-block d-flex justify-content-center align-items-center">
-                        <a href="donate.html" class="d-block">
+                        <a href="#section_3" class="d-block">
                             <img src="{% static "landing/images/icons/receive.png" %}" class="featured-block-image img-fluid" alt="">
 
                             <p class="featured-block-text">Faire a <strong>Don</strong></p>
@@ -103,7 +103,7 @@
 
                 <div class="col-md-4 col-12 mb-4 mb-lg-0">
                     <div class="featured-block d-flex justify-content-center align-items-center">
-                        <a href="donate.html" class="d-block">
+                        <a href="#" class="d-block">
                             <img src="{% static "landing/images/icons/scholarship.png" %}" class="featured-block-image img-fluid" alt="">
 
                             <p class="featured-block-text">Soutient <strong> Eleve</strong></p>
@@ -284,6 +284,7 @@
                             <a href="" class="custom-btn btn btn_doncollectmodal"
                             data-bs-toggle="modal"
                             data-bs-target="#doncollectmodal"
+                            data-collect-pk = {{ collect.pk }}
                             data-image-url="{{ collect.image.url }}"
                             data-name="{{ collect.title }}"
                             data-description="{{ collect.description }}"
@@ -306,43 +307,7 @@
 
                 <div class="col-lg-6 col-12">
                     <h2 class="text-white mb-4">Volontaire</h2>
-
-                    <form class="custom-form volunteer-form mb-5 mb-lg-0" action="#" method="post" role="form">
-                        <h3 class="mb-4">Devenez Volontaire </h3>
-
-                        <div class="row">
-                            <div class="col-lg-6 col-12">
-                                <input type="text" name="volunteer-name" id="volunteer-name" class="form-control"
-                                    placeholder="Nom Prenom" required>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <input type="email" name="volunteer-email" id="volunteer-email"
-                                    pattern="[^ @]*@[^ @]*" class="form-control" placeholder="email@gmail.com"
-                                    required>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <input type="text" name="volunteer-subject" id="volunteer-subject"
-                                    class="form-control" placeholder="Sujet" required>
-                            </div>
-
-                            <div class="col-lg-6 col-12">
-                                <div class="input-group input-group-file">
-                                    <input type="file" class="form-control" id="inputGroupFile02">
-
-                                    <label class="input-group-text" for="inputGroupFile02">Votre CV</label>
-
-                                    <i class="bi-cloud-arrow-up ms-auto"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <textarea name="volunteer-message" rows="3" class="form-control" id="volunteer-message"
-                            placeholder="Commentaire (Optionel)"></textarea>
-
-                        <button type="submit" class="form-control">Demander</button>
-                    </form>
+                    {% include "landing/forms/volunteer.html" %}
                 </div>
 
                 <div class="col-lg-6 col-12">
@@ -372,7 +337,7 @@
                 <div class="col-lg-7 col-12">
                     <div class="news-block">
                         <div class="news-block-top">
-                            <a href="news-detail.html">
+                            <a href="#">
                                 <img src="{% static "landing/images/news/medium-shot-volunteers-with-clothing-donations.jpg" %}"
                                     class="news-image img-fluid" alt="">
                             </a>
@@ -413,7 +378,7 @@
                             </div>
 
                             <div class="news-block-title mb-2">
-                                <h4><a href="news-detail.html" class="news-block-title-link">Don de vetements</a></h4>
+                                <h4><a href="#" class="news-block-title-link">Don de vetements</a></h4>
                             </div>
 
                             <div class="news-block-body">
@@ -425,7 +390,7 @@
 
                     <div class="news-block mt-3">
                         <div class="news-block-top">
-                            <a href="news-detail.html">
+                            <a href="#">
                                 <img src="{% static "landing/images/news/medium-shot-people-collecting-foodstuff.jpg" %}"
                                     class="news-image img-fluid" alt="">
                             </a>
@@ -470,7 +435,7 @@
                             </div>
 
                             <div class="news-block-title mb-2">
-                                <h4><a href="news-detail.html" class="news-block-title-link">Don de Nourriture</a>
+                                <h4><a href="#" class="news-block-title-link">Don de Nourriture</a>
                                 </h4>
                             </div>
 
@@ -495,7 +460,7 @@
 
                     <div class="news-block news-block-two-col d-flex mt-4">
                         <div class="news-block-two-col-image-wrap">
-                            <a href="news-detail.html">
+                            <a href="#">
                                 <img src="{% static "landing/images/news/africa-humanitarian-aid-doctor.jpg" %}"
                                     class="news-image img-fluid" alt="">
                             </a>
@@ -503,7 +468,7 @@
 
                         <div class="news-block-two-col-info">
                             <div class="news-block-title mb-2">
-                                <h6><a href="news-detail.html" class="news-block-title-link">Don de sang</a>
+                                <h6><a href="#" class="news-block-title-link">Don de sang</a>
                                 </h6>
                             </div>
 
@@ -518,7 +483,7 @@
 
                     <div class="news-block news-block-two-col d-flex mt-4">
                         <div class="news-block-two-col-image-wrap">
-                            <a href="news-detail.html">
+                            <a href="#">
                                 <img src="{% static "landing/images/news/close-up-happy-people-working-together.jpg" %}"
                                     class="news-image img-fluid" alt="">
                             </a>
@@ -526,7 +491,7 @@
 
                         <div class="news-block-two-col-info">
                             <div class="news-block-title mb-2">
-                                <h6><a href="news-detail.html" class="news-block-title-link">SET SETAL</a>
+                                <h6><a href="#" class="news-block-title-link">SET SETAL</a>
                                 </h6>
                             </div>
 
@@ -600,16 +565,7 @@
                         </a>
                     </div>
 
-                    <form class="custom-form subscribe-form" action="#" method="post" role="form">
-                        <h5 class="mb-4">Newsletter</h5>
-
-                        <input type="email" name="subscribe-email" id="subscribe-email" pattern="[^ @]*@[^ @]*"
-                            class="form-control" placeholder="Email" required>
-
-                        <div class="col-lg-12 col-12">
-                            <button type="submit" class="form-control">S'inscrire</button>
-                        </div>
-                    </form>
+                    {% include "landing/forms/newsletter.html" %}
                 </div>
 
             </div>
@@ -746,32 +702,7 @@
                 </div>
 
                 <div class="col-lg-5 col-12 mx-auto">
-                    <form class="custom-form contact-form" action="#" method="post" role="form">
-                        <h2>Contactez-Nous</h2>
-
-                        <p class="mb-4">Ou par email:
-                            <a href="#">contact@sante_coeur.org</a>
-                        </p>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-12">
-                                <input type="text" name="first-name" id="first-name" class="form-control"
-                                    placeholder="Nom" required>
-                            </div>
-
-                            <div class="col-lg-6 col-md-6 col-12">
-                                <input type="text" name="last-name" id="last-name" class="form-control"
-                                    placeholder="Prenom" required>
-                            </div>
-                        </div>
-
-                        <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control"
-                            placeholder="email@gmail.com" required>
-
-                        <textarea name="message" rows="5" class="form-control" id="message"
-                            placeholder="En quoi pouvons nous vous aidez ?"></textarea>
-
-                        <button type="submit" class="form-control">Envoyer</button>
-                    </form>
+                   {% include "landing/forms/contact.html" %}
                 </div>
 
             </div>

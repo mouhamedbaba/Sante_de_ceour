@@ -97,18 +97,17 @@ class DonCollect(models.Model):
     donneur_name = models.CharField(max_length=50, blank=True)
     donneur_email = models.EmailField(max_length=254, blank=True)
     amount = models.IntegerField()
-    payement_method = models.ForeignKey(PayementMethod, verbose_name=("Methode de payement"), on_delete=models.CASCADE)
+    payement_method = models.CharField(max_length=50, blank=True, default = "wave")
     added_by_admin = models.ForeignKey(User, verbose_name=("Ajoute par"), on_delete=models.CASCADE, null = True , blank=True)
     confirmed = models.BooleanField(default=True)
-    class Meta:
+    class Meta: 
         verbose_name = ("Don de collect")
         verbose_name_plural = ("Dons de collect")
 
     def __str__(self):
-        return self.collect.title
+        return self.pk
 
-    def get_absolute_url(self):
-        return reverse("DonCollect_detail", kwargs={"pk": self.pk})
+
         
         
 
@@ -141,3 +140,63 @@ class EvenementCampagne(models.Model):
 
     
 
+class Volunteer(models.Model):
+
+    date = models.DateField(auto_now_add=True)
+    name = models.CharField(max_length=250)
+    email = models.EmailField(max_length=254, unique=True)
+    sujet = models.CharField(max_length=50)
+    cv  = models.FileField(upload_to='members/volunteer/cv', max_length=100)
+    comment = models.TextField()
+    approuved = models.BooleanField(default = False)
+    approved_by = models.ForeignKey(User, on_delete=models.CASCADE, null=True , blank=True)
+        
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Volunteer'
+        verbose_name_plural = 'Volunteers'
+        
+class Newsletters(models.Model):
+
+    date = models.DateField(auto_now_add=True)
+    email = models.EmailField(max_length=254, unique=True)
+    
+    
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Newsletter'
+        verbose_name_plural = 'Newsletters'
+        
+class Message(models.Model):
+    
+    date = models.DateField(auto_now_add=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254)
+    content = models.TextField()
+    read = models.BooleanField(default=False)
+    replied = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Message'
+        verbose_name_plural = 'Messages'
+        
+class Contacts(models.Model):
+
+    date = models.DateField(auto_now_add=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email = models.EmailField(max_length=254, unique=True)
+    def __str__(self):
+        pass
+
+    class Meta:
+        verbose_name = 'Contacts'
+        verbose_name_plural = 'Contacts'

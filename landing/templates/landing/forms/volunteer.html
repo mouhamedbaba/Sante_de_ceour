@@ -1,0 +1,37 @@
+<form class="custom-form volunteer-form mb-5 mb-lg-0" action="{% url "add_volunteer" %}" method="post" role="form" accept="file/*" enctype="multipart/form-data">
+    {% csrf_token %}
+    <h3 class="mb-4">Devenez Volontaire </h3>
+
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <input type="text" name="name" id="id_name" class="form-control"
+                placeholder="Nom Prenom" required>
+        </div>
+
+        <div class="col-lg-6 col-12">
+            <input type="email" name="email" id="id_email"
+                pattern="[^ @]*@[^ @]*" class="form-control" placeholder="email@gmail.com"
+                required>
+        </div>
+
+        <div class="col-lg-6 col-12">
+            <input type="text" name="sujet" id="id_sujet"
+                class="form-control" placeholder="Sujet" required>
+        </div>
+
+        <div class="col-lg-6 col-12">
+            <div class="input-group input-group-file">
+                <input type="file" class="form-control" id="id_cv" name="cv">
+
+                <label class="input-group-text" for="id_cv">Votre CV</label>
+
+                <i class="bi-cloud-arrow-up ms-auto"></i>
+            </div>
+        </div>
+    </div>
+
+    <textarea name="comment" rows="3" class="form-control" id="id_comment"
+        placeholder="Commentaire (Optionel)"></textarea>
+
+    <button type="submit" class="form-control">Demander</button>
+</form>

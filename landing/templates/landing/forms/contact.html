@@ -1,0 +1,27 @@
+<form class="custom-form contact-form" action="{% url 'add_message' %}" method="post" role="form">
+    {% csrf_token %}
+    <h2>Contactez-Nous</h2>
+
+    <p class="mb-4">Ou par email:
+        <a href="#">contact@sante_coeur.org</a>
+    </p>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-12">
+            <input type="text" name="first_name" id="id_first_name" class="form-control"
+                placeholder="Prenom" required>
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-12">
+            <input type="text" name="last_name" id="id_last_name" class="form-control"
+                placeholder="Nom" required>
+        </div>
+    </div>
+
+    <input type="email" name="email" id="id_email" pattern="[^ @]*@[^ @]*" class="form-control"
+        placeholder="email@gmail.com" required>
+
+    <textarea name="content" rows="5" class="form-control" id="id_content"
+        placeholder="En quoi pouvons nous vous aidez ?"></textarea>
+
+    <button type="submit" class="form-control">Envoyer</button>
+</form>

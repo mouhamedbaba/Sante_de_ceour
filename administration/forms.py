@@ -41,3 +41,23 @@ class EvenementCampagneForm(forms.ModelForm):
     class Meta:
         model = EvenementCampagne
         fields = ("__all__")
+
+class NewslettersForm(forms.ModelForm):
+    
+    class Meta:
+        model = Newsletters
+        fields = ("__all__")
+
+class MessageForm(forms.ModelForm):
+    
+    class Meta:
+        model = Message
+        fields = ("first_name", "last_name", "email", "content")
+        
+class VolunteerForm(forms.ModelForm):
+    
+    class Meta:
+        model = Volunteer
+        fields = ("__all__")
+
+
