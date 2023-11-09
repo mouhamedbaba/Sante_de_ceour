@@ -52,7 +52,7 @@ class MessageForm(forms.ModelForm):
     
     class Meta:
         model = Message
-        fields = ("first_name", "last_name", "email", "content")
+        fields = ("first_name", "last_name", "email", "content", "object")
         
 class VolunteerForm(forms.ModelForm):
     

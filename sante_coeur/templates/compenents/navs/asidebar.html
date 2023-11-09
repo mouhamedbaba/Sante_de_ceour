@@ -13,9 +13,9 @@
 
     <ul class="menu-inner py-1">
       <!-- Dashboard -->
-      <li class="menu-item home">
-        <a href="{% url "home" %}" class="menu-link fw-bold">
-          <i class="menu-icon fas fa-home-user"></i>
+      <li class="menu-item home ">
+        <a href="{% url "home" %}" class="menu-link fw-bold bg-dark text-light home-link-active">
+          <i class="menu-icon fas fa-home-user "></i>
           <div data-i18n="Analytics">Home</div>
         </a>
       </li>
@@ -47,6 +47,27 @@
         <a href="{% url "home" %}" class="menu-link fw-bold">
           <i class="menu-icon fas fa-user-edit"></i>
           <div data-i18n="Analytics">Prophil</div>
+        </a>
+      </li>
+      <li class="menu-header small text-uppercase">
+        <span class="menu-header-text">Autres</span>
+      </li>
+      <li class="menu-item messages">
+        <a href="{% url "messages" %}" class="menu-link fw-bold">
+          <i class="menu-icon fas fa-message"></i>
+          <div data-i18n="Analytics">Messages</div>
+        </a>
+      </li>
+      <li class="menu-item contacts">
+        <a href="{% url "contacts" %}" class="menu-link fw-bold">
+          <i class="menu-icon fas fa-address-book"></i>
+          <div data-i18n="Analytics">Contacts</div>
+        </a>
+      </li>
+      <li class="menu-item newsletters">
+        <a href="{% url "newsletters" %}" class="menu-link fw-bold">
+          <i class="menu-icon fas fa-newspaper"></i>
+          <div data-i18n="Analytics">Newsletters</div>
         </a>
       </li>
     </ul>

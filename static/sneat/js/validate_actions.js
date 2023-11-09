@@ -52,8 +52,4 @@ $('document').ready(function () {
     pk = $(this).data('id-collect');
     openConfirmModal('collect','unpost', 'Etes-vous sûr de  vouloir depublier ?', 'La collecte  sera retire de la plateforme publique.');
   });
-
-  
-
-
 });

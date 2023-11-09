@@ -5,205 +5,111 @@
 
 {% comment %} <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> {% endcomment %}
 <div class="container-xxl flex-grow-1 container-p-y">
+
     {% if user.is_superuser %}
+
     <div class="d-md-flex justify-content-between">
       <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Admins </h4>
-      {% if message %}
+      {% if messages %}
       <div class="alert alert-success alert-dismissible" role="alert">
-        {{ message }}
+        {{ messages }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
       {% endif %}
     </div>
-      <!-- Striped Rows -->
-      {% comment %} <div id="tableExample2" data-list='{"valueNames":["name","email","age"],"page":5,"pagination":true}'>
-        <div class="table-responsive scrollbar">
-          <table class="table table-bordered table-striped fs--1 mb-0">
-            <thead class="bg-200 text-900">
-              <tr>
-                <th class="sort" data-sort="name">Name</th>
-                <th class="sort" data-sort="email">Email</th>
-                <th class="sort" data-sort="age">Age</th>
-              </tr>
-            </thead>
-            <tbody class="list">
-              <tr>
-                <td class="name">Anna</td>
-                <td class="email">anna@example.com</td>
-                <td class="age">18</td>
-              </tr>
-              <tr>
-                <td class="name">Homer</td>
-                <td class="email">homer@example.com</td>
-                <td class="age">35</td>
-              </tr>
-              <tr>
-                <td class="name">Oscar</td>
-                <td class="email">oscar@example.com</td>
-                <td class="age">52</td>
-              </tr>
-              <tr>
-                <td class="name">Emily</td>
-                <td class="email">emily@example.com</td>
-                <td class="age">30</td>
-              </tr>
-              <tr>
-                <td class="name">Jara</td>
-                <td class="email">jara@example.com</td>
-                <td class="age">25</td>
-              </tr>
-              <tr>
-                <td class="name">Clark</td>
-                <td class="email">clark@example.com</td>
-                <td class="age">39</td>
-              </tr>
-              <tr>
-                <td class="name">Jennifer</td>
-                <td class="email">jennifer@example.com</td>
-                <td class="age">52</td>
-              </tr>
-              <tr>
-                <td class="name">Tony</td>
-                <td class="email">tony@example.com</td>
-                <td class="age">30</td>
-              </tr>
-              <tr>
-                <td class="name">Tom</td>
-                <td class="email">tom@example.com</td>
-                <td class="age">25</td>
-              </tr>
-              <tr>
-                <td class="name">Michael</td>
-                <td class="email">michael@example.com</td>
-                <td class="age">39</td>
-              </tr>
-              <tr>
-                <td class="name">Antony</td>
-                <td class="email">antony@example.com</td>
-                <td class="age">39</td>
-              </tr>
-              <tr>
-                <td class="name">Raymond</td>
-                <td class="email">raymond@example.com</td>
-                <td class="age">52</td>
-              </tr>
-              <tr>
-                <td class="name">Marie</td>
-                <td class="email">marie@example.com</td>
-                <td class="age">30</td>
-              </tr>
-              <tr>
-                <td class="name">Cohen</td>
-                <td class="email">cohen@example.com</td>
-                <td class="age">25</td>
-              </tr>
-              <tr>
-                <td class="name">Rowen</td>
-                <td class="email">rowen@example.com</td>
-                <td class="age">39</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="d-flex justify-content-center mt-3"><button class="btn btn-sm btn-falcon-default me-1" type="button" title="Previous" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
-          <ul class="pagination mb-0"></ul><button class="btn btn-sm btn-falcon-default ms-1" type="button" title="Next" data-list-pagination="next"><span class="fas fa-chevron-right"> </span></button>
-        </div>
-      </div> {% endcomment %}
-      <div class="card">
-        <h5 class="card-header">Administrateurs</h5>
-        <div class="table-responsive text-nowrap">
-          <table id="myDataTable" class="table data-table table-striped table-hover table-bordered">
-            <thead>
-              <tr>
-                <th>Username</th>
-                <th>Status Equipe</th>
-                <th>Status Compte</th>
-                <th ></th>
-              </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
+      <div class="card" id="TableCrmRecentLeads" data-list='{"valueNames":["name","email","status"],"page":8,"pagination":true}'>
+        <div class="card-body px-0 py-0">
+          <div class="table-responsive scrollbar ">
+            <table class="table fs--1 mb-0 table-striped">
+              <thead class="bg-200 text-800">
+                <tr>
+                  <th class="py-3 white-space-nowrap" style="max-width: 30px;">
+                    <div class="form-check mb-0 d-flex align-items-center"><input class="form-check-input" id="checkbox-bulk-leads-select" type="checkbox" data-bulk-select='{"body":"table-recent-leads-body","actions":"table-recent-leads-actions","replacedElement":"table-recent-leads-replace-element"}' /></div>
+                  </th>
+                  <th class="sort align-middle" data-sort="name">Name</th>
+                  <th class="sort align-middle" data-sort="email">Email and Phone</th>
+                  <th class="sort align-middle" data-sort="status">Status</th>
+                  <th class="sort align-middle text-end">Action</th>
+                </tr>
+              </thead>
+              <tbody class="list" id="table-recent-leads-body">
               {% for admin in admins %}
-              <tr>
-                <td >
-                  <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                    <li
-                      data-bs-toggle="tooltip"
-                      data-popup="tooltip-custom"
-                      data-bs-placement="top"
-                      class="avatar avatar-xs pull-up"
-                      title="Lilian Fuller"
-                    >
-                    {% if avatar %}
+                <tr class="hover-actions-trigger btn-reveal-trigger hover-bg-100">
+                  <td class="align-middle" style="max-width: 30px;">
+                    <div class="form-check mb-0"><input class="form-check-input" type="checkbox" id="recent-leads-0" data-bulk-select-row="data-bulk-select-row" /></div>
+                  </td>
+                  <td class="align-middle white-space-nowrap"><a href="../pages/user/profile.html">
+                      <div class="d-flex align-items-center">
+                        <div class="avatar avatar">
+
+                          {% if avatar %}
                     <img src="{{ avatar.avatar.url }}" alt="Avatar" class="rounded-circle" />
                     {% else %}
                     <img src="{{ site.avatar.url }}" alt="Avatar" class="rounded-circle" />
                     {% endif %}
-                    </li>
-                    {% if admin.first_name %}
-                    <strong class='mx-2'>{{ admin.first_name }} {{ admin.last_name }}</strong>
+                        </div>
+                        <h6 class="mb-0 ps-2 text-800 name">
+                          {% if admin.first_name %}
+                          {{ admin.first_name }} {{ admin.last_name }}
+                          {% else %}
+                          {{ admin.username }}
+                          {% endif %}
+                          {% if admin.is_active %}
+                          <span  title="Active" class="ms-1 text-success fas fa-check-circle" data-fa-transform="shrink-2"></span>
+                          {% else %}
+                          <span title="Inactif" class="ms-1 text-danger fas fa-times-circle" data-fa-transform="shrink-2"></span>
+                          {% endif %}
+                          {% if admin.pk == user.pk %}
+                  <span class="badge rounded bg-label-secondary me-1">vous</span>
+                    {% endif %}
+                        </h6>
+                      </div>
+                    </a></td>
+                  <td class="align-middle white-space-nowrap text-primary email"><a href="mailto:{{admin.email}}">{{ admin.email }} {% if not admin.email %}<span class="badge badge rounded-pill bg-warning">Non rensegné<span class="ms-1 fas fa-ban" data-fa-transform="shrink-2"></span>{% endif %} </a></td>
+                  <td class="align-middle white-space-nowrap">
+                    <div class="d-flex justify-content-center">
+                    {% if admin.is_superuser %}
+                    <small class="badge fw-semi-bold  status bg-label-success">Superuser</small>
+                    {% elif admin.is_staff %}
+                    <small class="badge fw-semi-bold  status bg-label-info">Admin</small>
                     {% else %}
-                    <strong class='mx-2'>{{ admin.username }}</strong>
+                    <small class="badge fw-semi-bold  status bg-label-warning">Simple user</small>
                     {% endif %}
-                    {% if admin.pk == user.pk %}
-                  <span class="badge bg-label-secondary me-1">vous</span>
-                    {% endif %}
-                  </ul>
-                </td>
-                <td> 
-                <div class="d-flex justify-content-center" >
-                  {% if admin.is_superuser %}<span class="badge bg-label-success me-1">Superuser</span>
-                  {% elif admin.is_staff %}<span class="badge bg-label-primary  me-1">Admin</span>
-                  {% else %}<span class="badge bg-label-warning  me-1">Simple user</span>{% endif %}
-                </div>
-                </td>
-                <td>
-                <div class="d-flex justify-content-center" >
-                  {% if admin.is_active %}
-                  <span class="badge bg-label-success me-1">Active</span>
-                  {% else %}
-                  <span class="badge bg-label-danger  me-1">desactivé</span>
-                  {% endif %}
-                </div>
-                </td>
-                <td>
-                  <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                      <i class="bx bx-edit"></i>
-                    </button>
-                    <div class="dropdown-menu" style='position : absolute;'>
-                      <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-edit-alt me-1"></i> Editer</a
-                      >
-                      <a class="dropdown-item delete_admin btn"
-                      
-                      data-id-admin = {{ admin.pk }}
-                      ><i class="bx bx-trash me-1"></i> Supprimer</a
-                      >
-                      {% if admin.is_active == True %}
-                      <a class="dropdown-item desable_admin btn"
-                      data-id-admin = {{ admin.pk }}
-                      ><i class="bx bx-trash me-1"></i> Desactiver </a
-                      >
-                      {% else %}
-                      <a class="dropdown-item activate_admin btn"
-                      data-id-admin = {{ admin.pk }}
-                      ><i class="bx bx-badge me-1"></i> Activer </a
-                      >
-                      {% endif %}
                     </div>
-                  </div>
-                </td>
-              </tr>
-              {% endfor %}
-
-  
-              <script>
-                
-              </script>
-            </tbody>
-          </table>
+                  </td>
+                  <td class="align-middle white-space-nowrap text-end position-relative">
+                    <div class="dropdown font-sans-serif btn-reveal-trigger"><button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal-sm transition-none hide-arrow" type="button" id="crm-recent-leads-0" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
+                      <span class="fas fa-ellipsis-h fs--2"></span></button>
+                      <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="crm-recent-leads-0"><a class="dropdown-item text-info" href="#!"><span class="fas fa-pen me-1"></span>Editer</a>
+                        {% if not admin.is_active %}
+                      
+                      <a class="dropdown-item text-success activate_admin" href="#!" data-id-admin = {{ admin.pk }}><span class="fas fa-check-circle me-1"></span>Activer</a>
+                        {% else %}
+                        <a class="dropdown-item text-warning desable_admin" href="#!" data-id-admin = {{ admin.pk }}><span class="fas fa-times-circle me-1"></span>Desactiver</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div><a class="dropdown-item text-danger delete_admin" href="#!" data-id-admin = {{ admin.pk }}><span class="fas fa-trash-alt me-1"></span>Supprimer</a>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="card-footer bg-light p-2">
+          <div class="pagination d-flex justify-content-end px-4">
+            <div class="shadow rounded-circle p-2">
+            <span class="fas fa-chevron-left"></span>
+            </div>
+            <div class="shadow rounded-pill mx-2 p-2">
+              <span class="fas fa-chevron-right"></span>
+              </div>
+          </div>
         </div>
       </div>
+
+
 
         
       <!--/ Striped Rows -->

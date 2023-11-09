@@ -177,6 +177,7 @@ class Message(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
+    object = models.CharField(max_length=50, default="Renseignement")
     content = models.TextField()
     read = models.BooleanField(default=False)
     replied = models.BooleanField(default=False)

@@ -1,0 +1,91 @@
+{% extends "bases/sneat.html" %}
+{% load static %}
+{% block main %}
+    <script  src="{% static 'sneat/js/list.min.js' %}"></script>
+
+{% comment %} <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> {% endcomment %}
+<div class="container-xxl flex-grow-1 container-p-y">
+    {% if user.is_superuser %}
+    <div class="card mb-3">
+        <div class="card-header">
+          <div class="row align-items-center">
+            <div class="col d-flex align-items-center">
+              <button class="btn btn-falcon-default btn-sm ms-sm-1" type="button" onclick="location.reload()"><span class="fas fa-redo"></span></button>
+              <div class="dropdown font-sans-serif hide-arrow"><button class="btn btn-falcon-default text-600 btn-sm hide-arrow dropdown-toggle dropdown-caret-none ms-2" type="button" id="email-filter" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-sliders-h"></span></button>
+                <div class="dropdown-menu hide-arrow border py-0" aria-labelledby="email-filter">
+                  <div class="bg-white dark__bg-dark py-2"><a class="dropdown-item d-flex justify-content-between" href="#!">Tous<span class="fas fa-check" data-fa-transform="down-4 shrink-4"></span></a><a class="dropdown-item" href="#!">Lus</a><a class="dropdown-item" href="#!">Non lus</a>
+                  </div>
+                  </div>
+              </div>
+              {% comment %} <div class="border-start ms-3 ps-3" id="emails-actions">
+                <div class="btn-group btn-group-sm"><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Archive"><span class="fas fa-archive"></span></button><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark as unread"><span class="fas fa-envelope"></span></button><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Snooze"><span class="fas fa-clock"></span></button></div>
+              </div> {% endcomment %}
+            </div>
+          </div>
+        </div>
+        <div class="card-body fs--1 border-top border-200 p-0" id="emails">
+            {% for message in messages %}
+            <div class="row border-bottom border-200 hover-actions-trigger hover-shadow py-2 px-1 mx-0 {% if message.read %}
+            bg-white
+            {% else %}
+            bg-light
+            {% endif %}  dark__bg-dark" data-href="#">
+              <div class="col-auto d-none d-sm-block">
+                
+              </div>
+              <div class="col col-md-9 col-xxl-10">
+                <div class="row">
+                  <div class="col-md-4 col-xl-3 col-xxl-2 ps-md-0 mb-1 mb-md-0">
+                    <div class="d-flex position-relative">
+                      <div class="flex-1 ms-2"><a class="fw-bold stretched-link inbox-link text-dark" href="#">{{ message.first_name }} {{ message.last_name }}</a><span class="badge badge-success badge-pill ms-2">NEW</span></div>
+                    </div>
+                  </div>
+                  <div class="col"><a class="d-block inbox-link" href="#"><span class="fw-bold italic">{{ message.object|truncatewords:"4" }}</span><span class="mx-1">&ndash;</span><span class="text-dark">{{ message.content|truncatewords:"6" }}</span></a></div>
+                </div>
+              </div>
+              <div class="col-auto ms-auto d-flex flex-column justify-content-between"><span class="fw-bold">{{ message.date|date:"D,  d" }}<button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button></span>
+              </div>
+              
+            </div>
+            {% endfor %}
+
+        </div>
+        <div class="card-footer d-flex justify-content-between align-items-center"><small>2.29 GB <span class="d-none d-sm-inline-block">(13%)  </span> of 17 GB used</small>
+          <div><small>1-12 of 354</small><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" disabled="disabled"><span class="fas fa-chevron-left"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button"><span class="fas fa-chevron-right"></span></button></div>
+        </div>
+      </div>
+      <hr class="my-5" />
+    {% else %}
+    <div class="container-xxl container-p-y">
+      <div class="misc-wrapper">
+        <h2 class="mb-2 mx-2">Permission requise</h2>
+        <p class="mb-4 mx-2">Desole, vous n'avez pas la permission d'acceder a cette page </p>
+        <div class="mt-4">
+          <img
+            src="{% static 'sneat/assets/img/illustrations/girl-doing-yoga-light.png' %}"
+            alt="girl-doing-yoga-light"
+            width="500"
+            class="img-fluid"
+            data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
+            data-app-light-img="illustrations/girl-doing-yoga-light.png"
+          />
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+<script>
+    $('.messages').addClass('active')
+</script>
+{% endblock main %}
+
+{% block floting_button %}
+
+{% endblock floting_button %}
+
+
+{% block madals %}
+{% include "administration/components/addusermodal.html" %}
+{% endblock madals %}
+

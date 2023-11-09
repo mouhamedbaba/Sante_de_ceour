@@ -6,6 +6,7 @@ from avatar.models import Avatar
 from .forms import *
 from .models import *
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 
 # Create your views here.
 
@@ -16,12 +17,15 @@ def home(request):
 
 @login_required(login_url='login')
 def admins(request):
+    stored_messages = messages.get_messages(request)
+    print(stored_messages)
+    message_to_pass = ""
+    message_to_pass = [message.message for message in stored_messages]
     user = request.user
-    message = ''
     admins = User.objects.all().order_by('-date_joined')
     context = {
         'admins' : admins,
-        'message' : message,
+        # 'messages' : message_to_pass,
     }
     return render(request, 'administration/pages/admins.html', context)
 
@@ -32,11 +36,12 @@ def addUser(request):
         addUserForm = AddUserForm(request.POST)
         if addUserForm.is_valid() :
             user = addUserForm.save()
-            message = f"l'utilisateur {user.username} a ete cree"
+            message = f"l'utilisateur {user.username} a ete crée"
+            messages.success(request, message)
         else :
             message = 'une erreur est survenue veuiller reesayer'
-            print('unvalitaded')
-            print(addUserForm.errors)
+            messages.error(request, message)
+            messages.warning(request, addUserForm.errors)
     return redirect('admins')
 
 @login_required(login_url='login')
@@ -49,7 +54,6 @@ def editUser(request, admin):
             print('edited')
         else :
             print('unvalidated')
-            
     else :
         editUserForm = EditUserForm(instance=admin)
 
@@ -61,18 +65,21 @@ def admins_actions(request, admin_pk , action):
     admin_to_action = User.objects.filter(pk = admin_pk)
     if action == 'delete':
         admin.delete()
+        message = f"l'utilisateur {admin.username} a été supprimé"
+        messages.warning(request, message)
     elif action == 'desable' :
         admin_to_action.update(is_active = False)
+        message = f"l'utilisateur {admin.username} a été desactivé"
+        messages.warning(request, message)
     elif action == 'activate' :
         print('admin activated')
         admin_to_action.update(is_active = True)
-        print('admin activated')
-        
+        message = f"l'utilisateur {admin.username} a été desactivé"
+        messages.info(request, message)       
     return redirect('admins')
 
 @login_required(login_url='login')
 @csrf_exempt
-
 def collects(request):
     user = request.user
     collects = Collect.objects.all().order_by('-created_at')
@@ -113,13 +120,20 @@ def action_collects(request, action, collect_pk):
     collect = Collect.objects.filter(pk = collect_pk)
     if action == 'confirm' :
         collect.update(confirmer = 1)
-        print('confirmed')
+        message = f"la collecte a ete confirméé "
+        messages.success(request, message)     
     elif action == 'delete' :
         collect.delete()
+        message = f"la collecte a ete retirée "
+        messages.warning(request, message)
     elif action == 'post':
         collect.update(posted = 1)
+        message = f"la collecte a ete publiée "
+        messages.info(request, message)
     elif action == 'unpost':
         collect.update(posted = 0)
+        message = f"la collecte a ete dépubliée "
+        messages.info(request, message)
     return redirect('collects') 
 
 
@@ -190,3 +204,24 @@ def create_event(request):
         if eventForm.is_valid():
             eventForm.save()
     return redirect('events')
+
+def list_contacts(request):
+    contacts = Contacts.objects.all().order_by('-date')
+    context = {
+        'contacts' : contacts
+    }
+    return render(request, 'administration/pages/contacts/list.html', context)
+
+def list_messages(request):
+    messages = Message.objects.all().order_by('-date')
+    context = {
+        "messages" : messages
+    }
+    return render(request, 'administration/pages/contacts/messages.html', context)
+
+def list_newsletters(request):
+    newsletters = Newsletters.objects.all().order_by('-date')
+    context = {
+        "newsletters" : newsletters
+    }
+    return render(request, 'administration/pages/contacts/newsletters.html', context)

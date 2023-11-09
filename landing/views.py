@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from administration.models import Collect
 from administration.forms import NewslettersForm, MessageForm, VolunteerForm
 from administration.models import Newsletters, Volunteer, Contacts
+from django.contrib import messages
+
 # Create your views here.
 
 def home(request):
@@ -21,14 +23,19 @@ def newsletter(request):
         if newsletterForm.is_valid():
             newsletterForm.save()
             message_success = "Votre email a bien été enregistré"
+            messages.success(request, message_success)
             print("ok") 
         else :
             email = request.POST.get('email')
             check = Newsletters.objects.filter(email = email)
             if check :
-                message_error = "Cet email existe déja"
+                message_error = "Cet email est deja enregistré"
+                messages.warning(request, message_error)
+                
             else :
-                message_error = "Une erreur est survenue"
+                message_error = "Une erreur est survenue, veuillez reessayer"
+                messages.error(request, message_error)
+                
     return redirect('index')
 
 def message(request):
@@ -37,7 +44,7 @@ def message(request):
         if messageForm.is_valid():
             messageForm.save()
             message_success = "Votre message a bien été envoyé"
-            print(message_success)
+            messages.success(request, message_success)
             email = request.POST.get('email')
             check = Contacts.objects.filter(email = email)
             if not check :
@@ -45,7 +52,9 @@ def message(request):
                 contact.save()
         else :
             message_error = "Une erreur est survenue"
-            prine(messageForm.errors)
+            print(messageForm.errors)
+            messages.error(request, message_error)
+            messages.warning(request, messageForm.errors)
     return redirect('index')
 
 def volunteer(request):
@@ -54,15 +63,15 @@ def volunteer(request):
         if volunteerForm.is_valid():
             volunteerForm.save()
             message_success = "Votre demande a bien été envoyé"
-            print(message_success)
+            messages.success(request, message_success)
         else :
             email = request.POST.get('email')
             check = Volunteer.objects.filter(email = email)
             if check :
-                message_error = "Cet email existe déja"
-                print(message_error)
+                message_warning = "un volontaire avec cet email existe déja"
+                messages.warning(request, message_warning)
             else :
                 message_error = "Une erreur est survenue"
-                print(message_error)
-            print(volunteerForm.errors)
+                messages.error(request, message_error)
+                messages.warning(request, volunteerForm.errors)
     return redirect('index')

@@ -6,5 +6,6 @@ urlpatterns = [
     path('newsletter', newsletter, name = 'add_newsletter'),
     path('message', message, name = 'add_message'),
     path('volunteer', volunteer, name = 'add_volunteer'),
+    
     # path('blog/', blog, name='blog')
 ]
