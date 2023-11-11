@@ -5,57 +5,234 @@
 
 {% comment %} <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> {% endcomment %}
 <div class="container-xxl flex-grow-1 container-p-y">
-    {% if user.is_superuser %}
-    <div class="card mb-3">
-        <div class="card-header">
-          <div class="row align-items-center">
-            <div class="col d-flex align-items-center">
-              <button class="btn btn-falcon-default btn-sm ms-sm-1" type="button" onclick="location.reload()"><span class="fas fa-redo"></span></button>
-              <div class="dropdown font-sans-serif hide-arrow"><button class="btn btn-falcon-default text-600 btn-sm hide-arrow dropdown-toggle dropdown-caret-none ms-2" type="button" id="email-filter" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-sliders-h"></span></button>
-                <div class="dropdown-menu hide-arrow border py-0" aria-labelledby="email-filter">
-                  <div class="bg-white dark__bg-dark py-2"><a class="dropdown-item d-flex justify-content-between" href="#!">Tous<span class="fas fa-check" data-fa-transform="down-4 shrink-4"></span></a><a class="dropdown-item" href="#!">Lus</a><a class="dropdown-item" href="#!">Non lus</a>
-                  </div>
-                  </div>
+    {% if user.is_superuser %} 
+ 
+    {% if not message_display %}
+    <div class="card d-md-none overflow-hidden">
+    
+    <div class="chat-sidebar  ">
+      <div class="contacts-list scrollbar-overlay">
+        <div class="nav nav-tabs border-0 flex-column" role="tablist" aria-orientation="vertical">
+          <div>
+          <h5 class="card-header fw-bold">Messages</h5>
+          <hr />
+          </div>
+          {% for message in messages_all %}
+          <div class="hover-actions-trigger chat-contact nav-item " role="tab" id="chat-link-0" data-bs-toggle="tab" data-bs-target="#chat-0" aria-controls="chat-0" aria-selected="true">
+           {% comment %} <div class="d-md-none d-lg-block">
+               <div class="dropdown dropdown-active-trigger dropdown-chat"><button class="hover-actions btn btn-link btn-sm text-400 dropdown-caret-none dropdown-toggle end-0 fs-0 mt-4 me-1 z-index-1 pb-2 mb-n2" type="button" data-boundary="viewport" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-cog" data-fa-transform="shrink-3 down-4"></span></button>
+                <div class="dropdown-menu dropdown-menu-end border py-2 rounded-2"><a class="dropdown-item" href="#!">Mute</a>
+                  <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                  <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Mark as Unread</a><a class="dropdown-item" href="#!">Something's Wrong</a><a class="dropdown-item" href="#!">Ignore Messsages</a><a class="dropdown-item" href="#!">Block Messages</a>
+                </div>
+              </div> 
+            </div>{% endcomment %}
+            <a href="{% url "messages_url" message.pk %}" class="px-3 d-flex justify-content-between bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %} border-top shadow border-bottom {% endif %} ">
+              <div class="d-flex">
+              <div class="avatar avatar status-online">
+                <img class="rounded-circle" src="{{ site.avatar.url }}" alt="" />
               </div>
-              {% comment %} <div class="border-start ms-3 ps-3" id="emails-actions">
-                <div class="btn-group btn-group-sm"><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Archive"><span class="fas fa-archive"></span></button><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark as unread"><span class="fas fa-envelope"></span></button><button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Snooze"><span class="fas fa-clock"></span></button></div>
-              </div> {% endcomment %}
+              <div class="flex-1 chat-contact-body ms-2 d-md-none d-lg-block">
+                <div class="d-flex justify-content-between">
+                  <h6 class="mb-0 chat-contact-title">{{ message.first_name }} {{ message.last_name }}</h6>
+                </div>
+                <div class="min-w-0">
+                  <div class="chat-contact-content pe-3">{{ message.object|truncatewords:"3" }}</div>
+                  <div class="position-absolute bottom-0 end-0 hover-hide"></div>
+                </div>
+              </div>
+            </div>
+              <span class="fas {% if message.read == False %} fa-envelope text-info {% else %} text-success fa-envelope-open {% endif %}" ></span> 
+            </a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+    </div>
+</div>
+
+    {% else %}
+    <div class="card  d-md-none card-chat overflow-hidden">
+      <div class="card=header mb-3">
+        <div class="card-body d-flex justify-content-between">
+          <div><a class="btn btn-falcon-default btn-sm" href="{% url "messages_url" "inbox" %}" data-bs-toggle="tooltip" data-bs-placement="top" title="Back to inbox"><span class="fas fa-arrow-left"></span></a><span class="mx-1 mx-sm-2 text-300">|</span><button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Archive"><span class="fas fa-archive"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Mark as unread"><span class="fas fa-envelope"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Snooze"><span class="fas fa-clock"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2 d-none d-sm-inline-block" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Print"><span class="fas fa-print"></span></button></div>
+        </div>
+      </div>
+      <div class="card-body d-flex p-0 h-100">
+    <div class="tab-content card-chat-content">
+          
+      <div class="tab-pane card-chat-pane active" id="chat-0" role="tabpanel" aria-labelledby="chat-link-0">
+        
+        <div class="chat-content-header">
+          
+          <div class="row flex-between-center">
+            <div class="col-6 col-sm-8 d-flex align-items-center">
+              <div class="min-w-0">
+                <div class="avatar avatar-2xl status-online me-3">
+                  <img class="rounded-circle" src="{{  site.avatar.url }}" alt="" />
+                </div>
+                <div class="flex-1 mt-2">
+                  <h6 class="mb-0">
+                    <a class="text-decoration-none text-dark  text-700" href="#">
+                    {{ message_display.first_name }} {{ message_display.last_name }}</a>
+                    <span class="" ><br>
+                      <a class="" href="mailto:{{ message_display.email }}"> {{ message_display.email }}</a></span></h6>
+                  <p class="mb-0">{{ message_display.object }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center fs--2 text-500 text-warning"><span>{{ message_display.date }}</span></div>
+          <hr class="" />
+       
+        </div>
+        <div class="chat-content-body" style="display: inherit;">
+          
+          <div class="chat-content-scroll-area scrollbar">
+            <div class="d-flex">
+              <div class="flex-1">
+                <div class="w-xxl-75">
+                  <div class="">
+                    <div class=" bg-200 p-2 rounded-2">
+                      {{ message_display.content }}
+                      {% lorem 10 %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    {% endif %}
+
+
+    <div class="card d-none d-md-block card-chat overflow-hidden">
+      <div class="card-body d-flex p-0 h-100">
+        <div class="chat-sidebar">
+          <div class="contacts-list scrollbar-overlay">
+            <div class="nav nav-tabs border-0 flex-column" role="tablist" aria-orientation="vertical">
+              <div>
+              <h5 class="card-header fw-bold">Messages</h5>
+              <hr />
+              </div>
+              {% for message in messages_all %}
+              <div class="hover-actions-trigger chat-contact nav-item " role="tab" id="chat-link-0" data-bs-toggle="tab" data-bs-target="#chat-0" aria-controls="chat-0" aria-selected="true">
+               {% comment %} <div class="d-md-none d-lg-block">
+                   <div class="dropdown dropdown-active-trigger dropdown-chat"><button class="hover-actions btn btn-link btn-sm text-400 dropdown-caret-none dropdown-toggle end-0 fs-0 mt-4 me-1 z-index-1 pb-2 mb-n2" type="button" data-boundary="viewport" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="fas fa-cog" data-fa-transform="shrink-3 down-4"></span></button>
+                    <div class="dropdown-menu dropdown-menu-end border py-2 rounded-2"><a class="dropdown-item" href="#!">Mute</a>
+                      <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
+                      <div class="dropdown-divider"></div><a class="dropdown-item" href="#!">Mark as Unread</a><a class="dropdown-item" href="#!">Something's Wrong</a><a class="dropdown-item" href="#!">Ignore Messsages</a><a class="dropdown-item" href="#!">Block Messages</a>
+                    </div>
+                  </div> 
+                </div>{% endcomment %}
+                <a href="{% url "messages_url" message.pk %}" class="d-flex bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %} border-top shadow border-bottom {% endif %} ">
+                  <div class="avatar avatar status-online">
+                    <img class="rounded-circle" src="{{ site.avatar.url }}" alt="" />
+                  </div>
+                  <div class="flex-1 chat-contact-body ms-2 d-md-none d-lg-block">
+                    <div class="d-flex justify-content-between">
+                      <h6 class="mb-0 chat-contact-title">{{ message.first_name }} {{ message.last_name }}</h6>
+                    </div>
+                    <div class="min-w-0">
+                      <div class="chat-contact-content pe-3">{{ message.object|truncatewords:"3" }}</div>
+                      <div class="position-absolute bottom-0 end-0 hover-hide"></div>
+                    </div>
+                  </div>
+                  <span class="mx-3 fas {% if message.read == False %} fa-envelope text-info {% else %} text-success fa-envelope-open {% endif %}" ></span> 
+
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+        {% if message_display %}
+        <div class="tab-content card-chat-content">
+          
+          <div class="tab-pane card-chat-pane active" id="chat-0" role="tabpanel" aria-labelledby="chat-link-0">
+            <div class="chat-content-header">
+              <div class="row flex-between-center">
+                <div class="col-6 col-sm-8 d-flex align-items-center"><a class="pe-3 text-700 d-md-none contacts-list-show" href="#!">
+                    <div class="fas fa-chevron-left"></div>
+                  </a>
+                  <div class="min-w-0">
+                    <div class="avatar avatar-2xl status-online me-3">
+                      <img class="rounded-circle" src="{{  site.avatar.url }}" alt="" />
+                    </div>
+                    <div class="flex-1 mt-2">
+                      <h6 class="mb-0">
+                        <a class="text-decoration-none text-dark  text-700" href="#">
+                        {{ message_display.first_name }} {{ message_display.last_name }}</a>
+                        <span class="" >
+                          <a class="" href="mailto:{{ message_display.email }}">< {{ message_display.email }} ></a></span></h6>
+                      <p class="mb-0">{{ message_display.object }}</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto"><button class="btn btn-sm btn-falcon-primary me-2" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Start a Call"><span class="fas fa-phone"></span></button><button class="btn btn-sm btn-falcon-primary me-2" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Start a Video Call"><span class="fas fa-video"></span></button><button class="btn btn-sm btn-falcon-primary btn-info" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Conversation Information"><span class="fas fa-info"></span></button></div>
+              </div>
+              <div class="text-center fs--2 text-500 text-warning"><span>{{ message_display.date }}</span></div>
+              <hr class="" />
+           
+            </div>
+            <div class="chat-content-body" style="display: inherit;">
+              
+              <div class="chat-content-scroll-area scrollbar">
+                <div class="d-flex">
+                  <div class="flex-1">
+                    <div class="w-xxl-75">
+                      <div class="">
+                        <div class=" bg-200 p-2 rounded-2">
+                          {{ message_display.content }}
+                          {% lorem 10 %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
             </div>
           </div>
         </div>
-        <div class="card-body fs--1 border-top border-200 p-0" id="emails">
-            {% for message in messages %}
-            <div class="row border-bottom border-200 hover-actions-trigger hover-shadow py-2 px-1 mx-0 {% if message.read %}
-            bg-white
-            {% else %}
-            bg-light
-            {% endif %}  dark__bg-dark" data-href="#">
-              <div class="col-auto d-none d-sm-block">
-                
-              </div>
-              <div class="col col-md-9 col-xxl-10">
-                <div class="row">
-                  <div class="col-md-4 col-xl-3 col-xxl-2 ps-md-0 mb-1 mb-md-0">
-                    <div class="d-flex position-relative">
-                      <div class="flex-1 ms-2"><a class="fw-bold stretched-link inbox-link text-dark" href="#">{{ message.first_name }} {{ message.last_name }}</a><span class="badge badge-success badge-pill ms-2">NEW</span></div>
-                    </div>
-                  </div>
-                  <div class="col"><a class="d-block inbox-link" href="#"><span class="fw-bold italic">{{ message.object|truncatewords:"4" }}</span><span class="mx-1">&ndash;</span><span class="text-dark">{{ message.content|truncatewords:"6" }}</span></a></div>
-                </div>
-              </div>
-              <div class="col-auto ms-auto d-flex flex-column justify-content-between"><span class="fw-bold">{{ message.date|date:"D,  d" }}<button class="btn btn-falcon-default" type="button" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete"><span class="fas fa-trash-alt"></span></button></span>
-              </div>
-              
+        {% else %}
+        <div class="card-body overflow-hidden p-lg-6">
+          <div class="row align-items-center center mt-5 ">
+            <div class="col-lg-6"><img class="img-fluid" src="{% static 'sneat/assets/img/illustrations/21.png' %}" alt="" /></div>
+            <div class="col-lg-6 ps-lg-4 my-5 text-center text-lg-start">
+              <h3 class="text-primary">Vos Messages</h3>
+              <p class="lead">Clicker sur un message pour l'ouvrir</p>
             </div>
-            {% endfor %}
-
+          </div>
         </div>
-        <div class="card-footer d-flex justify-content-between align-items-center"><small>2.29 GB <span class="d-none d-sm-inline-block">(13%)  </span> of 17 GB used</small>
-          <div><small>1-12 of 354</small><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button" disabled="disabled"><span class="fas fa-chevron-left"></span></button><button class="btn btn-falcon-default btn-sm ms-1 ms-sm-2" type="button"><span class="fas fa-chevron-right"></span></button></div>
-        </div>
+        {% endif %} 
       </div>
-      <hr class="my-5" />
+    </div>
     {% else %}
+
+
+
+
+
+
+
+
     <div class="container-xxl container-p-y">
       <div class="misc-wrapper">
         <h2 class="mb-2 mx-2">Permission requise</h2>
@@ -87,5 +264,17 @@
 
 {% block madals %}
 {% include "administration/components/addusermodal.html" %}
+<style>
+  .card-chat{height:calc(100vh - 4.3125rem - 0.625rem);z-index:1}.card-chat .card-body{position:relative;overflow:hidden}.card-chat-pane{height:calc(100% - 2.063rem);
+    position:relative;overflow:hidden}.card-chat-content{-webkit-box-flex:1;-ms-flex-positive:1;flex-grow:1;-ms-flex-preferred-size:0;flex-basis:0;max-width:100%;height:100%;font-size:.8333333333rem;position:relative;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column}.
+    chat-sidebar{z-index:11;top:0;left:-100%;width:100%;overflow:hidden}.contacts-list{height:calc(100% - 2rem);border-right:1px solid var(--falcon-border-color);overflow-y:auto;width:100%}.chat-contact{position:relative;width:100% !important;-webkit-box-align:center;-ms-flex-align:center;align-items:center;height:4.188rem;cursor:pointer;border-top:1px solid transparent;background-color:var(--falcon-chat-contact-bg)}.chat-contact:after{position:absolute;content:"";height:100%;width:.25rem;left:0;top:0}.chat-contact:first-child{border-top:0 !important}.chat-contact:hover:after,.chat-contact:focus:after{background-color:var(--falcon-success)}.chat-contact.active:after{background-color:var(--falcon-success)}.chat-contact.active:not(:first-child),.chat-contact.active+.chat-contact{border-top:1px solid var(--falcon-border-color)}.chat-contact .hover-actions{background-color:var(--falcon-card-bg)}.chat-contact .hover-actions>*{pointer-events:none}.chat-contact-body{position:relative;min-width:0}.chat-contact-title{font-weight:400}.message-time{color:var(--falcon-400)}.chat-contact-content{font-size:.8333333333rem;color:var(--falcon-600);overflow:hidden;-o-text-overflow:ellipsis;text-overflow:ellipsis;white-space:nowrap}.unread-message{color:var(--falcon-black)}.unread-message .chat-contact-title,.unread-message .chat-contact-content{font-weight:600;color:var(--falcon-black)}.unread-message .message-time{color:var(--falcon-primary)}.contacts-search-wrapper{position:relative;border-top:1px solid var(--falcon-border-color);border-right:1px solid var(--falcon-border-color);background-color:var(--falcon-chat-contact-bg);display:-webkit-box;display:-ms-flexbox;display:flex;
+      -webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;height:2.063rem}.chat-contacts-search{padding-left:2.12rem;background-color:var(--falcon-card-bg)}.chat-contacts-search:hover,.chat-contacts-search:focus{-webkit-box-shadow:none;box-shadow:none}.contacts-search-icon{position:absolute;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%);color:#b6c1d2;font-size:.8333333333rem;left:1rem}.chat-content-header{padding:0.625rem;border-bottom:1px solid var(--falcon-border-color)}.chat-content-body{height:calc(100% - 4.25rem)}.chat-content-body .scroll-content{position:relative}.chat-content-scroll-area{height:100%;padding-bottom:1rem;overflow-y:auto}.chat-message{max-width:calc(100% - 7rem);margin-bottom:.25rem;display:inline-block;position:relative}.message-settings{position:absolute;bottom:-0.9375rem;border:1px solid var(--falcon-200);background-color:var(--falcon-100);border-radius:50%;height:1.875rem;width:1.875rem;text-align:center}.message-settings-left{right:-0.9375rem}.message-settings-right{left:-0.9375rem}.conversation-info{position:absolute;width:15rem;right:-15rem;background-color:var(--falcon-100);border-left:1px solid var(--falcon-border-color);z-index:10;top:4.25rem;height:calc(100% - 4.25rem);-webkit-transition:right .5s ease;-o-transition:right .5s ease;transition:right .5s ease}.conversation-info.show{right:0}.conversation-info .conversation-info-icon{width:1.25rem;font-size:1rem}.chat-file-upload{margin-bottom:0;padding:0 .5rem;z-index:2;color:var(--falcon-500)}.chat-file-upload:hover,.chat-file-upload:focus{color:var(--falcon-600)}.btn-message-submit{position:absolute;right:3.938rem;top:.1875rem}.btn-send{z-index:2;padding:0;background-color:transparent;color:var(--falcon-500);outline:none !important;margin-right:1rem}.chat-editor-area{border-top:1px solid var(--falcon-border-color);display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;width:100%}.chat-editor-area .emoji-icon{padding:0 .25rem;margin-right:.5rem;cursor:pointer;color:var(--falcon-500)}.chat-editor-area .emoji-icon:hover,.chat-editor-area .emoji-icon:focus{color:var(--falcon-600) !important}.chat-editor-area .emojiarea-editor{padding:.3rem 1rem;
+        -webkit-box-flex:1;-ms-flex:1;flex:1;font-size:14px;max-height:6.25rem;overflow:auto;word-break:break-all;-webkit-box-shadow:var(--falcon-box-shadow-inset);box-shadow:var(--falcon-box-shadow-inset)}.chat-editor-area .emojiarea-editor[contenteditable=true]:empty:before{content:attr(placeholder);pointer-events:none;color:var(--falcon-400)}.chat-option{color:var(--falcon-400)}.chat-option:hover,.chat-option:focus{color:var(--falcon-primary)}@media(min-width: 576px){.contacts-list{height:calc(100% - 2.063rem)}.conversation-scroll-area{height:calc(100% - 2.188rem)}.card-chat{height:calc(100vh - 4.3125rem - 3.9875rem)}}@media(min-width: 768px){.chat-sidebar{position:relative;height:100%;top:0;left:0 !important;width:auto;-webkit-transition:none;-o-transition:none;transition:none}}@media(min-width: 992px){.chat-sidebar{-webkit-box-flex:0;-ms-flex:0 0 17.5rem;flex:0 0 17.5rem;max-width:17.5rem}}@media(min-width: 1540px){.chat-sidebar{-webkit-box-flex:0;-ms-flex:0 0 21.88rem;flex:0 0 21.88rem;max-width:21.88rem}}.safari .contacts-list{height:calc(100% - 2.063rem)}.safari .contacts-search-wrapper{height:2.125rem}.ipad .card-chat .btn-falcon-default:hover:not(.disabled):not(:disabled),[data-list] .page:hover:not(.disabled):not(:disabled),.btn-falcon-default:focus:not(.disabled):not(:disabled),[data-list] .page:focus:not(.disabled):not(:disabled){color:var(--falcon-btn-falcon-default-hover-color);-webkit-box-shadow:var(--falcon-btn-falcon-hover-box-shadow);box-shadow:var(--falcon-btn-falcon-hover-box-shadow)}.btn-falcon-default:active,[data-list]
+</style>
+
+
 {% endblock madals %}
 
+{% block footer %}
+
+{% endblock footer %}

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
@@ -212,10 +213,19 @@ def list_contacts(request):
     }
     return render(request, 'administration/pages/contacts/list.html', context)
 
-def list_messages(request):
-    messages = Message.objects.all().order_by('-date')
+def list_messages(request, message_pk):
+    messages = Message.objects.all().order_by('read')
+    try :
+        message = Message.objects.get(id = int(message_pk))
+        message_edit = Message.objects.filter(id = int(message_pk))
+        message_edit.update(read = 1)
+    except :
+        message = None
+        if  message_pk != "inbox" :
+            return HttpResponse(status=404)
     context = {
-        "messages" : messages
+        "messages_all" : messages,
+        "message_display" : message
     }
     return render(request, 'administration/pages/contacts/messages.html', context)
 

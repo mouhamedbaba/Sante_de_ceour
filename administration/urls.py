@@ -10,7 +10,7 @@ urlpatterns = [
     path('events/', events, name='events'),
     path('event/<int:event_pk>', event_details, name='event_details'),
     path('contacts/', list_contacts, name='contacts'),
-    path('messages/', list_messages, name='messages'),
+    path('messages/<str:message_pk>', list_messages, name='messages_url'),
     path('newsletters/', list_newsletters, name='newsletters'),
     
     #  functions
