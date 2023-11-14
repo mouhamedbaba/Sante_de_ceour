@@ -20,14 +20,12 @@
         </div>
 
         <div class="col-lg-6 col-12">
-            <div class="input-group input-group-file">
-                <input type="file" class="form-control" id="id_cv" name="cv">
-
-                <label class="input-group-text" for="id_cv">Votre CV</label>
-
-                <i class="bi-cloud-arrow-up ms-auto"></i>
-            </div>
+            <label  for="id_cv" class="form-control d-flex justify-content-between btn">
+                Votre cv <span class="fas fa-upload" ></span>
+            <input  type="file" class="d-none" id="id_cv" name="cv" required>
+            </label>
         </div>
+    
     </div>
 
     <textarea name="comment" rows="3" class="form-control" id="id_comment"

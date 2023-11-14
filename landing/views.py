@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from administration.models import Collect
+from administration.models import Collect, EvenementCampagne
 from administration.forms import NewslettersForm, MessageForm, VolunteerForm
 from administration.models import Newsletters, Volunteer, Contacts
 from django.contrib import messages
@@ -8,8 +8,10 @@ from django.contrib import messages
 
 def home(request):
     collects = Collect.objects.filter(confirmer = 1, posted = 1, is_amount_reached = 0).order_by('-created_at')[:3]
+    campagnes = EvenementCampagne.objects.all().order_by('-created_at')[:2]
     context = {
-        'collects' : collects
+        'collects' : collects,
+        'campagnes' : campagnes
     }
     return render(request, 'landing/pages/index.html', context)
 
@@ -34,7 +36,7 @@ def newsletter(request):
                 
             else :
                 message_error = "Une erreur est survenue, veuillez reessayer"
-                messages.error(request, message_error)
+                messages.error(request, newsletterForm.errors)
                 
     return redirect('index')
 

@@ -6,4 +6,5 @@ register = template.Library()
 def percent(valeur, total):
     if total == 0:
         return 0
-    return (valeur / total) * 100
+    val =  (valeur / total) * 100
+    return val

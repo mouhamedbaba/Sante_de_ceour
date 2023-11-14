@@ -1,18 +1,26 @@
 $('document').ready(function () {
-  function openConfirmModal(on, action, message, description) {
+  function openConfirmModal(on="", action="", message , description) {
     $('#confirmMessage').text(message);
     $('#confirmDescription').text(description);
     $('#confirmButton').on('click', function () {
-      if (on === 'admin') {
-        $.get('/sante/admin/' + pk + '/' + action, function (data) {
-          location.reload();
-        });
-      } else if (on === 'collect') {
-        $.get('/sante/collect/' + pk + '/' + action, function (data) {
-          location.reload();
-        });
+      switch (on) {
+        case 'admin':
+          $.get('/sante/admin/' + pk + '/' + action, function (data) {
+            location.reload();
+          });
+          break;
+        case 'collect':
+          $.get('/sante/admin/' + pk + '/' + action, function (data) {
+            location.reload();
+          });
+        case 'avatar':
+          $.get('/sante/profile/avatar/delete', function (data) {
+            location.reload();
+          });
+          break;
+        default:
+          break;
       }
-
       $('#confirmModal').modal('hide');
     });
     $('#confirmModal').modal('show');
@@ -51,5 +59,9 @@ $('document').ready(function () {
   $('.unpost_collect').on('click', function () {
     pk = $(this).data('id-collect');
     openConfirmModal('collect','unpost', 'Etes-vous sûr de  vouloir depublier ?', 'La collecte  sera retire de la plateforme publique.');
+  });
+
+  $('.delete_avatar').on('click', function () {
+    openConfirmModal('avatar',message='Cette action est irreversible ?', description='Votre avatar sera definitivment suprimé !');
   });
 });

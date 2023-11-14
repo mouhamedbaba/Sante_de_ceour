@@ -7,45 +7,36 @@
 <div class="container-xxl flex-grow-1 container-p-y">
 
     {% if user.is_superuser %}
-
-    <div class="d-md-flex justify-content-between">
-      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Admins </h4>
-      {% if messages %}
-      <div class="alert alert-success alert-dismissible" role="alert">
-        {{ messages }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      {% endif %}
-    </div>
       <div class="card" id="TableCrmRecentLeads" data-list='{"valueNames":["name","email","status"],"page":8,"pagination":true}'>
         <div class="card-body px-0 py-0">
           <div class="table-responsive scrollbar ">
-            <table class="table fs--1 mb-0 table-striped">
+            <table class="table fs--1 mb-0 table-striped overflow">
               <thead class="bg-200 text-800">
                 <tr>
-                  <th class="py-3 white-space-nowrap" style="max-width: 30px;">
-                    <div class="form-check mb-0 d-flex align-items-center"><input class="form-check-input" id="checkbox-bulk-leads-select" type="checkbox" data-bulk-select='{"body":"table-recent-leads-body","actions":"table-recent-leads-actions","replacedElement":"table-recent-leads-replace-element"}' /></div>
-                  </th>
-                  <th class="sort align-middle" data-sort="name">Name</th>
-                  <th class="sort align-middle" data-sort="email">Email and Phone</th>
+                  <th class="sort align-middle" data-sort="name">Nom</th>
+                  <th class="sort align-middle" data-sort="email">Email</th>
                   <th class="sort align-middle" data-sort="status">Status</th>
-                  <th class="sort align-middle text-end">Action</th>
+                  <th class="sort align-middle text-end">Actions</th>
                 </tr>
               </thead>
               <tbody class="list" id="table-recent-leads-body">
               {% for admin in admins %}
                 <tr class="hover-actions-trigger btn-reveal-trigger hover-bg-100">
-                  <td class="align-middle" style="max-width: 30px;">
-                    <div class="form-check mb-0"><input class="form-check-input" type="checkbox" id="recent-leads-0" data-bulk-select-row="data-bulk-select-row" /></div>
-                  </td>
-                  <td class="align-middle white-space-nowrap"><a href="../pages/user/profile.html">
-                      <div class="d-flex align-items-center">
+                  <td class="align-middle white-space-nowrap"><a href="{% if user.pk == admin.pk %}
+                  {% url "profile" %}
+                  {% else %}
+                  {% endif %}">
+                      <div class="d-flex align-items-center"> 
                         <div class="avatar avatar">
 
-                          {% if avatar %}
-                    <img src="{{ avatar.avatar.url }}" alt="Avatar" class="rounded-circle" />
-                    {% else %}
-                    <img src="{{ site.avatar.url }}" alt="Avatar" class="rounded-circle" />
+                    {% if avatars %}
+                    {% for item in avatars %}
+                    {% if item.user == admin %}
+                    {% if item.avatar %}
+                    <img src="{{ item.avatar.url }}" alt="Avatar" class="rounded-circle" />
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
                     {% endif %}
                         </div>
                         <h6 class="mb-0 ps-2 text-800 name">
@@ -80,14 +71,24 @@
                   <td class="align-middle white-space-nowrap text-end position-relative">
                     <div class="dropdown font-sans-serif btn-reveal-trigger"><button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal-sm transition-none hide-arrow" type="button" id="crm-recent-leads-0" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
                       <span class="fas fa-ellipsis-h fs--2"></span></button>
-                      <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="crm-recent-leads-0"><a class="dropdown-item text-info" href="#!"><span class="fas fa-pen me-1"></span>Editer</a>
+                      <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="crm-recent-leads-0"><a class="dropdown-item text-info btn_edit_user" href="#!" 
+                        data-bs-target="#edituserModal"
+                        data-bs-toggle="modal" 
+                        data-pk = {{ admin.pk }}
+                        data-username = {{ admin.username }}
+                        data-email = {{ admin.email }}
+                        data-first-name = {{ admin.first_name }}
+                        data-last-name = {{ admin.last_name }}
+                        data-staff = {{ admin.is_staff }}
+                        data-superuser = {{ admin.is_superuser }}
+                        ><span class="fas fa-pen me-1"></span>Editer</a>
                         {% if not admin.is_active %}
                       
-                      <a class="dropdown-item text-success activate_admin" href="#!" data-id-admin = {{ admin.pk }}><span class="fas fa-check-circle me-1"></span>Activer</a>
+                      <button class="dropdown-item text-success activate_admin" role="button" data-id-admin = {{ admin.pk }}><span class="fas fa-check-circle me-1"></span>Activer</button>
                         {% else %}
-                        <a class="dropdown-item text-warning desable_admin" href="#!" data-id-admin = {{ admin.pk }}><span class="fas fa-times-circle me-1"></span>Desactiver</a>
+                        <button class="dropdown-item text-warning desable_admin" role="button" data-id-admin = {{ admin.pk }}><span class="fas fa-times-circle me-1"></span>Desactiver</button>
                         {% endif %}
-                        <div class="dropdown-divider"></div><a class="dropdown-item text-danger delete_admin" href="#!" data-id-admin = {{ admin.pk }}><span class="fas fa-trash-alt me-1"></span>Supprimer</a>
+                        <div class="dropdown-divider"></div><button class="dropdown-item text-danger delete_admin" role="button" data-id-admin = {{ admin.pk }}><span class="fas fa-trash-alt me-1"></span>Supprimer</button>
                       </div>
                     </div>
                   </td>
@@ -97,23 +98,7 @@
             </table>
           </div>
         </div>
-        <div class="card-footer bg-light p-2">
-          <div class="pagination d-flex justify-content-end px-4">
-            <div class="shadow rounded-circle p-2">
-            <span class="fas fa-chevron-left"></span>
-            </div>
-            <div class="shadow rounded-pill mx-2 p-2">
-              <span class="fas fa-chevron-right"></span>
-              </div>
-          </div>
-        </div>
       </div>
-
-
-
-        
-      <!--/ Striped Rows -->
-      <hr class="my-5" />
     {% else %}
     <div class="container-xxl container-p-y">
       <div class="misc-wrapper">
@@ -156,4 +141,5 @@
 
 {% block madals %}
 {% include "administration/components/addusermodal.html" %}
+{% include "administration/components/editusermodal.html" %}
 {% endblock madals %}

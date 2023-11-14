@@ -8,6 +8,9 @@ from urllib.request import Request, urlopen
 from django.views.decorators.csrf import csrf_exempt
 from paiement.models import NotificationPayTech
 from administration.models import DonCollect
+import uuid
+from django.contrib import messages
+
 @csrf_exempt
 def paiement_view(request):
     if request.POST:
@@ -27,17 +30,19 @@ def paiement_view(request):
         
         currency = "XOF"
         
-        import uuid
         command_ref = str(uuid.uuid4())
+        command_name = "DON"
+        ipn_url = "https://c592-41-82-64-150.ngrok-free.app/paiement/ipn"
+        env = 'test'
         
         data = {
             "item_name": item_name,
             "item_price": item_price,
             "currency": currency,
             "ref_command": command_ref,
-            "command_name": "Don",
-            "ipn_url": "https://c592-41-82-64-150.ngrok-free.app/paiement/ipn",
-            "env": "test"
+            "command_name": command_name,
+            "ipn_url": ipn_url,
+            "env": env
         }
 
         headers = {
@@ -45,34 +50,45 @@ def paiement_view(request):
             "api_key": "fc133da925f15d32ac8f902374cf18798d9d495ad46f39b0f1f97112a5d1bb33",
             "api_secret": "cb904f3c41e8e8a3cf49deb8f9c0ecc06d44b23b9ce0754cc00eef7951ec1d8b"
         }
+        
+        print(data)
+        
+        with open('data.json', 'w') as f :
+            json.dump(data, f, indent = 2)
+            
 
         url = "https://paytech.sn/api/payment/request-payment?"
+        
         data = json.dumps(data).encode('utf-8')
-        req = Request(url, data=data, headers=headers, method='POST')
-        response = urlopen(req)
+        print(data)
+        try : 
+            req = Request(url, data=data, headers=headers, method='POST')
+            response = urlopen(req)
+            if response.getcode() == 200:
+                response_data = json.loads(response.read())
+                success = response_data.get("success")
 
-        if response.getcode() == 200:
-            response_data = json.loads(response.read())
-            success = response_data.get("success")
+                if success == 1:
+                    if collect_pk :
+                        try :
+                            don = DonCollect(collect = collect_pk, amount = item_price, payement_method = "", donneur_email = request.POST['donation-email'], donneur_name = request.POST['donation-name'], confirmed = False)
+                            don.save()
+                        except :
+                            print("don non saved")
+                    else :
+                        print("don non reussi")
+                    redirect_url = response_data.get("redirect_url")
+                    return redirect(redirect_url)
 
-            if success == 1:
-                if collect_pk :
-                    try :
-                        don = DonCollect(collect = collect_pk, amount = item_price, payement_method = "", donneur_email = request.POST['donation-email'], donneur_name = request.POST['donation-name'], confirmed = False)
-                        don.save()
-                    except :
-                        print("don non saved")
-                else :
-                    print("don non reussi")
-                redirect_url = response_data.get("redirect_url")
-                return redirect(redirect_url)
+                else:
+                    return HttpResponse(f"La transaction a échoué :{ response_data}")
 
             else:
-                return HttpResponse(f"La transaction a échoué :{ response_data}")
-
-        else:
-            return HttpResponse("La requête a échoué : " + response.read(), status=response.getcode())
-
+                return HttpResponse("La requête a échoué : " + response.read(), status=response.getcode())
+        except :
+            message = "Une erreur s'est produite lors de l'operation , veuiller reesayer ou  faite le don directement au 770934213"
+            messages.warning(request, message)
+            return redirect('index')
 
 # Create your views here.
 

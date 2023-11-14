@@ -32,6 +32,8 @@
 
     <!-- Icons. Uncomment required icon fonts -->
  <!-- Icons. Uncomment required icon fonts -->
+ <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}" />
+
  <link rel="stylesheet" href="{% static 'sneat/assets/vendor/fonts/boxicons.css' %}" />
 
  <!-- Core CSS -->
@@ -60,6 +62,32 @@
     <!-- Content -->    
     <div class="container-xxl">
       <div class="authentication-wrapper authentication-basic container-p-y">
+        {% if messages %}
+        {% for message in messages %}            
+        <div
+        class="bs-toast fade toast top-0 end-0 m-2 show {% if message.tags == 'success' %}
+        bg-success
+        {% elif message.tags == 'warning' %}
+        bg-warning
+        {% elif message.tags == 'error' %}
+        bg-danger
+        {% endif %}"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        data-delay="2000"
+        style="position:fixed;"
+      >
+        <div class="toast-header">
+          <i class="bx bx-bell me-2"></i>
+          <div class="me-auto fw-semibold">{{ message.tags }}</div>
+          <small>maintenant</small>
+          <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">{{message}}</div>
+      </div>
+      {% endfor %}
+      {% endif %}
         <div class="authentication-inner">
           <!-- Register -->
           {% if message %}
@@ -87,19 +115,19 @@
               <form id="formAuthentication" class="mb-3" action="" method="POST">
                 {% csrf_token %}
                 <div class="mb-3">
-                  <label for="id_username" class="form-label">Email or Username</label>
+                  <label for="id_username" class="form-label">Email Ou Nom d'utilisateur</label>
                   <input
                     type="text"
                     class="form-control"
                     id="id_username"
                     name="username"
-                    placeholder="Enter your email or username"
+                    placeholder="email ou nom d'utilisateur"
                     autofocus
                   />
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <div class="d-flex justify-content-between">
-                    <label class="form-label" for="id_password">Password</label>
+                    <label class="form-label" for="id_password">Mot de passe</label>
                     <a href="auth-forgot-password-basic.html">
                       <small>Mot de passe oublié ?</small>
                     </a>
@@ -133,10 +161,10 @@
               <div class="row">
                 <div class="col-sm-4 d-flex justify-content-center">
                   <img
-                  {% if avatar %}
+                  {% if avatar.avatar %}
                   src="{{avatar.avatar.url}}"
                   {% else %}
-                  src="{{site.avatar.url}}"
+                  src="{% static 'avatar.png' %}"
                   {% endif %}
                   
                   alt="user-avatar"

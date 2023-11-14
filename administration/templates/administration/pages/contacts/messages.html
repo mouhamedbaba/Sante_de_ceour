@@ -27,10 +27,10 @@
                 </div>
               </div> 
             </div>{% endcomment %}
-            <a href="{% url "messages_url" message.pk %}" class="px-3 d-flex justify-content-between bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %} border-top shadow border-bottom {% endif %} ">
+            <a href="{% url "messages_url" message.pk %}" class="px-3 d-flex justify-content-between bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %} border-top shadow border-bottom  {% endif %} ">
               <div class="d-flex">
               <div class="avatar avatar status-online">
-                <img class="rounded-circle" src="{{ site.avatar.url }}" alt="" />
+                <img class="rounded-circle" src="{% static 'avatar.png' %}" alt="" />
               </div>
               <div class="flex-1 chat-contact-body ms-2 d-md-none d-lg-block">
                 <div class="d-flex justify-content-between">
@@ -70,7 +70,7 @@
             <div class="col-6 col-sm-8 d-flex align-items-center">
               <div class="min-w-0">
                 <div class="avatar avatar-2xl status-online me-3">
-                  <img class="rounded-circle" src="{{  site.avatar.url }}" alt="" />
+                  <img class="rounded-circle" src="{% static 'avatar.png' %}" alt="" />
                 </div>
                 <div class="flex-1 mt-2">
                   <h6 class="mb-0">
@@ -96,7 +96,7 @@
                   <div class="">
                     <div class=" bg-200 p-2 rounded-2">
                       {{ message_display.content }}
-                      {% lorem 10 %}
+                      
                     </div>
                   </div>
                 </div>
@@ -131,9 +131,9 @@
                     </div>
                   </div> 
                 </div>{% endcomment %}
-                <a href="{% url "messages_url" message.pk %}" class="d-flex bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %} border-top shadow border-bottom {% endif %} ">
+                <a href="{% url "messages_url" message.pk %}" class="d-flex bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %}  border-top shadow border-bottom {% endif %} ">
                   <div class="avatar avatar status-online">
-                    <img class="rounded-circle" src="{{ site.avatar.url }}" alt="" />
+                    <img class="rounded-circle" src="{% static 'avatar.png' %}" alt="" />
                   </div>
                   <div class="flex-1 chat-contact-body ms-2 d-md-none d-lg-block">
                     <div class="d-flex justify-content-between">
@@ -173,7 +173,7 @@
                   </a>
                   <div class="min-w-0">
                     <div class="avatar avatar-2xl status-online me-3">
-                      <img class="rounded-circle" src="{{  site.avatar.url }}" alt="" />
+                      <img class="rounded-circle" src="{% static 'avatar.png' %}" alt="" />
                     </div>
                     <div class="flex-1 mt-2">
                       <h6 class="mb-0">
@@ -200,7 +200,7 @@
                       <div class="">
                         <div class=" bg-200 p-2 rounded-2">
                           {{ message_display.content }}
-                          {% lorem 10 %}
+                          
                         </div>
                       </div>
                     </div>

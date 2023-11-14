@@ -2,20 +2,11 @@
 {% load static %}
 {% block main %}
 <div class="container-xxl flex-grow-1 container-p-y">
-    <div class="d-md-flex justify-content-between">
-      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Collectes </h4>
-      {% if message %}
-      <div class="alert alert-success alert-dismissible" role="alert">
-        {{ message }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
-      {% endif %}
-    </div>
-    <hr class="" />
         <div class="nav-align-top mb-4">
           <ul class="nav nav-pills mb-3 nav-fill" role="tablist">
-            <li class="nav-item">
+            <li class="nav-item " data-color="bg-label-warning" data-id="en_attente" >
               <button
+                id="en_attente"
                 type="button"
                 class="nav-link fw-bold btn-warning"
                 role="tab"
@@ -24,11 +15,12 @@
                 aria-controls="navs-pills-justified-home"
                 aria-selected="true"
               >
-                En attente  <span class="fas fa-hourglass mx-1 text-warning "></span>
+                En attente  <span class="fas fa-hourglass "></span>
               </button>
             </li>
-            <li class="nav-item">
+            <li class="nav-item"  data-color="bg-label-info" data-id="en_cours" >
               <button
+                id="en_cours"
                 type="button"
                 class="nav-link fw-bold btn-info"
                 role="tab"
@@ -36,12 +28,14 @@
                 data-bs-target="#navs-pills-justified-profile"
                 aria-controls="navs-pills-justified-profile"
                 aria-selected="false"
+                
               >
-                </i> En cours <span class="fas fa-rotate-left mx-1 text-info"></span>
+                </i> En cours <span class="fas fa-rotate-left mx-1"></span>
               </button>
             </li>
-            <li class="nav-item">
+            <li class="nav-item"  data-color="bg-label-success" data-id="complet" >
               <button
+                id="complet"
                 type="button"
                 class="nav-link fw-bold btn-success"
                 role="tab"
@@ -50,7 +44,7 @@
                 aria-controls="navs-pills-justified-messages"
                 aria-selected="false"
               >
-               Bouclées <span class="fas fa-check mx-1 text-success"></span>
+               Bouclées <span class="fas fa-check mx-1"></span>
               </button>
             </li>
           </ul>
@@ -307,6 +301,19 @@
 
 <script>
     $('.collects').addClass('active')
+    $('.nav-item').on('click', function(){
+      bg = $(this).data('color')
+      id = $(this).data('id')
+      $('#'+id).addClass(bg)
+      if (id === 'en_attente'){
+        $('.nav-link').removeClass('bg-label-success bg-label-info')
+      } else if(id === 'en_cours'){
+        $('.nav-link').removeClass('bg-label-success bg-label-warning')
+      } else if (id === 'complet'){
+        $('.nav-link').removeClass('bg-label-info bg-label-warning')
+      }
+    }
+    )
 </script>
 
 {% endblock main %}

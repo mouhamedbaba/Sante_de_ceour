@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.models import  User
 from django.contrib.auth.forms import UserCreationForm
 from .models import *
+from avatar.models import Avatar
 
 class AddUserForm(UserCreationForm):
     
@@ -14,7 +15,13 @@ class EditUserForm(forms.ModelForm):
     
     class Meta:
         model = User
-        fields = ('__all__')
+        fields = ('username', "first_name", "last_name", "email", 'is_superuser', 'is_staff')
+class AvatarForm(forms.ModelForm):
+    
+    class Meta:
+        model = Avatar
+        fields = ('primary', 'user', 'avatar')
+
 
 class AddCollectForm(forms.ModelForm):
     
@@ -46,7 +53,7 @@ class NewslettersForm(forms.ModelForm):
     
     class Meta:
         model = Newsletters
-        fields = ("__all__")
+        fields = ("email",)
 
 class MessageForm(forms.ModelForm):
     

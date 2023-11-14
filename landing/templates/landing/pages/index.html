@@ -335,10 +335,12 @@
                 </div>
 
                 <div class="col-lg-7 col-12">
+                    {% for campagne in campagnes %}
+                    
                     <div class="news-block">
                         <div class="news-block-top">
                             <a href="#">
-                                <img src="{% static "landing/images/news/medium-shot-volunteers-with-clothing-donations.jpg" %}"
+                                <img src="{{ campagne.image.url }}"
                                     class="news-image img-fluid" alt="">
                             </a>
 
@@ -358,14 +360,14 @@
                                 <div class="news-block-date">
                                     <p>
                                         <i class="bi-calendar4 custom-icon me-1"></i>
-                                        samedi
+                                        {{ campagne.created_at }}
                                     </p>
                                 </div>
 
                                 <div class="news-block-author mx-5">
                                     <p>
                                         <i class="bi-person custom-icon me-1"></i>
-                                        Par Admin
+                                        {{ campagne.created_by }}
                                     </p>
                                 </div>
 
@@ -378,73 +380,15 @@
                             </div>
 
                             <div class="news-block-title mb-2">
-                                <h4><a href="#" class="news-block-title-link">Don de vetements</a></h4>
+                                <h4><a href="#" class="news-block-title-link">{{ campagne.titre|capfirst }}</a></h4>
                             </div>
 
                             <div class="news-block-body">
-                                <p>Lorem Ipsum dolor sit amet, consectetur adipsicing kengan omeg kohm tokito
-                                    Professional charity theme based on Bootstrap</p>
+                                <p>{{ campagne.description }}</p>
                             </div>
                         </div>
                     </div>
-
-                    <div class="news-block mt-3">
-                        <div class="news-block-top">
-                            <a href="#">
-                                <img src="{% static "landing/images/news/medium-shot-people-collecting-foodstuff.jpg" %}"
-                                    class="news-image img-fluid" alt="">
-                            </a>
-
-                            <div class="news-category-block">
-                                <a href="#" class="category-block-link">
-                                    Aliments,
-                                </a>
-
-                                <a href="#" class="category-block-link">
-                                    Don,
-                                </a>
-
-                                {% comment %} <a href="#" class="category-block-link">
-                                    Caring
-                                </a> {% endcomment %}
-                            </div>
-                        </div>
-
-                        <div class="news-block-info">
-                            <div class="d-flex mt-2">
-                                <div class="news-block-date">
-                                    <p>
-                                        <i class="bi-calendar4 custom-icon me-1"></i>
-                                        Dimanche
-                                    </p>
-                                </div>
-
-                                <div class="news-block-author mx-5">
-                                    <p>
-                                        <i class="bi-person custom-icon me-1"></i>
-                                        Par Admin
-                                    </p>
-                                </div>
-
-                                <div class="news-block-comment">
-                                    <p>
-                                        <i class="bi-chat-left custom-icon me-1"></i>
-                                        35 Commentaires
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="news-block-title mb-2">
-                                <h4><a href="#" class="news-block-title-link">Don de Nourriture</a>
-                                </h4>
-                            </div>
-
-                            <div class="news-block-body">
-                                <p>Sed leo nisl, posuere at molestie ac, suscipit auctor mauris. Etiam quis metus
-                                    elementum, tempor risus vel, condimentum orci</p>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <div class="col-lg-4 col-12 mx-auto">

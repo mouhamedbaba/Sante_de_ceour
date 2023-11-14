@@ -21,6 +21,10 @@
           </div>
         </div>
       </div>
+      <div class="d-none">
+        <input name="created_by" value="{{ user.pk }}" >
+        <input name="participant" value="0" >
+      </div>
       <div class="card cover-image mb-3">
         <div  class=" custom-file-upload-event p-5 d-flex justify-content-center align-item-center h-100">
             <input class="d-none" type="file" name="image" id="id_image_event" accept="image/*" required>
@@ -42,15 +46,15 @@
             </div>
             <div class="card-body bg-light">
                 <div class="row gx-2">
-                  <div class="col-12 mb-3"><label class="form-label" for="event-name">Titre</label><input class="form-control" id="event-name" type="text" placeholder="Titre de l'evenement" /></div>
-                  <div class="col-sm-6 mb-3"><label class="form-label" for="start-date">Date de Debut</label><input class="form-control" id="start-date" type="datetime-local" placeholder="J/M/A _.._ H:i"  /></div>
-                  <div class="col-sm-6 mb-3"><label class="form-label" for="start-time">Date de Fin</label><input class="form-control" id="start-time" type="datetime-local" placeholder="J/M/A _.._ H:i"  /></div>
+                  <div class="col-12 mb-3"><label class="form-label" for="titre">Titre</label><input class="form-control" id="titre" name="titre" type="text" placeholder="Titre de l'evenement" /></div>
+                  <div class="col-sm-6 mb-3"><label class="form-label" for="date_debut">Date de Debut</label><input class="form-control" id="date_debut" name="date_debut" type="datetime-local" placeholder="J/M/A _.._ H:i"  /></div>
+                  <div class="col-sm-6 mb-3"><label class="form-label" for="date_fin">Date de Fin</label><input class="form-control" id="date_fin" name="date_fin" type="datetime-local" placeholder="J/M/A _.._ H:i"  /></div>
                  
                   <div class="col-12">
                     <div class="border-dashed-bottom my-3"></div>
                   </div>
-                  <div class="col mb-3"><label class="form-label" for="event-address">Lieu</label><input class="form-control" id="event-address" type="text" placeholder="Lieu de l'evenement" /></div>
-                  <div class="col-12"><label class="form-label" for="event-description">Description</label><textarea class="form-control" id="description" rows="6"></textarea></div>
+                  <div class="col mb-3"><label class="form-label" for="lieu">Lieu</label><input class="form-control" id="lieu" name="lieu" type="text" placeholder="Lieu de l'evenement" /></div>
+                  <div class="col-12"><label class="form-label" for="description">Description</label><textarea class="form-control" id="description" name="description" rows="6"></textarea></div>
                 </div>
             </div>
           </div>
@@ -66,24 +70,19 @@
                   <div class="d-flex flex-between-center"><label class="form-label" for="organizer">Organisateurs</label>
                 </div>
                 <select class=" form-control" id="organizer" multiple="multiple" name="organizer">
-                    <option>Massachusetts Institute of Technology</option>
-                    <option>University of Chicago</option>
-                    <option>GSAS Open Labs At Harvard</option>
-                    <option>California Institute of Technology</option>
+                  {% for organisateur in organisateurs %}
+                  <option value="{{organisateur.pk}}">{{ organisateur.username }}</option>
+                  {% endfor %}
                   </select>
                   <p class="form-help form-text" >Maintenez la touche CTRL pour sélectionner plusieurs</p>
                 </div>
                 
-                <div class="mb-3"><label class="form-label" for="event-type">type d'evenement</label><select class="form-select" id="event-type" name="event-type">
-                    <option>Selectionner un type d'evenement</option>
-                    <option>Class, Training, or Workshop</option>
-                    <option>Concert or Performance</option>
-                    <option>Conference</option>
-                    <option>Convention</option>
-                    <option>Dinner or Gala</option>
-                    <option>Festival or Fair</option>
+                <div class="mb-3"><label class="form-label" for="event-type">type d'evenement</label><select class="form-select" id="event-type" name="type_evenement">
+                    {% for type in type_events %}
+                    <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
                   </select></div>   
-                  <div class="col-12"><label class="form-label" for="event-description">Objectifs</label><textarea class="form-control" id="event-description" rows="6"></textarea></div>
+                  <div class="col-12"><label class="form-label" for="objectifs">Objectifs</label><textarea class="form-control" name="objectifs" id="objectifs" rows="6"></textarea></div>
 
               </div>
             </div>
@@ -139,7 +138,7 @@
         .css("display", "none");    
       $("#upload-label-event").css("display", "block");
       $("#image-container-event").css("display", "none");
-      $("#id_image_event").val(""); // Réinitialise le champ d'envoi d'image
+      $("#id_image_event").val("");
     });
   </script>
 

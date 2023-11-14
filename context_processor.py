@@ -8,11 +8,14 @@ def all_context(request):
     except Site.DoesNotExist :
         site = None
     try :
-        avatar = Avatar.objects.get(pk = user.pk)
+        avatar = Avatar.objects.get(user = user.pk, primary = 1)
+        print(avatar)
     except Avatar.DoesNotExist :
         avatar = None
+        print(avatar)
     context = {
         'avatar' : avatar,
-        'site' : site
+        'site' : site,
+        'path' : request.path
     }
     return context

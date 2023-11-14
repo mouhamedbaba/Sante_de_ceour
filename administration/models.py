@@ -105,7 +105,7 @@ class DonCollect(models.Model):
         verbose_name_plural = ("Dons de collect")
 
     def __str__(self):
-        return self.pk
+        return self.donneur_email
 
 
         
@@ -114,10 +114,7 @@ class DonCollect(models.Model):
 
 class EvenementCampagne(models.Model):
     
-    types_evenement = [
-        ('Don de sande', 'Don de sande'),
-        ('campagne medical', 'campagne medical'),
-    ]
+
     
     
     titre = models.CharField(max_length=200)
@@ -129,7 +126,7 @@ class EvenementCampagne(models.Model):
     lieu = models.CharField(max_length=200)
     objectifs = models.TextField()
     image = models.ImageField(upload_to='campages/')
-    type_evenement = models.CharField(max_length=50, choices=types_evenement)
+    type_evenement = models.CharField(max_length=50)
     participant = models.IntegerField(default=0)
     custom_fields = models.JSONField(blank=True, null=True)
     # lien_inscription = models.URLField(blank=True, null=True)
@@ -160,8 +157,10 @@ class Volunteer(models.Model):
         
 class Newsletters(models.Model):
 
+    
     date = models.DateField(auto_now_add=True)
     email = models.EmailField(max_length=254, unique=True)
+    status = models.CharField(max_length=50, default="abonne")
     
     
     def __str__(self):

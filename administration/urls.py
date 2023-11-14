@@ -1,10 +1,10 @@
 from django.urls import path
 from .views import *
-
 urlpatterns = [
     # pages
     path('', home, name ='home'),
-    path('admins', admins, name = 'admins'),
+    path('admins', admins, name='admins'),
+    path('profile', profile, name='profile'),
     path('collects/', collects, name='collects'),
     path('collect/<int:collect_pk>', details_collect, name='details_collect'),
     path('events/', events, name='events'),
@@ -16,8 +16,15 @@ urlpatterns = [
     #  functions
     path('admin/<int:admin_pk>/<str:action>', admins_actions, name='actions'),
     path('adduser/', addUser, name='adduser'),
+    path('edit/<int:pk>', editUser, name='edituser'),
     path('collect/<int:collect_pk>/<str:action>', action_collects, name = 'collect_action'),
     path('addcollect', addCollect, name = 'addcollect'),
     path('add_don', donCollect, name = 'add_don'),
-    path('event/add', create_event, name = "create_event")
+    path('event/create', create_event, name = "create_event"),
+    path('newsletters/delete/<int:pk>', delete_newsletters, name = "delete_newsletters"),
+    path('profile/avatar/delete', delete_avatar, name ="delete_avatar"),
+    
+    # export 
+    path('newsletters/export/<str:type>', exportEmails, name = "export_emails"),
+    
 ]

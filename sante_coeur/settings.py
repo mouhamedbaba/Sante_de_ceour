@@ -36,7 +36,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://c592-41-82-64-150.ngrok-free.app", "http://localhost:8000"
 ]
 
-CSRF_COOKIE_DOMAIN = 'https://c592-41-82-64-150.ngrok-free.app',  "http://localhost:8000"
+CSRF_COOKIE_DOMAIN = "localhost" 
 
 # Application definition
 
@@ -104,20 +104,20 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
-AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-]
+        # AUTH_PASSWORD_VALIDATORS = [
+        #     {
+        #         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        #     },
+        #     {
+        #         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        #     },
+        #     {
+        #         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        #     },
+        #     {
+        #         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        #     },
+        # ]
 
 
 # Internationalization

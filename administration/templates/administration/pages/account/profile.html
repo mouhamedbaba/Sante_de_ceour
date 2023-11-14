@@ -1,0 +1,260 @@
+{% extends "bases/sneat.html" %}
+{% load static %}
+{% block main %}
+    <script  src="{% static 'sneat/js/list.min.js' %}"></script>
+
+{% comment %} <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script> {% endcomment %}
+<div class="container-xxl flex-grow-1 container-p-y">
+
+
+    <div class="row">
+        <div class="col-md-12">
+          <ul class="nav nav-pills flex-column flex-md-row mb-3">
+            <li class="nav-item">
+              <a class="nav-link active" href="javascript:void(0);"><i class="bx bx-user me-1"></i> Account</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages-account-settings-notifications.html"
+                ><i class="bx bx-bell me-1"></i> Notifications</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="pages-account-settings-connections.html"
+                ><i class="bx bx-link-alt me-1"></i> Connections</a
+              >
+            </li>
+          </ul>
+          <div class="card mb-4">
+            <form  method="POST" action="{% url 'edituser' user.pk %}" ,  enctype="multipart/form-data" id="edituserform">
+
+              {% csrf_token %}
+            <h5 class="card-header">Profile Details</h5>
+              <div class="d-none">
+            <input name="user" id="id_user" value={{ user.pk }} >
+            <input type="checkbox" name="primary" id="id_primary" checked>
+          </div>
+            <!-- Account -->
+            <div class="card-body">
+              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                <div>
+                <img
+                {% if avatar.avatar %}
+                src="{{ avatar.avatar.url }}"
+                alt="user-avatar"
+                {% else %}
+                src="{% static 'avatar.png' %}"
+                alt="default-user-avatar"
+                {% endif %}
+                  class="d-block rounded"
+                  height="100"
+                  width="100"
+                  id="uploadedAvatar"
+                />
+                <button role="button" type="button" class="btn shadow d-none mx-4 mt-2 p-2 btn-info "            
+                data-default-avatar-url = "{% static 'avatar.png' %}"
+                {% if avatar.avatar %}
+                
+                data-avatar-url = "{{ avatar.avatar.url }}" 
+                {% endif %}
+                
+                id="reset_avatar"><span class="fas fa-redo"></span></button>
+                </div>
+                <div class="button-wrapper">
+                {% if avatar.avatar %}
+                  <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
+                    <span class="d-none d-sm-block">Changer la photo</span>
+                    <i class="bx bx-upload d-block d-sm-none"></i>
+                    <input
+                      type="file"
+                      id="id_avatar"
+                      name="avatar"
+                      class=" d-none"
+                      accept="image/*"
+                    />
+                  </label>
+                  <button type="button" class="btn btn-danger account-image-reset mb-4 delete_avatar"  
+                  >
+                    <i class="fas fa-trash"></i>
+                  </button>
+                  {% else %}
+                  <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
+                    <span class="d-none d-sm-block">Ajouter une photo</span>
+                    <i class="bx bx-upload d-block d-sm-none"></i>
+                    <input
+                      type="file"
+                      id="id_avatar"
+                      name="avatar"
+                      class=" d-none"
+                      accept="image/*"
+                    />
+                  </label>
+                  {% endif %}
+                  <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                </div>
+                {% if user.is_superuser %}
+                <div class="row mt-3">
+                  <div class="col">
+                  <div class="form-check form-switch mb-2">
+                    <input class="form-check-input id_is_staff" type="checkbox" id="is_staff" name='is_staff' checked>
+                    <label class="form-check-label" for="id_is_staff"><span class="badge bg-label-primary me-1">Admin</span>
+                    </label>
+                  </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-check form-switch mb-2">
+                      <input class="form-check-input is_superuser" name='is_superuser' type="checkbox" id="is_superuser" checked>
+                      <label class="form-check-label" for="is_superuser"><span class="badge bg-label-success me-1">Superuser</span>
+                      </label>
+                    </div>
+                    </div>
+                </div>
+                {% else %}
+                <input class="form-check-input id_is_staff d-none" type="checkbox" id="is_staff" name='is_staff' checked>
+                {% endif %}
+                
+              </div>
+            </div>
+            <hr class="my-0" />
+            <div class="card-body">
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label for="username" class="form-label">Nom d'utilisateur</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="id_username"
+                      name="username"
+                      value="{{ user.username }}"
+                      
+                    />
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="email" class="form-label">E-mail</label>
+                    <input
+                      class="form-control"
+                      type="text"
+                      id="id_email"
+                      name="email"
+                      value="{{ user.email }}"
+                      placeholder="john.doe@example.com"
+                    />
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="first_name" class="form-label">Prenom</label>
+                    <input class="form-control" type="text" name="first_name" id="id_first_name" value="{{ user.first_name }}" />
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="last_name" class="form-label">Nom</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="id_last_name"
+                      name="last_name"
+                      value="{{ user.last_name }}"
+                    />
+                  </div>
+                  {% comment %} <div class="mb-3 col-md-6">
+                    <label class="form-label" for="phoneNumber">Phone Number</label>
+                    <div class="input-group input-group-merge">
+                      <span class="input-group-text">SEN (+221)</span>
+                      <input
+                        type="text"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        class="form-control"
+                        placeholder="33 123 45 67"
+                      />
+                    </div>
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="address" class="form-label">Address</label>
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+                  </div> {% endcomment %}
+                </div>
+                <div class="mt-2 d-flex justify-content-end">
+                  <button type="submit" class="btn btn-outline-success me-2 fw-bold end-0">Enrigistrer</button>
+                </div>
+              </div>
+              
+            </form>
+            <!-- /Account -->
+          </div>
+          <div class="card">
+            <h5 class="card-header">Desactiver mon Compte</h5>
+            <div class="card-body">
+              <div class="mb-3 col-12 mb-0">
+                <div class="alert alert-warning">
+                  <h6 class="alert-heading fw-bold mb-1">Etes vous sur de vouloir desactiver votre compte</h6>
+                  <p class="mb-0">Nous n'aurez plus acces a votre compte. Seul un autre Administrateur pourra le reactiver</p>
+                </div>
+              </div>
+              <form id="formAccountDeactivation" onsubmit="return false">
+                <div class="form-check mb-3">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="accountActivation"
+                    id="confirmDeactivateRadio"
+                  />
+                  <label class="form-check-label" for="accountActivation"
+                    >je confirme</label
+                  >
+                </div>
+                <a href="{% url "actions" user.pk 'desable' %}" type="submit" id="btnDeactivateAccount" class="btn btn-danger  disabled">Desactiver</a>
+              </form>
+            </div>
+          </div>
+    </div>
+
+
+</div>
+
+<script>
+    $('.profile').addClass('bg-label-primary')
+    radios = $('#confirmDeactivateRadio')
+    btn_deactivate = $('#btnDeactivateAccount')
+    radios.on("change", function() {
+      if (radios.prop("checked")) {
+        btn_deactivate.removeClass('disabled')
+      } else {
+        btn_deactivate.addClass('disabled')
+      }
+  });
+
+  $("#id_avatar").change(function() {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        $("#uploadedAvatar")
+          .attr("src", e.target.result)
+      };
+      reader.readAsDataURL(file);
+    }
+    $('#reset_avatar').removeClass('d-none')
+  });
+  $('#reset_avatar').click(function(e){
+    src_default = $(this).data('default-avatar-url')
+    src_avatar = $(this).data('avatar-url')
+    if (src_avatar){
+      $("#uploadedAvatar")
+      .attr("src", src_avatar)
+    } else {
+      $("#uploadedAvatar")
+      .attr("src", src_default)
+    }
+    $("#id_avatar").val('')
+    $('#reset_avatar').addClass('d-none')
+  })
+</script>
+{% endblock main %}
+
+{% block floting_button %}
+
+{% endblock floting_button %}
+
+
+{% block madals %}
+{% endblock madals %}
+
+

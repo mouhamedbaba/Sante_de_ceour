@@ -1,3 +1,4 @@
+{% load static %}
 <nav
 class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
 id="layout-navbar"
@@ -35,23 +36,23 @@ id="layout-navbar"
     <li class="nav-item navbar-dropdown dropdown-user dropdown">
       <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
         <div class="avatar avatar-online">
-          {% if avatar %}
+          {% if avatar.avatar   %}
                   <img src="{{ avatar.avatar.url }}" alt class="w-px-40 h-px-40 rounded-circle" />
                   {% else %}
-                  <img src="{{ site.avatar.url }}" alt class="w-px-40 h-px-40 rounded-circle" />
+                  <img src="{% static 'avatar.png' %}" alt class="w-px-40 h-px-40 rounded-circle" />
             {% endif %}
         </div>
       </a>
       <ul class="dropdown-menu dropdown-menu-end">
         <li>
-          <a class="dropdown-item" href="#">
+          <a class="dropdown-item" href="{% url "profile" %}">
             <div class="d-flex">
               <div class="flex-shrink-0 me-3">
                 <div class="avatar avatar-online">
-                  {% if avatar %}
+                  {% if avatar.avatar %}
                   <img src="{{ avatar.avatar.url }}" alt class="w-px-40 h-px-40 rounded-circle" />
                   {% else %}
-                  <img src="{{ site.avatar.url }}" alt class="w-px-40 h-px-40 rounded-circle" />
+                  <img src="{% static 'avatar.png' %}" alt class="w-px-40 h-px-40 rounded-circle" />
                   {% endif %}
                 </div>
               </div>
@@ -61,7 +62,13 @@ id="layout-navbar"
                 {% else %}
                 <span class="fw-semibold d-block">{{ user.username }}</span>
                 {% endif %}
-                <small class="text-muted">Admin</small>
+                <small class="text-muted">
+                  {% if user.is_superuser %}
+                  Super utilisateur
+                  {% elif user.is_staff %}
+                  administrateur
+                  {% endif %}
+                </small>
               </div>
             </div>
           </a>
@@ -69,8 +76,8 @@ id="layout-navbar"
         <li>
           <div class="dropdown-divider"></div>
         </li>
-        <li>
-          <a class="dropdown-item" href="#">
+        <li class="profile ">
+          <a class="dropdown-item" href="{% url "profile" %}">
             <i class="bx bx-user me-2"></i>
             <span class="align-middle">My Profile</span>
           </a>
