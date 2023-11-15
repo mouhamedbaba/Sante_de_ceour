@@ -37,83 +37,84 @@
             <div class="card-body">
               <div class="d-flex align-items-start align-items-sm-center gap-4">
                 <div>
-                <img
-                {% if avatar.avatar %}
-                src="{{ avatar.avatar.url }}"
-                alt="user-avatar"
-                {% else %}
-                src="{% static 'avatar.png' %}"
-                alt="default-user-avatar"
-                {% endif %}
-                  class="d-block rounded"
-                  height="100"
-                  width="100"
-                  id="uploadedAvatar"
-                />
-                <button role="button" type="button" class="btn shadow d-none mx-4 mt-2 p-2 btn-info "            
-                data-default-avatar-url = "{% static 'avatar.png' %}"
-                {% if avatar.avatar %}
-                
-                data-avatar-url = "{{ avatar.avatar.url }}" 
-                {% endif %}
-                
-                id="reset_avatar"><span class="fas fa-redo"></span></button>
-                </div>
-                <div class="button-wrapper">
-                {% if avatar.avatar %}
-                  <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
-                    <span class="d-none d-sm-block">Changer la photo</span>
-                    <i class="bx bx-upload d-block d-sm-none"></i>
-                    <input
-                      type="file"
-                      id="id_avatar"
-                      name="avatar"
-                      class=" d-none"
-                      accept="image/*"
-                    />
-                  </label>
-                  <button type="button" class="btn btn-danger account-image-reset mb-4 delete_avatar"  
-                  >
-                    <i class="fas fa-trash"></i>
-                  </button>
+                  <img
+                  {% if avatar.avatar %}
+                  src="{{ avatar.avatar.url }}"
+                  alt="user-avatar"
                   {% else %}
-                  <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
-                    <span class="d-none d-sm-block">Ajouter une photo</span>
-                    <i class="bx bx-upload d-block d-sm-none"></i>
-                    <input
-                      type="file"
-                      id="id_avatar"
-                      name="avatar"
-                      class=" d-none"
-                      accept="image/*"
-                    />
-                  </label>
+                  src="{% static 'avatar.png' %}"
+                  alt="default-user-avatar"
                   {% endif %}
-                  <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
-                </div>
-                {% if user.is_superuser %}
-                <div class="row mt-3">
-                  <div class="col">
-                  <div class="form-check form-switch mb-2">
-                    <input class="form-check-input id_is_staff" type="checkbox" id="is_staff" name='is_staff' checked>
-                    <label class="form-check-label" for="id_is_staff"><span class="badge bg-label-primary me-1">Admin</span>
+                    class="d-block rounded"
+                    height="100"
+                    width="100"
+                    id="uploadedAvatar"
+                  />
+                  <button role="button" type="button" class="btn shadow d-none mx-4 mt-2 p-2 btn-info "            
+                  data-default-avatar-url = "{% static 'avatar.png' %}"
+                  {% if avatar.avatar %}
+                  
+                  data-avatar-url = "{{ avatar.avatar.url }}" 
+                  {% endif %}
+                  
+                  id="reset_avatar"><span class="fas fa-redo"></span></button>
+                  </div>
+                  <div class="button-wrapper">
+                  {% if avatar.avatar %}
+                    <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
+                      <span class="d-none d-sm-block">Changer la photo</span>
+                      <i class="bx bx-upload d-block d-sm-none"></i>
+                      <input
+                        type="file"
+                        id="id_avatar"
+                        name="avatar"
+                        class=" d-none"
+                        accept="image/*"
+                      />
                     </label>
+                    <button type="button" class="btn btn-danger account-image-reset mb-4 delete_avatar"  
+                    data-pk = {{ user.pk }}
+                    >
+                      <i class="fas fa-trash"></i>
+                    </button>
+                    {% else %}
+                    <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
+                      <span class="d-none d-sm-block">Ajouter une photo</span>
+                      <i class="bx bx-upload d-block d-sm-none"></i>
+                      <input
+                        type="file"
+                        id="id_avatar"
+                        name="avatar"
+                        class=" d-none"
+                        accept="image/*"
+                      />
+                    </label>
+                    {% endif %}
+                    <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
                   </div>
-                  </div>
-                  <div class="col">
+                  {% if user.is_superuser %}
+                  <div class="row mt-3">
+                    <div class="col">
                     <div class="form-check form-switch mb-2">
-                      <input class="form-check-input is_superuser" name='is_superuser' type="checkbox" id="is_superuser" checked>
-                      <label class="form-check-label" for="is_superuser"><span class="badge bg-label-success me-1">Superuser</span>
+                      <input class="form-check-input id_is_staff" type="checkbox" id="is_staff" name='is_staff' checked>
+                      <label class="form-check-label" for="id_is_staff"><span class="badge bg-label-primary me-1">Admin</span>
                       </label>
                     </div>
                     </div>
+                    <div class="col">
+                      <div class="form-check form-switch mb-2">
+                        <input class="form-check-input is_superuser" name='is_superuser' type="checkbox" id="is_superuser" checked>
+                        <label class="form-check-label" for="is_superuser"><span class="badge bg-label-success me-1">Superuser</span>
+                        </label>
+                      </div>
+                      </div>
+                  </div>
+                  {% else %}
+                  <input class="form-check-input id_is_staff d-none" type="checkbox" id="is_staff" name='is_staff' checked>
+                  {% endif %}
+                  
                 </div>
-                {% else %}
-                <input class="form-check-input id_is_staff d-none" type="checkbox" id="is_staff" name='is_staff' checked>
-                {% endif %}
-                
               </div>
-            </div>
             <hr class="my-0" />
             <div class="card-body">
                 <div class="row">
@@ -179,35 +180,57 @@
             </form>
             <!-- /Account -->
           </div>
-          <div class="card">
-            <h5 class="card-header">Desactiver mon Compte</h5>
-            <div class="card-body">
-              <div class="mb-3 col-12 mb-0">
-                <div class="alert alert-warning">
-                  <h6 class="alert-heading fw-bold mb-1">Etes vous sur de vouloir desactiver votre compte</h6>
-                  <p class="mb-0">Nous n'aurez plus acces a votre compte. Seul un autre Administrateur pourra le reactiver</p>
-                </div>
-              </div>
-              <form id="formAccountDeactivation" onsubmit="return false">
-                <div class="form-check mb-3">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    name="accountActivation"
-                    id="confirmDeactivateRadio"
-                  />
-                  <label class="form-check-label" for="accountActivation"
-                    >je confirme</label
-                  >
-                </div>
-                <a href="{% url "actions" user.pk 'desable' %}" type="submit" id="btnDeactivateAccount" class="btn btn-danger  disabled">Desactiver</a>
-              </form>
+          <div class="row">
+            <div class="col-8">
+                    <div class="card h-100">
+                      <h5 class="card-header">Desactiver mon Compte</h5>
+                      <div class="card-body">
+                        <div class="mb-3 col-12 mb-0">
+                          <div class="alert alert-warning">
+                            <h6 class="alert-heading fw-bold mb-1">Etes vous sur de vouloir desactiver votre compte</h6>
+                            <p class="mb-0">Nous n'aurez plus acces a votre compte. Seul un autre Administrateur pourra le reactiver</p>
+                          </div>
+                        </div>
+                        <form id="formAccountDeactivation" onsubmit="return false" >
+                          <div class="form-check mb-3">
+                            <input
+                              class="form-check-input"
+                              type="checkbox"
+                              name="accountActivation"
+                              id="confirmDeactivateRadio"
+                            />
+                            <label class="form-check-label" for="accountActivation"
+                              >je confirme</label
+                            >
+                          </div>
+                        <div class="card-footer d-flex justify-content-end">
+                          <a href="{% url "actions" user.pk 'desable' %}" type="submit" id="btnDeactivateAccount" class="btn btn-danger  disabled">Desactiver</a>
+                      </div>
+                        </form>
+                      </div>
+                    </div>
             </div>
+            <div class="col-4">
+                  <div class="card mb-3 h-100">
+                    <div class="card-header">
+                      <h5 class="mb-0">Change Password</h5>
+                    </div>
+                    <div class="card-body bg-light">
+                      <form method="POST" action="{% url "change_pwd" %}">
+                        {% csrf_token %}
+                        <div class="mb-3"><label class="form-label" for="new-password">Nouveau</label><input class="form-control" type="password" name="new_password1" autocomplete="new-password" required id="id_new_password1" /></div>
+                        <div class="mb-3"><label class="form-label" for="confirm-password">Confirmer</label><input class="form-control" type="password" name="new_password2" autocomplete="new-password" required id="id_new_password2" /></div>
+                        <button class="btn btn-outline-danger bg-label-danger d-block w-100" type="submit">Modifier</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
           </div>
+        </div>
     </div>
 
 
-</div>
+</div>    
 
 <script>
     $('.profile').addClass('bg-label-primary')

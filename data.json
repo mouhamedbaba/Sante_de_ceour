@@ -1,8 +1,8 @@
 {
-  "item_name": "Collecte pour une journ\u00e9e de don de sqng",
-  "item_price": "100",
+  "item_name": "Don Global",
+  "item_price": "770934213",
   "currency": "XOF",
-  "ref_command": "baa4bde9-4525-48c9-9651-7983b129be43",
+  "ref_command": "0502fb4d-0a90-4c20-8c43-37bbe59aa0c0",
   "command_name": "DON",
   "ipn_url": "https://c592-41-82-64-150.ngrok-free.app/paiement/ipn",
   "env": "test"

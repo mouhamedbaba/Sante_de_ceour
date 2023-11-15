@@ -1,123 +1,127 @@
 {% load static %}
 <div class="modal fade" id="edituserModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <form  method="POST" id="edituserform">
-          {% csrf_token %}
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <form method="POST" id="edituserform" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="d-none">
+          <input name="user" id="id_user">
+          <input type="checkbox" name="primary" id="id_primary" checked>
+        </div>
         <div class="modal-header">
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-        <div class="row">
-          <div class="col-md-5 h-100 flex-wrap">
-            <div class="row ">
-              <div class="col mb-3">
-              <div class="d-flex justify-content-center">
-                <img
-                src="{% static 'avatar.png' %}"
-                alt="user-avatar"
-                class="d-block rounded"
-                height="100"
-                width="100"
-                id="uploadedAvatar"
-              />
-            </div>
-              </div>
-            </div>
-            <div class="row mt-5">
-              <div class="col">
-                <label for="id_username" class="form-label">Nom d'utilisateur *</label>
-                <input type="text" id="username" name='username' class="form-control id_username" placeholder="@Username" />
-              </div>
-            </div>
-            <div class="row mt-3">
-              <div class="col">
-              <div class="form-check form-switch mb-2">
-                <input class="form-check-input id_is_staff" type="checkbox" id="is_staff" name='is_staff' checked>
-                <label class="form-check-label" for="id_is_staff"><span class="badge bg-label-primary me-1">Admin</span>
-                </label>
-              </div>
-              </div>
-              <div class="col">
-                <div class="form-check form-switch mb-2">
-                  <input class="form-check-input is_superuser" name='is_superuser' type="checkbox" id="is_superuser">
-                  <label class="form-check-label" for="is_superuser"><span class="badge bg-label-success me-1">Superuser</span>
+          <div class="row">
+            <div class="col-md-5 h-100 flex-wrap">
+              <div class="row ">
+                <div class="col mb-3">
+                  <div class="d-flex justify-content-center">
+                    <div>
+                      <img class="d-block rounded" src="" height="100" width="100" id="uploadedAvatar" />
+                      <button role="button" type="button" class="btn shadow d-none mx-4 mt-2 p-2 btn-info "
+                        data-default-avatar-url="{% static 'avatar.png' %}" {% if avatar.avatar %}
+                        data-avatar-url="{{ avatar.avatar.url }}" {% endif %} id="reset_avatar"><span
+                          class="fas fa-redo"></span></button>
+                    </div>
+                  </div>
+                </div>
+                <div class="button-wrapper d-flex justify-content-center">
+                  <label for="id_avatar" class="btn btn-outline-info me-2 mb-4" tabindex="0">
+                    <span class="d-none d-sm-block" id="text-label"></span>
+                    <i class="bx bx-upload d-block d-sm-none"></i>
+                    <input type="file" id="id_avatar" name="avatar" class=" d-none" accept="image/*" />
                   </label>
+                  <button type="button" class="btn d-none btn-danger account-image-reset mb-4 delete_avatar">
+                    <i class="fas fa-trash"></i>
+                  </button>
                 </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label for="id_username" class="form-label">Nom d'utilisateur *</label>
+                  <input type="text" id="username" name='username' class="form-control id_username"
+                    placeholder="@Username" />
                 </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col">
+                  <div class="form-check form-switch mb-2">
+                    <input class="form-check-input id_is_staff" type="checkbox" id="is_staff" name='is_staff' checked>
+                    <label class="form-check-label" for="id_is_staff"><span
+                        class="badge bg-label-primary me-1">Admin</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-check form-switch mb-2">
+                    <input class="form-check-input is_superuser" name='is_superuser' type="checkbox" id="is_superuser">
+                    <label class="form-check-label" for="is_superuser"><span
+                        class="badge bg-label-success me-1">Superuser</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-7 h-100  mt-3 mt-md-0">
+              <div class="row g-2">
+                <div class="col-12 col-sm-6 mb-0">
+                  <label for="id_first_name" class="form-label">Prenom</label>
+                  <input type="text" id="first_name" name='first_name' class="form-control id_first_name"
+                    placeholder="Mouhamed" />
+                </div>
+                <div class="col col-sm-6 mb-0">
+                  <label for="last_name" class="form-label">Nom</label>
+                  <input type="text" id="id_last_name" name='last_name' class="form-control last_name"
+                    placeholder="lamotte" />
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col mb-4">
+                  <label for="id_email" class="form-label">Email</label>
+                  <input type="email" id="email" name='email' class="form-control id_email"
+                    placeholder="email@example.com" />
+                </div>
+              </div>
+              {% comment %} <div class="row">
+                <div class="mb-4 form-password-toggle">
+                  <label class="form-label" for="id_password1">Password</label>
+                  <div class="input-group input-group-merge">
+                    <input type="password" id="id_password1" autocomplete="new-password" class="form-control"
+                      name="password1"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-4 form-password-toggle">
+                  <label class="form-label" for="id_password2">Confirm Password</label>
+                  <div class="input-group input-group-merge">
+                    <input type="password" id="id_password2" autocomplete="new-password" class="form-control"
+                      name="password2"
+                      placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                  </div>
+                </div>
+              </div> {% endcomment %}
             </div>
           </div>
-          <div class="col-md-7 h-100  mt-3 mt-md-0">
-            <div class="row g-2">
-              <div class="col-12 col-sm-6 mb-0">
-                <label for="id_first_name" class="form-label">Prenom</label>
-                <input type="text" id="first_name" name='first_name' class="form-control id_first_name" placeholder="Mouhamed" />
-              </div>
-              <div class="col col-sm-6 mb-0">
-                <label for="last_name" class="form-label">Nom</label>
-                <input type="text" id="id_last_name" name='last_name'  class="form-control last_name" placeholder="lamotte" />
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col mb-4">
-                <label for="id_email" class="form-label">Email</label>
-                <input type="email" id="email" name='email' class="form-control id_email" placeholder="email@example.com" />
-              </div>
-            </div>
-            {% comment %} <div class="row">
-              <div class="mb-4 form-password-toggle">
-                <label class="form-label" for="id_password1">Password</label>
-                <div class="input-group input-group-merge">
-                  <input
-                    type="password"
-                    id="id_password1"
-                    autocomplete="new-password"
-                    class="form-control"
-                    name="password1"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  /> 
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="mb-4 form-password-toggle">
-                <label class="form-label" for="id_password2">Confirm Password</label>
-                <div class="input-group input-group-merge">
-                  <input
-                    type="password"
-                    id="id_password2"
-                    autocomplete="new-password"
-                    class="form-control"
-                    name="password2"
-                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  /> 
-                  <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
-                </div>
-              </div>
-            </div> {% endcomment %}
-        </div>
-      </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             fermer
           </button>
-          <button type="submit" class="btn btn-primary" id =''>Modifier</button>
+          <button type="submit" class="btn btn-primary" id=''>Modifier</button>
         </div>
       </form>
-      </div>
     </div>
+  </div>
 </div>
 
 <script>
-  $('.btn_edit_user').on('click', function(){
-    pk =  $(this).data('pk')
+  $('.btn_edit_user').on('click', function () {
+    pk = $(this).data('pk')
     url = '/sante/edit/' + pk
     first_name = $(this).data('first-name')
     last_name = $(this).data('last-name')
@@ -125,18 +129,62 @@
     username = $(this).data('username')
     superuser = $(this).data('superuser')
     admin = $(this).data('staff')
+    avatar = $(this).data('avatar')
+    src_default = $(this).data('default-avatar-url')
+    if (avatar !== undefined) {
+      $("#uploadedAvatar")
+        .attr("src", avatar)
+      $('#text-label').html('Modifier')
+      $('.delete_avatar')
+        .removeClass('d-none')
+        .attr('data-pk', pk)
+    } else {
+      $("#uploadedAvatar")
+        .attr("src", src_default)
+      $('.delete_avatar').addClass('d-none')
+      $('#text-label').html('Ajouter une photo')
+    }
     $('#edituserform').attr('action', url)
     $('.id_first_name').attr('value', first_name)
     $('.last_name').attr('value', last_name)
     $('.id_email').attr('value', email)
     $('.id_username').attr('value', username)
+    $('#id_user').attr('value', pk)
     if (superuser === 'True') {
-      $('.is_superuser').prop('checked' , true)
+      $('.is_superuser').prop('checked', true)
     }
     if (admin === 'True') {
-      $('.id_is_staff').prop('checked' , true)
+      $('.id_is_staff').prop('checked', true)
     } else {
-      $('.id_is_staff').prop('checked' , false)
+      $('.id_is_staff').prop('checked', false)
     }
+  })
+  $("#id_avatar").change(function () {
+    const file = this.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        $("#uploadedAvatar")
+          .attr("src", e.target.result)
+      };
+      reader.readAsDataURL(file);
+    }
+    $('#reset_avatar').removeClass('d-none')
+  });
+
+  $('#reset_avatar').click(function (e) {
+    src_avatar = avatar
+    if (avatar) {
+      $("#uploadedAvatar")
+        .attr("src", avatar)
+
+      $('#text-label').text('Modifier')
+    } else {
+      $("#uploadedAvatar")
+        .attr("src", src_default)
+      $('#text-label').html('Ajouter une photo')
+    }
+    $("#id_avatar").val('')
+    $('#reset_avatar').addClass('d-none')
   })
 </script>

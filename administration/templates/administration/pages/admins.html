@@ -33,7 +33,7 @@
                     {% for item in avatars %}
                     {% if item.user == admin %}
                     {% if item.avatar %}
-                    <img src="{{ item.avatar.url }}" alt="Avatar" class="rounded-circle" />
+                    <img src="{{ item.avatar.url }}" alt="Avatar" class="rounded-circle" id="user_avatar" data-avatar="{{ item.avatar.url }}" />
                     {% endif %}
                     {% endif %}
                     {% endfor %}
@@ -81,6 +81,16 @@
                         data-last-name = {{ admin.last_name }}
                         data-staff = {{ admin.is_staff }}
                         data-superuser = {{ admin.is_superuser }}
+                        data-default-avatar-url = "{% static 'avatar.png' %}"
+                        {% if avatars %}
+                    {% for item in avatars %}
+                    {% if item.user == admin %}
+                    {% if item.avatar %}
+                      data-avatar="{{ item.avatar.url }}"
+                    {% endif %}
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
                         ><span class="fas fa-pen me-1"></span>Editer</a>
                         {% if not admin.is_active %}
                       
@@ -140,6 +150,6 @@
 
 
 {% block madals %}
-{% include "administration/components/addusermodal.html" %}
+{% include "administration/components/addusermodal.html" %} 
 {% include "administration/components/editusermodal.html" %}
 {% endblock madals %}

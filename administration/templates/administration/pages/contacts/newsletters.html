@@ -19,7 +19,7 @@
             <div id="table-purchases-replace-element">
 <button class="btn btn-link text-600 btn-sm dropdown-toggle dropdown-caret-none btn-reveal-sm transition-none hide-arrow" type="button" id="crm-recent-leads-0" data-bs-toggle="dropdown" data-boundary="viewport" aria-haspopup="true" aria-expanded="false">
                 <span class="fas fa-external-link-alt mx-2"></span>Exporter</button>
-                <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="crm-recent-leads-0"><a class="dropdown-item " href="#!"><span class="fas mx-3 fa-file-code me-1"></span>JSON</a>                  
+                <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="crm-recent-leads-0"><a class="dropdown-item " href="{% url "export_emails" "JSON" %}"><span class="fas mx-3 fa-file-code me-1"></span>JSON</a>                  
                 <a class="dropdown-item   mx-3" href="#!" data-id-admin = {{ admin.pk }}><span class="fas  fa-file-excel me-1"></span>EXCEL</a>
                  
           </div>
@@ -94,8 +94,6 @@
             alt="girl-doing-yoga-light"
             width="500"
             class="img-fluid"
-            data-app-dark-img="illustrations/girl-doing-yoga-dark.png"
-            data-app-light-img="illustrations/girl-doing-yoga-light.png"
           />
         </div>
       </div>
@@ -115,6 +113,5 @@
 
 
 {% block madals %}
-{% include "administration/components/addusermodal.html" %}
 {% endblock madals %}
 

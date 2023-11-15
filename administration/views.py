@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, permission_required
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, SetPasswordForm
 from avatar.models import Avatar
 from .forms import *
 from .models import *
@@ -130,7 +130,8 @@ def list_newsletters(request):
 
 @login_required(login_url='login')
 def profile(request):
-    return render(request, 'administration/pages/account/profile.html')
+    form = SetPasswordForm(request.POST)
+    return render(request, 'administration/pages/account/profile.html',  {'form':form})
 
 
 # end pages 
@@ -157,13 +158,13 @@ def editUser(request, pk):
     user = User.objects.get(pk = pk)
     current_user = request.user
     if request.POST :
+        avatarForm = AvatarForm(request.POST, request.FILES)
+        
         try :
-            avatar = Avatar.objects.get(user = current_user)
+            avatar = Avatar.objects.get(user = user)
             avatarForm = AvatarForm(request.POST, request.FILES, instance=avatar)
         except :
-            avatar = Avatar.objects.filter(user = current_user)
-            avatar.delete()
-            avatarForm = AvatarForm(request.POST, request.FILES)
+            pass
         if avatarForm.is_valid():
             avatarForm.save()
         else :
@@ -175,7 +176,7 @@ def editUser(request, pk):
         else :
             messages.warning(request, editUserForm.errors)
     else :
-        editUserForm = EditUserForm(instance=current_user)
+        editUserForm = EditUserForm()
     if user == current_user :
         return redirect('profile')
     else :
@@ -302,8 +303,24 @@ def exportEmails(request, type):
         messages.success(request, message)
     return redirect('newsletters')
 
-def delete_avatar(request):
+def delete_avatar(request, pk):
     user = request.user 
-    avatar = get_object_or_404(Avatar, user = user)
+    avatar = get_object_or_404(Avatar, user = pk)
     avatar.delete()
+    if user.pk == pk :
+        return redirect('profile')
+    else :
+        return redirect('admins')
+    
+def change_password(request):
+    if request.POST :
+        form = SetPasswordForm(request.POST)
+        print(SetPasswordForm(request.POST))
+        if form.is_valid():
+            form.save()
+            message = "votre mot de passe a été modifié"
+            messages.success(request, message)
+        else :
+            messages.warning(request, form.errors)
+            print(form.errors)
     return redirect('profile')

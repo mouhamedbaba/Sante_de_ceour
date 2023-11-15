@@ -22,7 +22,8 @@ urlpatterns = [
     path('add_don', donCollect, name = 'add_don'),
     path('event/create', create_event, name = "create_event"),
     path('newsletters/delete/<int:pk>', delete_newsletters, name = "delete_newsletters"),
-    path('profile/avatar/delete', delete_avatar, name ="delete_avatar"),
+    path('avatar/<int:pk>/delete', delete_avatar, name ="delete_avatar"),
+    path('password/change', change_password, name="change_pwd"),
     
     # export 
     path('newsletters/export/<str:type>', exportEmails, name = "export_emails"),
