@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'landing',
     'sante_coeur',
     'administration',
-    'paiement'
+    'paiement',
+    'task'
 ]
 
 MIDDLEWARE = [

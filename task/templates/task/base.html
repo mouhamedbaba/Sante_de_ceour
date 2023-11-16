@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html  class="navbar-vertical-collapsed" lang="en-US" dir="ltr">
+
+  
+<!-- Mirrored from prium.github.io/falcon/v3.8.0/widgets.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 25 Mar 2022 12:46:53 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- ===============================================-->
+    <!--    Document Title-->
+    <!-- ===============================================-->
+    <title>Falcon | Dashboard &amp; Web App Template</title>
+
+    <!-- ===============================================-->
+    <!--    Favicons-->
+    <!-- ===============================================-->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "task/assets/img/favicons/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "task/assets/img/favicons/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "task/assets/img/favicons/favicon-16x16.png" %}">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static "task/assets/img/favicons/favicon.ico" %}">
+    <link rel="manifest" href="{% static "task/assets/img/favicons/manifest.json" %}">
+    <meta name="msapplication-TileImage" content="{% static "task/assets/img/favicons/mstile-150x150.png" %}">
+    <meta name="theme-color" content="#ffffff">
+    <script src="{% static "task/assets/js/config.js" %}"></script>
+    <script src="{% static "task/vendors/overlayscrollbars/OverlayScrollbars.min.js" %}"></script>
+    <script src="{% static "task/assets/jquery/jquery.min.js" %}"></script>
+    {% comment %} <script src="{% static "task/assets/jquery/jquery.sticky.js" %}"></script> {% endcomment %}
+
+
+    <!-- ===============================================-->
+    <!--    Stylesheets-->
+    <!-- ===============================================-->
+    <link href="{% static "task/vendors/flatpickr/flatpickr.min.css" %}" rel="stylesheet">
+    <link href="{% static "task/vendors/glightbox/glightbox.min.css" %}" rel="stylesheet">
+    <link href="{% static "task/vendors/plyr/plyr.css" %}" rel="stylesheet">
+    <link href="{% static "task/vendors/dropzone/dropzone.min.cs" %}s" rel="stylesheet">
+    <link href="{% static "task/vendors/leaflet/leaflet.css" %}" rel="stylesheet">
+    <link href="{% static "task/vendors/leaflet.markercluster/MarkerCluster.css" %}" rel="stylesheet">
+    <link href="{% static "task/vendors/leaflet.markercluster/MarkerCluster.Default.css" %}" rel="stylesheet">
+    <link href="{% static "task/vendors/fullcalendar/main.min.css" %}" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
+    <link href="{% static "task/vendors/overlayscrollbars/OverlayScrollbars.min.css" %}" rel="stylesheet">
+    <link href="{% static "task/assets/css/theme-rtl.min.css" %}" rel="stylesheet" id="style-rtl">
+    <link href="{% static "task/assets/css/theme.min.css" %}" rel="stylesheet" id="style-default">
+    <link href="{% static "task/assets/css/user-rtl.min.css" %}" rel="stylesheet" id="user-style-rtl">
+    <link href="{% static "task/assets/css/user.min.css" %}" rel="stylesheet" id="user-style-default">
+    <script>
+      var isRTL = JSON.parse(localStorage.getItem('isRTL'));
+      if (isRTL) {
+        var linkDefault = document.getElementById('style-default');
+        var userLinkDefault = document.getElementById('user-style-default');
+        linkDefault.setAttribute('disabled', true);
+        userLinkDefault.setAttribute('disabled', true);
+        document.querySelector('html').setAttribute('dir', 'rtl');
+      } else {
+        var linkRTL = document.getElementById('style-rtl');
+        var userLinkRTL = document.getElementById('user-style-rtl');
+        linkRTL.setAttribute('disabled', true);
+        userLinkRTL.setAttribute('disabled', true);
+      }
+    </script>
+  </head>
+
+  <body class="body"  style="background-image:url({{workspace.background.url}}); background-size:cover;">
+    <!-- ===============================================-->
+    <!--    Main Content-->
+    <!-- ===============================================-->
+    <main class="main" id="top" >
+      <div class="container-fluid" data-layout="container">
+        <script>
+          var isFluid = JSON.parse(localStorage.getItem('isFluid'));
+          if (isFluid) {
+            var container = document.querySelector('[data-layout]');
+            container.classList.remove('container');
+            container.classList.add('container-fluid');
+          }
+        </script>
+        {% include "task/navs/vertical.html" %}
+        {% include "task/navs/top.html" %}
+        <div class="content">
+          {% include "task/navs/top-custom.html" %}
+          <script>
+            var navbarPosition = localStorage.getItem('navbarPosition');
+            var navbarVertical = document.querySelector('.navbar-vertical');
+            var navbarTopVertical = document.querySelector('.content .navbar-top');
+            var navbarTop = document.querySelector('[data-layout] .navbar-top');
+            var navbarTopCombo = document.querySelector('.content [data-navbar-top="combo"]');
+            if (navbarPosition === 'top') {
+              navbarTop.removeAttribute('style');
+              navbarTopVertical.remove(navbarTopVertical);
+              navbarVertical.remove(navbarVertical);
+              navbarTopCombo.remove(navbarTopCombo);
+            } else if (navbarPosition === 'combo') {
+              navbarVertical.removeAttribute('style');
+              navbarTopCombo.removeAttribute('style');
+              navbarTop.remove(navbarTop);
+              navbarTopVertical.remove(navbarTopVertical);
+            } else {
+              navbarVertical.removeAttribute('style');
+              navbarTopVertical.removeAttribute('style');
+              navbarTop.remove(navbarTop);
+              navbarTopCombo.remove(navbarTopCombo);
+            }
+          </script>
+          {% block content %}
+          
+          {% endblock content %}
+        </div>
+      </div>
+    </main><!-- ===============================================-->
+    <!--    End of Main Content-->
+    <!-- ===============================================-->
+
+
+
+    <!-- ===============================================-->
+    <!--    JavaScripts-->
+    <!-- ===============================================-->
+    <script src="{% static "task/request/request.js" %}"></script>
+
+    <script src="{% static "task/vendors/popper/popper.min.js" %}"></script>
+    <script src="{% static "task/vendors/bootstrap/bootstrap.min.js" %}"></script>
+    <script src="{% static "task/vendors/anchorjs/anchor.min.js" %}"></script>
+    <script src="{% static "task/vendors/is/is.min.js" %}"></script>
+    <script src="{% static "task/vendors/glightbox/glightbox.min.js" %}"> </script>
+    <script src="{% static "task/assets/js/flatpickr.js" %}"></script>
+    <script src="{% static "task/vendors/echarts/echarts.min.js" %}"></script>
+    <script src="{% static "task/vendors/draggable/draggable.bundle.legacy.js" %}"></script>
+    {% comment %} <script src="assets/data/world.js" %}"></script> {% endcomment %}
+    <script src="{% static "task/vendors/plyr/plyr.polyfilled.min.js" %}"> </script>
+    <script src="{% static "task/vendors/countup/countUp.umd.js" %}"></script>
+    <script src="{% static "task/vendors/chart/chart.min.js" %}"></script>
+    <script src="{% static "task/vendors/dropzone/dropzone.min.js" %}"></script>
+    <script src="{% static "task/vendors/leaflet/leaflet.js" %}"></script>
+    <script src="{% static "task/vendors/leaflet.markercluster/leaflet.markercluster.js" %}"></script>
+    <script src="{% static "task/vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js" %}"></script>
+    <script src="{% static "task/vendors/list.js/list.min.js" %}"></script>
+    <script src="{% static "task/vendors/tinymce/tinymce.min.js" %}"></script>
+    <script src="{% static "task/vendors/dayjs/dayjs.min.js" %}"></script>
+    <script src="{% static "task/vendors/fullcalendar/main.min.js" %}"></script>
+    <script src="{% static "task/vendors/fontawesome/all.min.js" %}"></script>
+    <script src="{% static "task/vendors/lodash/lodash.min.js" %}"></script>
+    {% comment %} <script src="../../../polyfill.io/v3/polyfill.min58be.js?features=window.scroll"></script> {% endcomment %}
+    <script src="{% static "task/vendors/list.js/list.min.js" %}"></script>
+    <script src="{% static "task/assets/js/theme.js" %}"></script>
+  </body>
+
+
+<!-- Mirrored from prium.github.io/falcon/v3.8.0/widgets.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 25 Mar 2022 12:46:55 GMT -->
+</html>

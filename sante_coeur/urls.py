@@ -17,15 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path , include
 from django.conf.urls.static import static
-
+from django import urls
 from sante_coeur import settings
+from task.views import forbiden
 
 urlpatterns = [
-    path('django/', admin.site.urls),
+    path('forbiden', forbiden , name="forbiden"),
+    path('django/', admin.site.urls, name='admin'),
     path('auth/', include('authentication.urls')),
     path('', include('landing.urls')),
     path('sante/', include('administration.urls')),
-    path('paiement/', include('paiement.urls'))
+    path('paiement/', include('paiement.urls')),
+    path('task/', include('task.urls')),
+    
 ]
 
 if settings.DEBUG :
