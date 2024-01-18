@@ -24,19 +24,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8%2%%c^5te2kt^^&jnjo0*7ny1tl651js8#eqwt^%&^2nk119z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = false
 
 ALLOWED_HOSTS = [".vercel.app"]
 
-CSRF_TRUSTED_ORIGINS= [
-    "https://c592-41-82-64-150.ngrok-free.app", "http://localhost:8000"
-]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://c592-41-82-64-150.ngrok-free.app", "http://localhost:8000"
-]
 
-CSRF_COOKIE_DOMAIN = 'https://c592-41-82-64-150.ngrok-free.app',  "http://localhost:8000"
+# CORS_ALLOWED_ORIGINS = [
+ #   "https://c592-41-82-64-150.ngrok-free.app", # "http://localhost:8000" ]
+
+# CSRF_COOKIE_DOMAIN =
 
 # Application definition
 
