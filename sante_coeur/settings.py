@@ -40,6 +40,11 @@ WSGI_APPLICATION = 'sante_coeur.wsgi.app'
 
 # CSRF_COOKIE_DOMAIN = "'2e3c-41-214-3-253.ngrok-free.app" 
 
+
+
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
