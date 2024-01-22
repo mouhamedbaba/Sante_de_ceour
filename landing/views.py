@@ -19,6 +19,8 @@ def blog(request):
     return render(request, 'landing/pages/blog.html')
 
 
+
+
 def newsletter(request):
     if request.POST :
         newsletterForm = NewslettersForm(request.POST)

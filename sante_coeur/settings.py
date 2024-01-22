@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-8%2%%c^5te2kt^^&jnjo0*7ny1tl651js8#eqwt^%&^2nk119z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app', "now.sh", "localhost"]
 
@@ -54,15 +54,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'ckeditor',
     'avatar',
-    'jazzmin',
     'authentication',
     'landing',
     'sante_coeur',
     'administration',
     'paiement',
-    'task'
 ]
 
 MIDDLEWARE = [
@@ -97,28 +94,31 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'sante_coeur.wsgi.application'
 
+handler404 = "sante_coeur.views.custom_404"
+
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'URL': 'postgresql://postgres:Cba2d-6155Ae65bC1d26e-e4GFc--g1e@viaduct.proxy.rlwy.net:19622/railway',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'Cba2d-6155Ae65bC1d26e-e4GFc--g1e',
-        'HOST': 'viaduct.proxy.rlwy.net',
-        'PORT': 19622,
+if DEBUG :
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else :
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'URL': os.getenv("URL"),
+            'NAME': os.getenv("NAME"),
+            'USER': os.getenv("USER"),
+            'PASSWORD': os.getenv("PASSWORD"),
+            'HOST': os.getenv("HOST"),
+            'PORT': os.getenv('PORT'),
+        }
+    }
 
 
 
