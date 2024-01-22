@@ -101,12 +101,25 @@ WSGI_APPLICATION = 'sante_coeur.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'URL': 'postgresql://postgres:Cba2d-6155Ae65bC1d26e-e4GFc--g1e@viaduct.proxy.rlwy.net:19622/railway',
+        'NAME': 'railway',
+        'USER': 'postgres',
+        'PASSWORD': 'Cba2d-6155Ae65bC1d26e-e4GFc--g1e',
+        'HOST': 'viaduct.proxy.rlwy.net',
+        'PORT': 19622,
     }
 }
+
 
 
 # Password validation
