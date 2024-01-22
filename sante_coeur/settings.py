@@ -19,7 +19,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://sante-de-coeur.vercel.app", "http://localhost:8000"
 ]
 
-CSRF_COOKIE_DOMAIN = "'sante-de-coeur.vercel.app" .
+CSRF_COOKIE_DOMAIN = "'sante-de-coeur.vercel.app" 
 
 INSTALLED_APPS = [
     'django.contrib.admin',
