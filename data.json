@@ -1,9 +1,0 @@
-{
-  "item_name": "noel pour les enfant",
-  "item_price": "100",
-  "currency": "XOF",
-  "ref_command": "d6815ae6-70a2-4576-ab1e-9330744145f7",
-  "command_name": "DON",
-  "ipn_url": "https://c592-41-82-64-150.ngrok-free.app/paiement/ipn",
-  "env": "test"
-}
