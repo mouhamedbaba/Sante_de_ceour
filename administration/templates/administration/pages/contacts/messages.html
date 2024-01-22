@@ -113,14 +113,15 @@
 
 
     <div class="card d-none d-md-block card-chat overflow-hidden">
+      <div class="card-header">
+        <h5 class=" fw-bold card-title">Messages</h5>
+      </div>
+      <hr class="bg-primary" />
       <div class="card-body d-flex p-0 h-100">
+        
         <div class="chat-sidebar">
           <div class="contacts-list scrollbar-overlay">
             <div class="nav nav-tabs border-0 flex-column" role="tablist" aria-orientation="vertical">
-              <div>
-              <h5 class="card-header fw-bold">Messages</h5>
-              <hr />
-              </div>
               {% for message in messages_all %}
               <div class="hover-actions-trigger chat-contact nav-item " role="tab" id="chat-link-0" data-bs-toggle="tab" data-bs-target="#chat-0" aria-controls="chat-0" aria-selected="true">
                {% comment %} <div class="d-md-none d-lg-block">
@@ -133,7 +134,7 @@
                 </div>{% endcomment %}
                 <a href="{% url "messages_url" message.pk %}" class="d-flex bg-light p-2 {% if message.read == False %}  mx-1 {% else %}  nav-link  {% endif %}{% if message.pk == message_display.pk %}  border-top shadow border-bottom {% endif %} ">
                   <div class="avatar avatar status-online">
-                    <img class="rounded-circle" src="{% static 'avatar.png' %}" alt="" />
+                      <span class="mx-3 w-50 h-100 fas {% if message.read == False %} fa-envelope text-info {% else %} text-success fa-envelope-open {% endif %}" ></span> 
                   </div>
                   <div class="flex-1 chat-contact-body ms-2 d-md-none d-lg-block">
                     <div class="d-flex justify-content-between">
@@ -144,8 +145,7 @@
                       <div class="position-absolute bottom-0 end-0 hover-hide"></div>
                     </div>
                   </div>
-                  <span class="mx-3 fas {% if message.read == False %} fa-envelope text-info {% else %} text-success fa-envelope-open {% endif %}" ></span> 
-
+                  
                 </a>
               </div>
               {% endfor %}
@@ -185,7 +185,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-auto"><button class="btn btn-sm btn-falcon-primary me-2" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Start a Call"><span class="fas fa-phone"></span></button><button class="btn btn-sm btn-falcon-primary me-2" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Start a Video Call"><span class="fas fa-video"></span></button><button class="btn btn-sm btn-falcon-primary btn-info" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Conversation Information"><span class="fas fa-info"></span></button></div>
+                <div class="col-auto"><button class="btn btn-sm btn-falcon-primary me-2" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Start a Call"><span class="fas fa-phone"></span></button><button class="btn btn-sm btn-falcon-primary me-2" type="button" data-index="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Start a Video Call"><span class="fas fa-envelope"></span></button>
+                </div>
               </div>
               <div class="text-center fs--2 text-500 text-warning"><span>{{ message_display.date }}</span></div>
               <hr class="" />

@@ -13,7 +13,7 @@
               <h5 class="fs-0 mb-0 text-nowrap py-2 py-xl-0">Contacts</h5>
             </div>
             <div class="col-6 col-sm-auto ms-auto text-end ps-0">
-              <div id="table-purchases-replace-element"><button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">New</span></button><button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Filter</span></button><button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Export</span></button></div>
+              <!-- <div id="table-purchases-replace-element"><button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-plus" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">New</span></button><button class="btn btn-falcon-default btn-sm mx-2" type="button"><span class="fas fa-filter" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Filter</span></button><button class="btn btn-falcon-default btn-sm" type="button"><span class="fas fa-external-link-alt" data-fa-transform="shrink-3 down-2"></span><span class="d-none d-sm-inline-block ms-1">Export</span></button></div> -->
             </div>
           </div>
         </div>
@@ -36,18 +36,22 @@
                 {% for contact in contacts %}                
                 <tr class="btn-reveal-trigger">
                   <td class="align-middle" style="width: 28px;">
-                    <div class="form-check mb-0"><input class="form-check-input" type="checkbox" id="recent-purchase-13" data-bulk-select-row="data-bulk-select-row" /></div>
+                    <!-- <div class="form-check mb-0"><input class="form-check-input" type="checkbox" id="recent-purchase-13" data-bulk-select-row="data-bulk-select-row" /></div> -->
                   </td>
                   <td class="align-middle white-space-nowrap email">{{ contact.first_name }}</td>
                   <td class="align-middle white-space-nowrap product">{{ contact.last_name }}</td>
                   <th class="align-middle white-space-nowrap email text-lowercase"><a href="mailto:{{ contact.email }}">{{contact.email}} </a></th>
                   <td class="align-middle text-center fs-0 white-space-nowrap payment"><span class="badge badge rounded-pill bg-warning">Non rensegné<span class="ms-1 fas fa-ban" data-fa-transform="shrink-2"></span></span></td>
                   <td class="align-middle white-space-nowrap text-end">
-                    <div class="dropstart font-sans-serif position-static d-inline-block"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal float-end" type="button" id="dropdown13" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--1"></span></button>
+                    <!-- <div class="font-sans-serif position-static d-inline-block dropdown-hidden"><button class="btn btn-link text-600 btn-sm dropdown-toggle btn-reveal float-end" type="button" id="dropdown13" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fas fa-ellipsis-h fs--1"></span></button>
                       <div class="dropdown-menu dropdown-menu-end border py-2" aria-labelledby="dropdown13"><a class="dropdown-item" href="#!">View</a><a class="dropdown-item" href="#!">Edit</a><a class="dropdown-item" href="#!">Refund</a>
                         <div class="dropdown-divider"></div><a class="dropdown-item text-warning" href="#!">Archive</a><a class="dropdown-item text-danger" href="#!">Delete</a>
                       </div>
-                    </div>
+                    </div> -->
+                    <div class="font-sans-serif position-static d-inline-block">
+                      <a href="#" class="btn shadow btn-light text-600 btn btn-reveal float-end" type="button" id="dropdown13" >
+                          <span class="text-danger fas fa-trash fs--1"></span></a>
+                  </div>
                   </td>
                 </tr>
                 {% endfor %}
@@ -56,7 +60,7 @@
             </table>
           </div>
         </div>
-        <div class="card-footer">
+        <!-- <div class="card-footer">
           <div class="row align-items-center">
             <div class="pagination d-none"></div>
             <div class="col">
@@ -64,9 +68,9 @@
             </div>
             <div class="col-auto d-flex"><button class="btn btn-sm btn-primary" type="button" data-list-pagination="prev"><span>Previous</span></button><button class="btn btn-sm btn-primary px-4 ms-2" type="button" data-list-pagination="next"><span>Next</span></button></div>
           </div>
-        </div>
+        </div> -->
     </div>
-      <hr class="my-5" />
+      <!-- <hr class="my-5" />   -->
     {% else %}
     <div class="container-xxl container-p-y">
       <div class="misc-wrapper">

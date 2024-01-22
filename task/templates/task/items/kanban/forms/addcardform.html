@@ -2,7 +2,7 @@
     {% csrf_token %}
     <textarea id="titlecard{{ column.pk }}" class="form-control shadow-none" data-input="add-card" rows="2" placeholder="Enter a title for this card..." name="title"></textarea>
     <div class="row gx-2 mt-2">
-      <div class="col"><button class="btn btn-primary btn-sm d-block w-100 add-card-button" type="button" data-input-id="titlecard{{ column.pk }}" data-added-by="{{ user.pk }}" data-column="{{ column.pk }}">Add</button></div>
+      <div class="col"><button class="btn btn-primary btn-sm d-block w-100 add-card-button" type="button" data-input-id="titlecard{{ column.pk }}" data-added-by="{{ user.pk }}" data-column="{{ column.pk }}" data-btn-form="hide">Add</button></div>
       <div class="col"><button class="btn btn-outline-secondary btn-sm d-block w-100 border-400" type="button" data-btn-form="hide">Cancel</button></div>
     </div>
 </form>

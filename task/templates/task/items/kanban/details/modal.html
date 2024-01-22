@@ -16,12 +16,19 @@
             <div>
             <div  class="d-flex align-items-center name-edit-container">
               <h4 class="mb-1 cardTitle{{ card.pk }}" id="">{{ card.title }}</h4>
-              <button class="btn h-100 mx-3 btn-falcon-default btn-sm dropdown-toggle dropdown-caret-none fs--2 btn-edit-title" type="button" > <span class="fas fa-edit"></span></button>
+              <button  class="btn h-100 mx-3 btn-falcon-default btn-sm  fs--2 btn-edit-title" type="button" >
+                <span class="fas fa-edit"></span>
+              </button>
+              {% if not card.image %}
+              <label for="cardinputimage{{card.pk}}" class=" btn h-100 mx-3 btn-falcon-default btn-sm fs--2 btn-add-card-image"> <span class="fas fa-image"></span>
+              </label>
+                <input id="cardinputimage{{card.pk}}" type="file" class="form-control d-none" name="card_input_image" >
+              {% endif %}
             </div>
-            <form action="" method="get" class="form-add-title d-none">
+            <form class="form-add-title d-none" method="post">
             <div class="d-flex align-items-center">
-              <input name="title" id="cardinput{{ card.id }}" value={{ card.title }} class="form-control shadow-none w-50 border-none" style="border: none;" autofocus>
-              <button class="btn h-100 mx-3 btn-falcon-default btn-sm dropdown-toggle dropdown-caret-none fs--2 submit-edit-title-btn" data-card-pk={{ card.pk }} data-label-class = "cardTitle{{ card.pk }}" data-input-id="cardinput{{ card.id }}"> <span class="fas fa-check"></span></button>
+              <input name="title" id="cardinput{{ card.id }}" value="{{ card.title }}" class="form-control fw-bold shadow-none w-50 border-none bg-transparent" style="border: none;" >
+              <button class="btn h-100 mx-3 btn-falcon-default btn-sm dropdown-toggle dropdown-caret-none fs--2 submit-edit-title-btn" data-card-pk={{ card.pk }} data-label-class = "cardTitle{{ card.pk }}" data-input-id="cardinput{{ card.id }}" type="submit"> <span class="fas fa-check"></span></button>
             </div>
           </form>
         </div>

@@ -1,7 +1,9 @@
+{% load static %}
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
-      <a href="{% url "home" %}" class="app-brand-link">
-        <span class="app-brand-text demo menu-text fw-bolder ms-2  text-uppercase">Admin</span>
+      <a href="{% url "home" %}" class="app-brand-link d-flex justify-content-center">
+        <!-- <span class="app-brand-text demo menu-text fw-bolder ms-2  text-uppercase">Admin</span> -->
+        <img src="{% static 'logo.png' %}" class="logo img-fluid h-50 w-50" alt="Sante de Coeur">
       </a>
 
       <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -64,21 +66,21 @@
       <li class="menu-header small text-uppercase">
         <span class="menu-header-text">App</span>
       </li>
-      <li class="menu-item messages">
+      <li class="menu-item ">
         <a href="{% url "index" %}" class="menu-link fw-bold">
           <i class="menu-icon fas fa-globe"></i>
           <div data-i18n="Analytics">landing</div>
         </a>
       </li>
-      <li class="menu-item messages">
+      <li class="menu-item ">
         <a href="{% url "task" %}" class="menu-link fw-bold">
           <i class="menu-icon fab fa-trello"></i>
           <div data-i18n="Analytics">Taks</div>
         </a>
       </li>
-      <li class="menu-item messages">
+      <li class="menu-item ">
         <a href="../../django" class="menu-link fw-bold">
-          <i class="menu-icon fab fa-phoenix-framework"></i>
+          <i class="menu-icon fab fa-python"></i>
           <div data-i18n="Analytics">Django</div>
         </a>
       </li>

@@ -1,9 +1,13 @@
 {% extends "bases/sneat.html" %}
 {% load static %}
 {% block main %}
+
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="d-md-flex justify-content-between">
-      <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Organisation /</span> Collect / {{ collect.title }} </h4>
+      <h4 class="fw-bold py-3 mb-4">
+    <a href="{% url 'collects' %}" class="btn btn-falcon-default btn-sm shadow me-1" data-bs-toggle="tooltip" data-bs-placement="top" title data-bs-original-title="Back" aria-label="Back"><span class="fa fa-arrow-left"></span></a>
+
+        <span class="text-muted fw-light">Organisation /</span> Collect / {{ collect.title }} </h4>
       {% if message %}
       <div class="alert alert-success alert-dismissible" role="alert">
         {{ message }}
@@ -14,7 +18,7 @@
     <hr class="" />
     <div class="card p-4 ">
       <div class="row">
-        <div class="col-md-6" >
+        <div class="col-md-8" >
          Cree le   {{ collect.created_at|date:"d M Y" }} par <a href=''>{{ collect.by.first_name }} {{collect.by.last_name}} {% if user == collect.by  %}(<span class= 'text-dark'>
           Vous 
         </span>){% endif %} </a> / 
@@ -33,10 +37,9 @@
         <span class= 'badge bg-label-secondary rounded-pill'>
           En attente
         </span>
-
           {% endif %}
         </div>
-        <div class="col-md-6" >
+        <div class="col-md-4" >
           <div class='d-flex justify-content-end'>
             <span class="fw-bold {% if collect.raised >= collect.goal %} text-success {% else %} text-info  {% endif %}">
               
@@ -146,10 +149,10 @@
                       <span class="fw-normal">{{ don.donneur_email }}</span>                         
                   </td>
                   <td class="border-bottom-0 d-flex align-items-center">
-                    <p class="mb-0 fw-normal"></p>
-                    {% if don.payement_method.logo %}
+                    <p class="mb-0 fw-normal">{{don.payement_method}}</p>
+                    <!-- {% if don.payement_method %}
                     <img class='h-25 w-25 mx-2' src = '{{ don.payement_method.logo.url }}' />
-                    {% endif %}
+                    {% endif %} -->
                   </td>
                   {% comment %} <td class="border-bottom-0">
                     <div class="d-flex align-items-center gap-2">

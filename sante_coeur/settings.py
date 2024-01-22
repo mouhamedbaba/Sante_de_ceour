@@ -26,17 +26,19 @@ SECRET_KEY = 'django-insecure-8%2%%c^5te2kt^^&jnjo0*7ny1tl651js8#eqwt^%&^2nk119z
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["c592-41-82-64-150.ngrok-free.app", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
-CSRF_TRUSTED_ORIGINS= [
-    "https://c592-41-82-64-150.ngrok-free.app", "http://localhost:8000"
-]
+WSGI_APPLICATION = 'sante_coeur.wsgi.app'
 
-CORS_ALLOWED_ORIGINS = [
-    "https://c592-41-82-64-150.ngrok-free.app", "http://localhost:8000"
-]
+# CSRF_TRUSTED_ORIGINS= [
+#     "https://2e3c-41-214-3-253.ngrok-free.app", "http://localhost:8000"
+# ]
 
-CSRF_COOKIE_DOMAIN = "localhost" 
+# CORS_ALLOWED_ORIGINS = [
+#     "https://2e3c-41-214-3-253.ngrok-free.app", "http://localhost:8000"
+# ]
+
+# CSRF_COOKIE_DOMAIN = "'2e3c-41-214-3-253.ngrok-free.app" 
 
 # Application definition
 

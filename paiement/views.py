@@ -11,6 +11,7 @@ from administration.models import DonCollect
 import uuid
 from django.contrib import messages
 
+
 @csrf_exempt
 def paiement_view(request):
     if request.POST:

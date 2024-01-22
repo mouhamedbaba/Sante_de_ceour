@@ -1,6 +1,12 @@
 
 var scollPosition = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
 
+
+function dargNDrop() {
+    console.log('dagen')
+    card = $(this).data('card-title')
+}
+
 is_modal_oppen = localStorage.getItem('is_modal_oppen')
 if (is_modal_oppen === "true") {
     modal_pk = localStorage.getItem('modal_pk')
@@ -8,6 +14,8 @@ if (is_modal_oppen === "true") {
     m.show().addClass('show')
 }
 
+var path = $('.current-path').val()
+console.log(path);
 
 
 var btn_edit_title = $('.btn-edit-title')
@@ -64,7 +72,30 @@ function addCard(column, title, added_by) {
     $('.kanbancontainer'+column).prepend(kanban_item)
 }
 
-
+function editColumn(pk, action, title='Untitled') {
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8000/task/column/update",
+        data: {
+            'csrftoken' : 'XT6JMMnUBeYS12X6dzdm59QzJO8PmTPi',
+            'pk' : pk,
+            'action' : action,
+            'title' : title
+        },
+        success: function (response) {
+            console.log(response);
+        }
+    });
+    $.ajax({
+        type: "GET",
+        url: "http://localhost:8000"+path,
+        // data: "data",
+        // dataType: "dataType",
+        success: function (response) {
+            console.log(response);
+        }
+    });
+}
 
 
 btn_edit_title.on('click', function (e) {
@@ -128,5 +159,109 @@ btn_close_modal.click(function (e) {
     localStorage.setItem('is_modal_oppen', false)
 })
 
+
+var btn_edit_column_title = $('.btn_edit_column')
+
+btn_edit_column_title.click(function (e) {
+    e.preventDefault()
+    column_pk = $(this).data('column-pk')
+    input_id = $(this).data('input-id')
+    label_id = $(this).data('label-id')
+    btn_save_id = $(this).data('btn-save-id')
+    btn_edit_id = $(this).data('btn-edit-id')
+    input = $('#'+input_id)
+    label = $('#'+label_id)
+    btn_save = $('#'+btn_save_id)
+    btn_edit = $('#'+btn_edit_id)
+
+    btn_edit.addClass('d-none')
+    
+    input.removeClass('d-none')
+    label.addClass('d-none')
+
+    input.change(function (e) { 
+        e.preventDefault();
+        title = $(this).val()
+        if (title === "") {
+            title = "Untitled"
+        }
+        action = 'update_title'
+        editColumn(column_pk, action, title)
+        input.addClass('d-none')
+        label.removeClass('d-none').text(title)
+        btn_edit.removeClass('d-none')
+    });
+
+    input.mouseleave(function (e) { 
+        e.preventDefault();
+        title = $(this).val()
+        if (title === "") {
+            title = "Untitled"
+        }
+        action = 'update_title'
+        editColumn(column_pk, action, title)
+        input.addClass('d-none')
+        label.removeClass('d-none').text(title)
+        btn_edit.removeClass('d-none')
+    });
+
+
+})
+
+var btn_delete_column = $('.btn-delete-column')
+var to_del = []
+console.log(to_del);
+var delay = 5000
+console.log(delay);
+btn_delete_column.click(function (e) {
+    delay = delay + 1000
+    console.log(delay);
+    column_pk = $(this).data('column-pk')
+    to_del.push(column_pk)
+    console.log(to_del);
+    action = 'delete'
+    column_item_id = $(this).data('column-item-id')
+    $('#'+column_item_id).addClass('d-none').removeClass('kanban-column ')
+    $('#notifajax').html(`
+    <div
+          class="bs-toast toast bottom-0 end-0 m-2 show bg-dark"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-delay="2000"
+          style="position:fixed;"
+        >
+
+          <div class="toast-body py-2 text-light">
+            <div class="d-flex justify-content-between align-items-center">
+              <h6 class="text-light">
+                liste Suprimée 
+            <h6>
+              <button class="btn text-white fw-bold shadow-none btn-undo-column-delete">Annuler</button>
+            </div>
+          </div>
+        </div>
+    `)
+    var undo = false
+    
+    $('.btn-undo-column-delete').on('click', function () {
+        $('#notifajax').html('')
+        $('#'+column_item_id).addClass('kanban-column').removeClass('d-none')
+        undo = true
+        to_del.pop()
+        console.log(to_del)
+    })
+
+    setTimeout(() => {
+        if (undo === true) {
+            $('#notifajax').html('')
+        } else {
+            for (let pk = 0; pk < to_del.length; pk++) {
+                editColumn(to_del[pk], action)
+            }
+        }
+        $('#notifajax').html('')
+    }, delay);
+})
 
 window.scrollTo(0, scollPosition)

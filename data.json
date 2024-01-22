@@ -1,8 +1,8 @@
 {
-  "item_name": "Don Global",
-  "item_price": "770934213",
+  "item_name": "noel pour les enfant",
+  "item_price": "100",
   "currency": "XOF",
-  "ref_command": "0502fb4d-0a90-4c20-8c43-37bbe59aa0c0",
+  "ref_command": "d6815ae6-70a2-4576-ab1e-9330744145f7",
   "command_name": "DON",
   "ipn_url": "https://c592-41-82-64-150.ngrok-free.app/paiement/ipn",
   "env": "test"

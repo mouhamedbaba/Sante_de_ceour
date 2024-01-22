@@ -8,7 +8,7 @@ from django.contrib import messages
 
 def home(request):
     collects = Collect.objects.filter(confirmer = 1, posted = 1, is_amount_reached = 0).order_by('-created_at')[:3]
-    campagnes = EvenementCampagne.objects.all().order_by('-created_at')[:2]
+    campagnes = EvenementCampagne.objects.all().order_by('-created_at')[:1]
     context = {
         'collects' : collects,
         'campagnes' : campagnes

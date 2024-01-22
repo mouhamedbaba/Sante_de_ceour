@@ -1,7 +1,7 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from .models import *
 from .forms import *
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -50,6 +50,8 @@ def addCard(request):
             }
     return JsonResponse(data)
 
+
+@csrf_exempt
 def addColumn(request):
     if request.POST :
         column = WorkspaceColumnForm(request.POST)
@@ -92,3 +94,35 @@ def update_card_title(request, card_pk):
         }
         status=403
     return JsonResponse(data)
+
+@csrf_exempt
+def update_column(request):
+    if request.POST:
+        class Actions() :
+            delete = 'delete'
+            update = 'update_title'  
+        data={}
+        pk = request.POST['pk']
+        action = request.POST['action']
+        column = WorkspaceColumn.objects.filter(pk=pk)
+        if action == Actions.delete :
+            column.delete()
+            data = {
+                'success' : True,
+                'action' : action,
+            }
+        elif action == Actions.update :
+            title = request.POST['title']
+            
+            column.update(title = title)
+            data = {
+                'success' : True,
+                'action' : action,
+                'new_title' : title
+            }
+        else :
+            return HttpResponse(status=403)
+        return JsonResponse(data)
+    else :
+        return HttpResponse(status=403)
+    

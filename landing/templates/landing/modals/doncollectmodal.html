@@ -190,7 +190,7 @@
                                
                                 
                                 </div>
-                                <div id="submit_btn-don-collect" class=" mt-5 d-flex justify-content-center">
+                                <div id="submit_btn-don-collect" class="submit_btn mt-5 d-flex justify-content-center"> </div>
                                 <script>
                                     $(document).ready(function() {
                                         var amount = $(".amount-don-collect");
@@ -242,20 +242,22 @@
                                                 donneur_name.val() !== "" &&
                                                 emailRegex.test(donateur_email.val())
                                             ) {
-                                                submit_btn.html('<button type="submit" class="form-control btn_submit mt-4">Finaliser</button>');
+                                                submit_btn.html('<button type="submit" class="form-control btn_submit btn_submit_loader mt-4">Finaliser</button>');
                                             } else {
                                                 submit_btn.empty(); // Supprimer le bouton s'il ne remplit pas les conditions
                                             }
+                                            $(".btn_submit_loader").on("click", function() {
+                                                $(this).html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
+                                            })
                                         }
-                                        $("#submit_btn").on("click", function() {
-                                            $(".btn_submit").html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
-                                        })
                                         setTimeout(function() {
                                             $(".btn_submit").html('Finaliser');
                                             $("erreur_chargement").html("Une erreur s'est produite lors de l'envoi du paiement. Veuillez reessayer.");
                                         }, 1000);
                                     });
-                            
+                                    $(".btn_submit_loader").on("click", function() {
+                                        $(this).html('<div class="spinner-border" role="status"><span class="visually-hidden">Loading...</span></div>');
+                                    })
                                 </script>
                                 
                                 
