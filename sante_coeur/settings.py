@@ -79,12 +79,12 @@ else :
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'URL': os.getenv("URL"),
-            'NAME': os.getenv("NAME"),
-            'USER': os.getenv("USER"),
-            'PASSWORD': os.getenv("PASSWORD"),
-            'HOST': os.getenv("HOST"),
-            'PORT': os.getenv('PORT'),
+            'URL': "postgresql://postgres:Cba2d-6155Ae65bC1d26e-e4GFc--g1e@viaduct.proxy.rlwy.net:19622/railway",
+            'NAME': "railway",
+            'USER': "postgres",
+            'PASSWORD':"Cba2d-6155Ae65bC1d26e-e4GFc--g1e",
+            'HOST': "viaduct.proxy.rlwy.net",
+            'PORT': 19622,
         }
     }
 
