@@ -1,3 +1,5 @@
+import os
+from dotenv import load_dotenv
 from django.http import HttpResponse
 from django.shortcuts import redirect
 # import hashlib
@@ -12,12 +14,13 @@ import uuid
 from django.contrib import messages
 
 
+load_dotenv()
+
+
 @csrf_exempt
 def paiement_view(request):
     if request.POST:
-        all = request.POST
         collect_pk = None
-        print('all : ', all)
         item_name = request.POST['item_name']
         if request.POST['amount'] :
             item_price = request.POST['amount']
@@ -26,7 +29,7 @@ def paiement_view(request):
         try :
             if request.POST['collect_pk']:
                 collect_pk = request.POST['collect_pk']
-        except :
+        except Exception:
             pass
         
         currency = "XOF"
@@ -48,15 +51,10 @@ def paiement_view(request):
 
         headers = {
             "Content-Type": "application/json",
-            "api_key": "fc133da925f15d32ac8f902374cf18798d9d495ad46f39b0f1f97112a5d1bb33",
-            "api_secret": "cb904f3c41e8e8a3cf49deb8f9c0ecc06d44b23b9ce0754cc00eef7951ec1d8b"
+            "api_key": os.getenv("PAYTECH_API_KEY"),
+            "api_secret": os.getenv("PAYTECH_SECRET_KEY")
         }
         
-        # print(data)
-        
-        # with open('data.json', 'w') as f :
-        #     json.dump(data, f, indent = 2)
-            
 
         url = "https://paytech.sn/api/payment/request-payment?"
         
@@ -79,7 +77,7 @@ def paiement_view(request):
 
             else:
                 return HttpResponse("La requête a échoué : " + response.read(), status=response.getcode())
-        except :
+        except Exception:
             message = "Une erreur s'est produite lors de l'operation , veuiller reesayer ou  faite le don directement au 770934213"
             messages.warning(request, message)
             return redirect('index')
@@ -137,6 +135,3 @@ def paiement_view(request):
 #             return HttpResponse("Notification IPN traitée avec succès.")
 #     else:
 #         return HttpResponseBadRequest("Méthode non autorisée")
-
-        
-       

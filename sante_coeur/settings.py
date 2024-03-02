@@ -1,9 +1,14 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'django-insecure-8%2%%c^5te2kt^^&jnjo0*7ny1tl651js8#eqwt^%&^2nk119z'
+
+
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = False
 
@@ -79,30 +84,30 @@ else :
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'URL': "postgresql://postgres:Cba2d-6155Ae65bC1d26e-e4GFc--g1e@viaduct.proxy.rlwy.net:19622/railway",
+            'URL': f"postgresql://postgres:{os.getenv('POSTGRES_PASSWORD')}@viaduct.proxy.rlwy.net:19622/railway",
             'NAME': "railway",
             'USER': "postgres",
-            'PASSWORD':"Cba2d-6155Ae65bC1d26e-e4GFc--g1e",
+            'PASSWORD': os.getenv("POSTGRES_PASSWORD"),
             'HOST': "viaduct.proxy.rlwy.net",
             'PORT': 19622,
         }
     }
 
 
-        # AUTH_PASSWORD_VALIDATORS = [
-        #     {
-        #         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-        #     },
-        #     {
-        #         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-        #     },
-        #     {
-        #         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-        #     },
-        #     {
-        #         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-        #     },
-        # ]
+AUTH_PASSWORD_VALIDATORS = [
+        {
+                'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+            },
+            {
+                'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+            },
+            {
+                'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+            },
+            {
+                'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+            },
+        ]
         
 WSGI_APPLICATION = 'sante_coeur.wsgi.application'
 
