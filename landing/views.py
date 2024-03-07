@@ -3,6 +3,8 @@ from administration.models import Collect, EvenementCampagne
 from administration.forms import NewslettersForm, MessageForm, VolunteerForm
 from administration.models import Newsletters, Volunteer, Contacts
 from django.contrib import messages
+from django.views.decorators.csrf import csrf_exempt
+
 
 # Create your views here.
 
@@ -61,6 +63,7 @@ def message(request):
             messages.warning(request, messageForm.errors)
     return redirect('index')
 
+@csrf_exempt
 def volunteer(request):
     if request.POST :
         volunteerForm = VolunteerForm(request.POST, request.FILES)

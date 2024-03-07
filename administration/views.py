@@ -154,6 +154,7 @@ def addUser(request):
     return redirect('admins')
 
 @login_required(login_url='login')
+@csrf_exempt
 def editUser(request, pk):
     user = User.objects.get(pk = pk)
     current_user = request.user
